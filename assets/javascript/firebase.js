@@ -23,7 +23,7 @@ function createNewGame(gameId) {
 }
 
 function setPlayerStats(gameId, player, angle, power) {
-  database.ref('games/' + timeStamp + "/" + player).set({
+  database.ref('games/' + gameId + "/" + player).set({
     angle: angle,
     power: power,
     shotsFired: 0 
