@@ -1,0 +1,2 @@
+background: https://opengameart.org/sites/default/files/country-platform-preview.png
+cannon: https://opengameart.org/content/2d-clouds-pack
