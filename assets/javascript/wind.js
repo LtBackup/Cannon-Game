@@ -11,5 +11,3 @@ $.ajax({
     windSpeed = response.wind.speed;
 });
 }
-
-console.log(getWindSpeed());
