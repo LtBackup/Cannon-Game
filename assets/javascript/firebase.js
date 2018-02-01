@@ -11,8 +11,8 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-function createNewGame(timeStamp) {
-  database.ref('games/' + timeStamp).set({
+function createNewGame(gameId) {
+  database.ref('games/' + gameId).set({
     playerOne: {angle: 0,
                 power: 0,
                 shotsFired: 0},
@@ -22,17 +22,10 @@ function createNewGame(timeStamp) {
   });
 }
 
-function setPlayerStats(timeStamp, player, angle, power) {
+function setPlayerStats(gameId, player, angle, power) {
   database.ref('games/' + timeStamp + "/" + player).set({
     angle: angle,
     power: power,
     shotsFired: 0 
   });
 }
-
-var currentTime = 1517506801;
-// Math.floor(Date.now() / 1000);
-
-// createNewGame(currentTime);
-
-setPlayerStats(currentTime, "playerOne", 45, 70);
