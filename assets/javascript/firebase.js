@@ -9,4 +9,16 @@ var config = {
 };
 firebase.initializeApp(config);
 
-console.log("connected");
+var database = firebase.database();
+
+function createNewGame(timeStamp, playerOne, playerTwo) {
+  firebase.database().ref('games/' + timeStamp).set({
+    playerOne: playerOne,
+    playerTwo: playerTwo
+  });
+}
+
+var currentTime = 1517506801;
+// Math.floor(Date.now() / 1000);
+
+// createNewGame(currentTime, "JimBob", "Mina");
