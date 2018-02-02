@@ -1,4 +1,5 @@
 // Matter.js - http://brm.io/matter-js/
+$( document ).ready(function() {
 
 var Example = Example || {};
 
@@ -124,4 +125,6 @@ MatterTools.Demo.create({
       sourceLink: 'https://github.com/liabru/matter-js/blob/master/examples/slingshot.js'
     }
   ]
+});
+
 });
