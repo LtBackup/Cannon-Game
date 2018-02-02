@@ -10,7 +10,7 @@ var fireCannon = function () {
   // Firebase listeners
 
   var playerAngleRef = database.ref("games/" + gameId + "/" + currentPlayer + "/angle");
-  var playerPowerRef = firebase.database().ref("games/" + gameId + "/" + currentPlayer + "/power");
+  var playerPowerRef = database.ref("games/" + gameId + "/" + currentPlayer + "/power");
 
   playerAngleRef.on("value", function(snapshot) {
     console.log(snapshot.val());
@@ -21,6 +21,7 @@ var fireCannon = function () {
   });
 
   // physics
+  
   var shotsFired = readStat(gameId, currentPlayer, shotsFired);
   shotsFired++;
   updateShotsFired(gameId, currentPlayer, shotsFired);

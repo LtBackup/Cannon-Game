@@ -41,8 +41,8 @@ function readStat(gameId, player, stat) {
   return statValue;
 }
 
-function updateShotsFired(gameId, player, statValue) {
+function updateShotsFired(gameId, player, updatedShots) {
   var gameRef = database.ref("games/" + gameId + "/" + player + "/");
-  var newValue = { shotsFired: statValue, }
+  var newValue = { shotsFired: updatedShots, }
   gameRef.update(newValue);
 }
