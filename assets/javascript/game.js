@@ -1,11 +1,13 @@
 var fireCannon = function () {
   var curentPlayer = $(this).attr("data-player");
   var gameId = $(this).attr("data-gameId");
-  var angle = $(currentPlayer + "-angle").val();
-  var power = $(currentPlayer + "-power").val();
+  var angleInput = $(currentPlayer + "-angle").val();
+  var powerInput = $(currentPlayer + "-power").val();
+
+  var shotsFired = 
 
   // set db stats
-  setPlayerStats(gameId, currentPlayer, angle, power);
+  setPlayerStats(gameId, currentPlayer, angleInput, powerInput);
 
   // Firebase listeners
 
@@ -19,7 +21,14 @@ var fireCannon = function () {
   starCountRef.on("value", function(snapshot) {
     // do something
   });
+
+  // physics
+  var shotsFired = readStat(gameId, currentPlayer, shotsFired);
+  shotsFired++;
+
+  updateStat(gameId, currentPlayer, shotsFired);
+  
 }
 
 // $("fireButton").on("click", fireCannon);
-var ref = fireCannon();
+fireCannon();
