@@ -13,19 +13,37 @@ var database = firebase.database();
 
 function createNewGame(gameId) {
   database.ref('games/' + gameId).set({
-    playerOne: {angle: 0,
-                power: 0,
-                shotsFired: 0},
-    playerTwo: {angle: 0,
-                power: 0,
-                shotsFired: 0}
+    playerOne: {
+      angle: 0,
+      power: 0,
+      shotsFired: 0
+    },
+    playerTwo: {
+      angle: 0,
+      power: 0,
+      shotsFired: 0
+    }
   });
 }
 
-function setPlayerStats(gameId, player, angle, power) {
-  database.ref('games/' + gameId + "/" + player).set({
+function updateAnglePower(gameId, player, angle, power) {
+  database.ref('games/' + gameId + "/" + player).update({
     angle: angle,
     power: power,
-    shotsFired: 0 
   });
+}
+
+function incrementShotsFired(gameId, player) {
+  var gameRef = database.ref("games/" + gameId + "/" + player + "/shotsFired");
+  gameRef.once("value").then(function (snapshot) {
+    var shotsFired = snapshot.val();
+    shotsFired++;
+    updateShotsFired(gameId, player, shotsFired);
+  });
+}
+
+function updateShotsFired(gameId, player, updatedShots) {
+  var gameRef = database.ref("games/" + gameId + "/" + player + "/");
+  var newValue = { shotsFired: updatedShots, }
+  gameRef.update(newValue);
 }

@@ -1,11 +1,54 @@
 $(document).ready(function () {
+    var angle;
+    var power;
+
+    var fireCannon = function () {
+
+
+
+        var currentPlayer = $(this).attr("data-player");
+        var gameId = $(this).attr("data-gameId");
+        var angleInput = $("#" + currentPlayer + "-angle").val();
+        var powerInput = $("#" + currentPlayer + "-power").val();
+
+        // var currentPlayer = "playerOne";
+        // var gameId = 1;
+        // var angleInput = 60;
+        // var powerInput = 80;
+
+        // set db stats
+        updateAnglePower(gameId, currentPlayer, angleInput, powerInput);
+
+        // Firebase listeners
+
+        var playerAngleRef = database.ref("games/" + gameId + "/" + currentPlayer + "/angle");
+        var playerPowerRef = database.ref("games/" + gameId + "/" + currentPlayer + "/power");
+
+        playerAngleRef.on("value", function (snapshot) {
+            console.log(snapshot.val());
+            angle = snapshot.val();
+        });
+
+        playerPowerRef.on("value", function (snapshot) {
+            power = snapshot.val();
+        });
+
+        // physics
+        launchCannonBall(angle, power);
+        incrementShotsFired(gameId, currentPlayer, "s");
+
+    }
+
+    $("#fireButton").on("click", fireCannon);
+
+    //begin matter.js logic
 
     // module aliases
     var Engine = Matter.Engine,
         Render = Matter.Render,
         World = Matter.World,
-        Bodies = Matter.Bodies;
-    Body = Matter.Body;
+        Bodies = Matter.Bodies,
+        Body = Matter.Body;
 
     // create an engine
     var engine = Engine.create();
@@ -41,7 +84,7 @@ $(document).ready(function () {
     ground.friction = 1;
 
     // add all of the bodies to the world
-    World.add(engine.world, [boxA, boxB, cannonBall, ground]);
+    World.add(engine.world, [cannonBall, ground]);
 
     // run the engine
     Engine.run(engine);
@@ -49,10 +92,27 @@ $(document).ready(function () {
     // run the renderer
     Render.run(render);
 
+    function toRadians(angle) {
+        return angle * (Math.PI / 180);
+    }
 
-    var launchVector = Matter.Vector.create(Math.cos(.785398) * .045, -Math.sin(0.785398) * .045);
+    function toDegrees(angle) {
+        return angle * (180 / Math.PI);
+    }
 
-    //console.log(Matter.Vector.angle(launchVector,new Matter.Vector.create(100,0)));
+    // angle = 45;
+    // console.log(toRadians(45));
+    // console.log(-Math.sin(toRadians(angle)));
+    // power = 50;
+    function launchCannonBall(angle, power) {
+        
+        var dampener = .001;
+        var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener)); //.045 good for testing
 
-    Body.applyForce(cannonBall, { x: cannonBall.position.x, y: cannonBall.position.y }, launchVector);
+        //console.log(Matter.Vector.angle(launchVector,new Matter.Vector.create(100,0)));
+
+        Body.applyForce(cannonBall, { x: cannonBall.position.x, y: cannonBall.position.y }, launchVector);
+    }
+
+    fireCannon();
 });
