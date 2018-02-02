@@ -33,13 +33,13 @@ function updateAnglePower(gameId, player, angle, power) {
   });
 }
 
-function readStat(gameId, player, stat) {
-  var gameRef = database.ref("games/" + gameId + "/" + player + "/" + stat);
-  var statValue;
+function incrementShotsFired(gameId, player) {
+  var gameRef = database.ref("games/" + gameId + "/" + player + "/shotsFired");
   gameRef.once("value").then(function (snapshot) {
-    statValue = snapshot.val();
+    var shotsFired = snapshot.val();
+    shotsFired++;
+    updateShotsFired(gameId, player, shotsFired);
   });
-  return statValue;
 }
 
 function updateShotsFired(gameId, player, updatedShots) {

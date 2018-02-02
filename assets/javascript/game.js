@@ -6,15 +6,15 @@ $(document).ready(function () {
 
 
 
-        // var currentPlayer = $(this).attr("data-player");
-        // var gameId = $(this).attr("data-gameId");
-        // var angleInput = $(currentPlayer + "-angle").val();
-        // var powerInput = $(currentPlayer + "-power").val();
+        var currentPlayer = $(this).attr("data-player");
+        var gameId = $(this).attr("data-gameId");
+        var angleInput = $("#" + currentPlayer + "-angle").val();
+        var powerInput = $("#" + currentPlayer + "-power").val();
 
-        var currentPlayer = "playerOne";
-        var gameId = 1;
-        var angleInput = 60;
-        var powerInput = 80;
+        // var currentPlayer = "playerOne";
+        // var gameId = 1;
+        // var angleInput = 60;
+        // var powerInput = 80;
 
         // set db stats
         updateAnglePower(gameId, currentPlayer, angleInput, powerInput);
@@ -30,25 +30,18 @@ $(document).ready(function () {
         });
 
         playerPowerRef.on("value", function (snapshot) {
-            // do something
             power = snapshot.val();
         });
 
         // physics
         launchCannonBall(angle, power);
-
-        var shotsFired = readStat(gameId, currentPlayer, "shotsFired");
-        shotsFired++;
-        updateShotsFired(gameId, currentPlayer, shotsFired);
+        incrementShotsFired(gameId, currentPlayer, "s");
 
     }
 
-    //$("fireButton").on("click", fireCannon);
+    $("#fireButton").on("click", fireCannon);
 
     //begin matter.js logic
-    
-
-
 
     // module aliases
     var Engine = Matter.Engine,
