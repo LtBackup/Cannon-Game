@@ -56,3 +56,66 @@ h1 {
     left: 60px;
     transition: position .4s linear;
 }
+
+.cannonball {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    background-image: url("../images/cannonball.png");
+    position: absolute;
+    bottom: 104px;
+    left: 136px;
+    transition: position .4s linear;
+}
+
+.hud {
+    background-color: rgb(83, 150, 81);
+    position: absolute;
+    bottom: 30px;
+    left: 50px;
+    padding: 2px 5px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgb(70, 70, 70);
+    width: 320px;
+    border: 1px solid #fff;
+}
+
+.fireButton {
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1;
+    margin: 0.2em;
+    padding: 0.5em 1em; 
+    background-color: #9b3636;
+    color: #fff;
+    text-shadow: 2px 2px 5px #000;
+    transition: 0.2s;
+    margin-right: 15px;
+    border-left: 0px;
+}
+
+.fireButton:hover:enabled {
+    color: #fff;
+    background-color: #ff0000;
+    box-shadow: 5px 2px 10px rgb(70, 70, 70);
+}
+
+.angleInput, .powerInput {
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1;
+    margin-right: 15px;
+    height: 26px;
+    margin: 0;
+    padding: 0.5em 1em;
+}
+
+.input-group-addon {
+    padding: 0;
+    border: 0;
+    background-color: rgb(83, 150, 81);
+}
+
+.angleSpan, .powerSpan {
+    width: 125px;
+}
