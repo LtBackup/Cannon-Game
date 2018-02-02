@@ -26,11 +26,10 @@ function createNewGame(gameId) {
   });
 }
 
-function setPlayerStats(gameId, player, angle, power) {
-  database.ref('games/' + gameId + "/" + player).set({
+function updateAnglePower(gameId, player, angle, power) {
+  database.ref('games/' + gameId + "/" + player).update({
     angle: angle,
     power: power,
-    shotsFired: 0
   });
 }
 
@@ -40,4 +39,10 @@ function readStat(gameId, player, stat) {
     var statValue = snapshot.val();
   });
   return statValue;
+}
+
+function updateShotsFired(gameId, player, statValue) {
+  var gameRef = database.ref("games/" + gameId + "/" + player + "/");
+  var newValue = { shotsFired: statValue, }
+  gameRef.update(newValue);
 }

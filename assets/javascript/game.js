@@ -4,10 +4,8 @@ var fireCannon = function () {
   var angleInput = $(currentPlayer + "-angle").val();
   var powerInput = $(currentPlayer + "-power").val();
 
-  var shotsFired = 
-
   // set db stats
-  setPlayerStats(gameId, currentPlayer, angleInput, powerInput);
+  updateAnglePower(gameId, currentPlayer, angleInput, powerInput);
 
   // Firebase listeners
 
@@ -25,10 +23,8 @@ var fireCannon = function () {
   // physics
   var shotsFired = readStat(gameId, currentPlayer, shotsFired);
   shotsFired++;
-
-  updateStat(gameId, currentPlayer, shotsFired);
+  updateShotsFired(gameId, currentPlayer, shotsFired);
   
 }
 
-// $("fireButton").on("click", fireCannon);
-fireCannon();
+$("fireButton").on("click", fireCannon);
