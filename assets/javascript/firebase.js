@@ -35,8 +35,9 @@ function updateAnglePower(gameId, player, angle, power) {
 
 function readStat(gameId, player, stat) {
   var gameRef = database.ref("games/" + gameId + "/" + player + "/" + stat);
+  var statValue;
   gameRef.once("value").then(function (snapshot) {
-    var statValue = snapshot.val();
+    statValue = snapshot.val();
   });
   return statValue;
 }
