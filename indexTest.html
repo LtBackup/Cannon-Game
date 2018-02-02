@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Cannon Practice</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="assets/javascript/matter/build/matter.js"></script>
+</head>
+
+<style>
+    body {
+        background: linear-gradient(-90deg, rgb(60, 61, 141),rgb(48, 40, 117));
+        color: white;
+    }
+
+    .slideBar {
+        -webkit-appearance: none;
+        width: 600px;
+        height: 22px;
+        border-radius: 10px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+    }
+
+    .slideBar:hover {
+        opacity: 1;
+    }
+
+    .slideBar::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: rgb(235, 52, 52);
+        cursor: pointer;
+    }
+
+    .slideBar2 {
+        -webkit-appearance: none;
+        width: 600px;
+        height: 22px;
+        border-radius: 10px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+    }
+
+    .slideBar2:hover {
+        opacity: 1;
+    }
+
+    .slideBar2::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: #303dfc;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+
+    <h1>Cannon Range Slider</h1>
+    <p>Drag the slider to display the current power and angle values.</p>
+
+        <h2>Power: <span id="p-out"></span>%</h2>
+        <input type="range" min="1" max="100" value="58" class="slideBar" id="myRange">
+
+        <h2>Angle: <span id="a-out"></span>&deg;</h2>
+        <input type="range" min="0" max="90" value="45" class="slideBar2" id="myRange2">
+
+    <script>
+        var angle;  var power;
+        var pVal = $("#myRange").val();
+        var aVal = $("#myRange2").val();
+        console.log("pVal: ", pVal)
+        $("#p-out").html(pVal);
+        $("#a-out").html(aVal);
+
+        $("#myRange").change(function () {//Power silder bar
+            $("#p-out").html($(this).val());
+            power = $(this).val();
+            console.log("power: ", power);
+        });
+
+        $("#myRange2").change(function () {//Power silder bar
+            $("#a-out").html($(this).val());
+            angle = $(this).val();
+            console.log("angle: ", angle);
+        });
+    </script>
+
+    </html>
