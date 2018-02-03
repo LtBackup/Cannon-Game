@@ -8,8 +8,8 @@ $(document).ready(function () {
   var angle;
   var power;
 
-  function startGame() {
-    var newGameId = $("#game-id-field").val() || Math.floor(Date.now() / 1000);
+  function joinGame() {
+    var newGameId = parseInt($("#game-id-field").val());
 
     database.ref("games/" + newGameId).once("value").then(function(snap) {
       if (snap.val()) {
@@ -18,19 +18,28 @@ $(document).ready(function () {
           gameId: newGameId,
           opponent: "playerOne",
         };
+        // TODO: close modal
       } else {
-        window.gameInfo = {
-          player: "playerOne",
-          gameId: newGameId,
-          opponent: "playerTwo",
-        };
-        createNewGame(newGameId);
+        alert("Please enter a valid id or start a new game");
+        // TODO: goes back to modal 
       };
     });
   }
 
-  // adds click listener on start game button in modal
+  function startGame() {
+    var newGameId = Math.floor(Date.now() / 1000);
+    window.gameInfo = {
+      player: "playerOne",
+      gameId: newGameId,
+      opponent: "playerTwo",
+    };
+    createNewGame(newGameId);
+    // TODO: close modal
+  }
+
+  // adds click listener on join and start new game buttons in modal
   $("#start-game").on("click", startGame);
+  $("#join-game").on("click", joinGame);
 
   function fireCannon(gameInfo) {
     var currentPlayer = gameInfo.player;
