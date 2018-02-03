@@ -1,7 +1,8 @@
 window.gameInfo = {
-  player: "playerOne",
-  gameId: "1",
-  opponent: "playerTwo",
+    player: "playerOne",
+    gameId: "1",
+    opponent: "playerTwo",
+    angle: 0
 };
 
 $(document).ready(function () {
@@ -10,40 +11,40 @@ $(document).ready(function () {
 
     function joinGame() {
         var newGameId = parseInt($("#game-id-field").val());
-    
-        database.ref("games/" + newGameId).once("value").then(function(snap) {
-          if (snap.val()) {
-            window.gameInfo = {
-              player: "playerTwo",
-              gameId: newGameId,
-              opponent: "playerOne",
+
+        database.ref("games/" + newGameId).once("value").then(function (snap) {
+            if (snap.val()) {
+                window.gameInfo = {
+                    player: "playerTwo",
+                    gameId: newGameId,
+                    opponent: "playerOne",
+                };
+                // TODO: close modal
+            } else {
+                alert("Please enter a valid id or start a new game");
+                // TODO: goes back to modal 
             };
-            // TODO: close modal
-          } else {
-            alert("Please enter a valid id or start a new game");
-            // TODO: goes back to modal 
-          };
         });
-      }
-    
-      function startGame() {
+    }
+
+    function startGame() {
         var newGameId = Math.floor(Date.now() / 1000);
         window.gameInfo = {
-          player: "playerOne",
-          gameId: newGameId,
-          opponent: "playerTwo",
+            player: "playerOne",
+            gameId: newGameId,
+            opponent: "playerTwo",
         };
         createNewGame(newGameId);
         // TODO: close modal
-      }
-    
-      // adds click listener on join and start new game buttons in modal
-      $("#start-game").on("click", startGame);
-      $("#join-game").on("click", joinGame);
+    }
 
-    var fireCannon = function () {
-        var currentPlayer = $(this).attr("data-player");
-        var gameId = parseInt($(this).attr("data-gameId"));
+    // adds click listener on join and start new game buttons in modal
+    $("#start-game").on("click", startGame);
+    $("#join-game").on("click", joinGame);
+
+    var fireCannon = function (gameInfo) {
+        var currentPlayer = gameInfo.player;
+        var gameId = parseInt(gameInfo.gameId);
         var angleInput = parseInt($("#" + currentPlayer + "-angle").val());
         var powerInput = parseInt($("#" + currentPlayer + "-power").val());
 
@@ -61,26 +62,26 @@ $(document).ready(function () {
             power = snapshot.val();
         });
 
-            // physics
-    launchCannonBall(angle, power);
-    incrementShotsFired(gameId, currentPlayer);
-  };
+        // physics
+        launchCannonBall(angle, power);
+        incrementShotsFired(gameId, currentPlayer);
+    };
 
-  $("#fireButton").on("click", function() {
-    fireCannon(window.gameInfo);
-  });
+    $("#fireButton").on("click", function () {
+        fireCannon(window.gameInfo);
+    });
 
-  // TODO: add firebase listeners on opponent player's data change
+    // TODO: add firebase listeners on opponent player's data change
 
-  //begin matter.js logic
+    //begin matter.js logic
 
     // module aliases
     var Engine = Matter.Engine,
         Render = Matter.Render,
         World = Matter.World,
         Bodies = Matter.Bodies,
-        Body = Matter.Body;
-    Events = Matter.Events;
+        Body = Matter.Body,
+        Events = Matter.Events;
 
     // create an engine
     var engine = Engine.create();
@@ -106,7 +107,7 @@ $(document).ready(function () {
     });
 
     // create two boxes and a ground
-    var cannonA = Bodies.rectangle(200,550, 100, 60, { isStatic: true });
+    var cannonA = Bodies.rectangle(200, 550, 100, 60, { isStatic: true });
     cannonA.label = "cannonA";
     var cannonB = Bodies.rectangle(1500, 550, 100, 60, { isStatic: true });
     cannonB.label = "cannonB";
@@ -162,14 +163,14 @@ $(document).ready(function () {
         var pairs = event.pairs;
         for (var i = 0; i < pairs.length; i++) {
             var pair = pairs[i];
-            if(pair.bodyA.label === "cannonBall" || pair.bodyB.label === "cannonBall"){
+            if (pair.bodyA.label === "cannonBall" || pair.bodyB.label === "cannonBall") {
                 Body.setAngularVelocity(cannonBall, 0);
             }
             //checks for impact with cannonB
-            if(pair.bodyA.label === "cannonBall" && pair.bodyB.label === "cannonB"){
+            if (pair.bodyA.label === "cannonBall" && pair.bodyB.label === "cannonB") {
                 console.log("you win");
             }
-            if(pair.bodyB.label === "cannonBall" && pair.bodyA.label === "cannonB"){
+            if (pair.bodyB.label === "cannonBall" && pair.bodyA.label === "cannonB") {
                 console.log("you win");
             }
         }
