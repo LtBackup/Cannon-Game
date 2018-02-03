@@ -10,7 +10,7 @@ $(document).ready(function () {
     var power;
 
     function joinGame() {
-        var newGameId = parseInt($("#game-id-field").val());
+        var newGameId = Number($("#game-id-field").val());
 
         database.ref("games/" + newGameId).once("value").then(function (snap) {
             if (snap.val()) {
@@ -44,9 +44,9 @@ $(document).ready(function () {
 
     var fireCannon = function (gameInfo) {
         var currentPlayer = gameInfo.player;
-        var gameId = parseInt(gameInfo.gameId);
-        var angleInput = parseInt($("#" + currentPlayer + "-angle").val());
-        var powerInput = parseInt($("#" + currentPlayer + "-power").val());
+        var gameId = Number(gameInfo.gameId);
+        var angleInput = Number($("#" + currentPlayer + "-angle").val());
+        var powerInput = Number($("#" + currentPlayer + "-power").val());
 
 
         updateAnglePower(gameId, currentPlayer, angleInput, powerInput);
