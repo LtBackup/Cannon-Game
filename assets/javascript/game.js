@@ -1,72 +1,7 @@
-window.gameInfo = {
-    player: "playerOne",
-    gameId: "1",
-    opponent: "playerTwo",
-    angle: 0
-};
-
 $(document).ready(function () {
-    var angle;
-    var power;
-
-    function joinGame() {
-        var newGameId = Number($("#game-id-field").val());
-
-        database.ref("games/" + newGameId).once("value").then(function (snap) {
-            if (snap.val()) {
-                window.gameInfo = {
-                    player: "playerTwo",
-                    gameId: newGameId,
-                    opponent: "playerOne",
-                };
-                // TODO: close modal
-            } else {
-                alert("Please enter a valid id or start a new game");
-                // TODO: goes back to modal 
-            };
-        });
-    }
-
-    function startGame() {
-        var newGameId = Math.floor(Date.now() / 1000);
-        window.gameInfo = {
-            player: "playerOne",
-            gameId: newGameId,
-            opponent: "playerTwo",
-        };
-        createNewGame(newGameId);
-        // TODO: close modal
-    }
-
     // adds click listener on join and start new game buttons in modal
     $("#start-game").on("click", startGame);
     $("#join-game").on("click", joinGame);
-
-    var fireCannon = function (gameInfo) {
-        var currentPlayer = gameInfo.player;
-        var gameId = Number(gameInfo.gameId);
-        var angleInput = Number($("#" + currentPlayer + "-angle").val());
-        var powerInput = Number($("#" + currentPlayer + "-power").val());
-
-
-        updateAnglePower(gameId, currentPlayer, angleInput, powerInput);
-
-        var playerAngleRef = database.ref("games/" + gameId + "/" + currentPlayer + "/angle");
-        var playerPowerRef = database.ref("games/" + gameId + "/" + currentPlayer + "/power");
-
-        playerAngleRef.on("value", function (snapshot) {
-            angle = snapshot.val();
-        });
-
-        playerPowerRef.on("value", function (snapshot) {
-            power = snapshot.val();
-        });
-
-        // physics
-        launchCannonBall(angle, power);
-        incrementShotsFired(gameId, currentPlayer);
-    };
-
     $("#fireButton").on("click", function () {
         fireCannon(window.gameInfo);
     });
