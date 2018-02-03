@@ -9,6 +9,8 @@ $(document).ready(function () {
     var angle;
     var power;
 
+    $(".overlay").addClass("opened");
+
     function joinGame() {
         var newGameId = parseInt($("#game-id-field").val());
 
@@ -20,6 +22,7 @@ $(document).ready(function () {
                     opponent: "playerOne",
                 };
                 // TODO: close modal
+                $(".overlay").addClass("hidden");
             } else {
                 alert("Please enter a valid id or start a new game");
                 // TODO: goes back to modal 
@@ -36,6 +39,7 @@ $(document).ready(function () {
         };
         createNewGame(newGameId);
         // TODO: close modal
+        $(".overlay").addClass("hidden");        
     }
 
     // adds click listener on join and start new game buttons in modal

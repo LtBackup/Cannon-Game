@@ -33,26 +33,47 @@
             <div class="container-fluid col-md-12 gamebox">
               <div class="row">
                 <div class="canvas">
+                  <div class="overlay" aria-hidden="false">
+                    <div class="startmenu">
+                      <p>
+                        <button class="btn btn-default start-game" id="start-game" type="button">START NEW GAME</button>
+                      </p>
+                      <!-- <p><button class="btn btn-default join-game" id="join-game" type="button">JOIN GAME</button></p> -->
+                      <p class="input-group join-game-group">
+                        <span class="input-group-addon game-id-field-span">
+                          <input class="form-control game-id-field" id="game-id-field" type="number" placeholder="Enter Game Id" aria-label="GameId">
+                        </span>
+                        <span class="input-group-btn">
+                          <button class="btn btn-default join-game" id="join-game" type="button">JOIN GAME</button>
+                        </span>
+                      </p>
+                      <p>
+                        <button class="btn btn-default highscore" id="highscore" type="button">HIGH SCORES</button>
+                      </p>
+                    </div>
+                  </div>
                   <div class="cannon"></div>
                   <div class="cannonball" id="cannonball"></div>
-                 
+
 
                   <div class="row hud">
-                      <div>
-                        <div class="input-group">
-                          <span class="input-group-addon angleSpan">
-                              <input class="form-control angleInput" id="playerOne-angle" type="number" placeholder="Enter Angle" aria-label="Angle">
-                          </span>
-                          <span class="input-group-addon powerSpan">
-                              <input class="form-control powerInput" id="playerOne-power" type="number" placeholder="Enter Power" aria-label="Power">
-                          </span>
-                          <span class="input-group-btn fireSpan">
-                              <button class="btn btn-default fireButton" id="fireButton" data-player="playerOne" data-gameId="1517506801"
-                               type="button">FIRE!</button>
-                          </span>
-                        </div><!-- /input-group -->
-                      </div><!-- /.col-lg-6 -->
-                    </div> <!-- /. row >
+                    <div>
+                      <div class="input-group">
+                        <span class="input-group-addon angleSpan">
+                          <input class="form-control angleInput" id="playerOne-angle" type="number" placeholder="Enter Angle" aria-label="Angle">
+                        </span>
+                        <span class="input-group-addon powerSpan">
+                          <input class="form-control powerInput" id="playerOne-power" type="number" placeholder="Enter Power" aria-label="Power">
+                        </span>
+                        <span class="input-group-btn fireSpan">
+                          <button class="btn btn-default fireButton" id="fireButton" data-player="playerOne" data-gameId="1517506801" type="button">FIRE!</button>
+                        </span>
+                      </div>
+                      <!-- /input-group -->
+                    </div>
+                    <!-- /.col-lg-6 -->
+                  </div>
+                  <!-- /. row >
 
                 </div>
               </div>
