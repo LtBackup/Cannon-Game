@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <meta charset="utf-8"/>
+  <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>C A N N O N M A N</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,6 +15,7 @@
   <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- Physics engine thanks to matter.js -->
   <script src="assets/javascript/matter/build/matter.js"></script>
   <script src="assets/javascript/firebase.js"></script>
   <script src="assets/javascript/wind.js"></script>
@@ -33,6 +34,25 @@
               <div class="row">
                 <div class="canvas">
                   <div class="cannon"></div>
+                  <div class="cannonball" id="cannonball"></div>
+                 
+
+                  <div class="row hud">
+                      <div>
+                        <div class="input-group">
+                          <span class="input-group-addon angleSpan">
+                              <input class="form-control angleInput" id="playerOne-angle" type="number" placeholder="Enter Angle" aria-label="Angle">
+                          </span>
+                          <span class="input-group-addon powerSpan">
+                              <input class="form-control powerInput" id="playerOne-power" type="number" placeholder="Enter Power" aria-label="Power">
+                          </span>
+                          <span class="input-group-btn fireSpan">
+                              <button class="btn btn-default fireButton" id="fireButton" data-player="playerOne" data-gameId="1517506801"
+                               type="button">FIRE!</button>
+                          </span>
+                        </div><!-- /input-group -->
+                      </div><!-- /.col-lg-6 -->
+                    </div> <!-- /. row >
 
                 </div>
               </div>
