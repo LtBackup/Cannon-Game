@@ -80,7 +80,7 @@ $(document).ready(function () {
   var launchVector = Matter.Vector.create(100, 0);
   launchVector = Matter.Vector.rotate(launchVector, .8);
 
-  var ground = Bodies.rectangle(1000, 610, 810, 60, { isStatic: true });
+  var ground = Bodies.rectangle(600, 610, 4000, 60, { isStatic: true });
   ground.friction = 1;
 
   // add all of the bodies to the world
