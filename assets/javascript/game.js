@@ -1,6 +1,45 @@
+window.gameInfo = {
+  player: "playerOne",
+  gameId: "1",
+  opponent: "playerTwo",
+};
+
 $(document).ready(function () {
     var angle;
     var power;
+
+    function joinGame() {
+        var newGameId = parseInt($("#game-id-field").val());
+    
+        database.ref("games/" + newGameId).once("value").then(function(snap) {
+          if (snap.val()) {
+            window.gameInfo = {
+              player: "playerTwo",
+              gameId: newGameId,
+              opponent: "playerOne",
+            };
+            // TODO: close modal
+          } else {
+            alert("Please enter a valid id or start a new game");
+            // TODO: goes back to modal 
+          };
+        });
+      }
+    
+      function startGame() {
+        var newGameId = Math.floor(Date.now() / 1000);
+        window.gameInfo = {
+          player: "playerOne",
+          gameId: newGameId,
+          opponent: "playerTwo",
+        };
+        createNewGame(newGameId);
+        // TODO: close modal
+      }
+    
+      // adds click listener on join and start new game buttons in modal
+      $("#start-game").on("click", startGame);
+      $("#join-game").on("click", joinGame);
 
     var fireCannon = function () {
         var currentPlayer = $(this).attr("data-player");
@@ -8,20 +47,8 @@ $(document).ready(function () {
         var angleInput = parseInt($("#" + currentPlayer + "-angle").val());
         var powerInput = parseInt($("#" + currentPlayer + "-power").val());
 
-        // var currentPlayer = "playerOne";
-        // var gameId = 1;
-        // var angleInput = 45;
-        // var powerInput = 100;
 
-        // console.log(currentPlayer);
-        // console.log(gameId);
-        // console.log(angleInput);
-        // console.log(powerInput);
-
-        // set db stats
         updateAnglePower(gameId, currentPlayer, angleInput, powerInput);
-
-        // Firebase listeners
 
         var playerAngleRef = database.ref("games/" + gameId + "/" + currentPlayer + "/angle");
         var playerPowerRef = database.ref("games/" + gameId + "/" + currentPlayer + "/power");
@@ -34,14 +61,18 @@ $(document).ready(function () {
             power = snapshot.val();
         });
 
-        // physics
-        launchCannonBall(angle, power);
-        incrementShotsFired(gameId, currentPlayer);
-    };
+            // physics
+    launchCannonBall(angle, power);
+    incrementShotsFired(gameId, currentPlayer);
+  };
 
-    $("#fireButton").on("click", fireCannon);
+  $("#fireButton").on("click", function() {
+    fireCannon(window.gameInfo);
+  });
 
-    //begin matter.js logic
+  // TODO: add firebase listeners on opponent player's data change
+
+  //begin matter.js logic
 
     // module aliases
     var Engine = Matter.Engine,
@@ -107,6 +138,7 @@ $(document).ready(function () {
     }
 
     function launchCannonBall(angle, power) {
+        console.log("fired");
         var dampener = .001;
         var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
 
@@ -131,9 +163,9 @@ $(document).ready(function () {
         for (var i = 0; i < pairs.length; i++) {
             var pair = pairs[i];
             if(pair.bodyA.label === "cannonBall" || pair.bodyB.label === "cannonBall"){
-                //Body.setVelocity(cannonBall, 0); This is glitching out the cannon ball for some reason...
                 Body.setAngularVelocity(cannonBall, 0);
             }
+            //checks for impact with cannonB
             if(pair.bodyA.label === "cannonBall" && pair.bodyB.label === "cannonB"){
                 console.log("you win");
             }
