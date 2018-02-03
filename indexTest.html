@@ -9,11 +9,11 @@
 </head>
 
 <style>
-    body {
-        background: linear-gradient(-90deg, rgb(60, 61, 141), rgb(48, 40, 117));
-        color: white;
+    body, html, .container-fluid {
+     background: #c2c2c2;
+     color: white;
+     height: 100%;
     }
-
     .slideBar {
         -webkit-appearance: none;
         width: 600px;
@@ -23,11 +23,6 @@
         outline: none;
         opacity: 0.7;
     }
-
-    .slideBar:hover {
-        opacity: 1;
-    }
-
     .slideBar::-webkit-slider-thumb {
         -webkit-appearance: none;
         width: 45px;
@@ -36,7 +31,6 @@
         background: rgb(235, 52, 52);
         cursor: pointer;
     }
-
     .slideBar2 {
         -webkit-appearance: none;
         width: 600px;
@@ -46,11 +40,6 @@
         outline: none;
         opacity: 0.7;
     }
-
-    .slideBar2:hover {
-        opacity: 1;
-    }
-
     .slideBar2::-webkit-slider-thumb {
         -webkit-appearance: none;
         width: 45px;
@@ -59,61 +48,109 @@
         background: #303dfc;
         cursor: pointer;
     }
-
-    #gameWindow {
-        background-color: #c2c2c2;
-        width: 100%;
-        height: 430px;
+    .slideBar:hover, .slideBar2:hover {
+        opacity: 1;
+    }
+    .controls {
+        background: linear-gradient(-90deg, rgb(60, 61, 141), rgb(48, 40, 117));
+        min-height: 40%;
+    }
+    .main {
+        min-height: 30%;
+        background: rgb(3, 80, 153);
+    }
+    .grass {
+        background: linear-gradient(-90deg, rgb(54, 116, 54), rgb(17, 58, 17));
+        min-height: 10%;
+    }
+    .cannons{
+        background: rgb(3, 80, 153);
+    }
+    #cannon1{
+        position: relative;
+        left:120px;
+        bottom:-20px;
+        transform: rotate(0deg);
+        transform-origin: 47% 97.5%;
+        width: 160px;
+    }
+    #cannon2{
+        position: relative;
+        right:-120px;
+        bottom:-5px;
+        transform: rotate(0deg) scaleX(-1);
+        transform-origin: 53% 97.5%;
+        width: 160px;      
     }
 
-    #fire {
-        width: 120px;
-        height: 70px;
-        padding: 10px 0px;
-        margin-top: 50px;
-        border: solid 1px rgb(20, 0, 0);
-        border-radius: 5px;
-        opacity: 0.88;
-        font-size: 30px;
-        background-color: rgb(95, 0, 0);
-        box-shadow: 0 15px rgb(32, 0, 0);
-    }
 </style>
 
 <body>
-    <div class="row">
-        <div class="col-md-12 main">
-            <canvas id="gameWindow"></canvas>
+    <!-- Icons from https://icons8.com-->
+    <div class="container-fluid">
+        <div class="row main"></div>
+        <div class="row cannons">
+            <div class="col-md-4">
+                <div id="cannon1">
+                    <img src="https://png.icons8.com/office/160/ffffff/cannon.png">
+                </div>
+            </div>
+            <div class="col-md-4">Sky Background</div>
+            <div class="col-md-4">
+                <div id="cannon2">
+                    <img src="https://png.icons8.com/ultraviolet/160/ffffff/cannon.png">
+                </div>
+            </div>
+        </div>
+        <div class="row grass">
+            <div class="col-md-12">Grass</div>
+        </div>
+        <div class="row controls">
+            <div class="col-md-4">
+                <h1>Player 1 - Cannon</h1>
+                <p>Drag the slider to display the current power and angle values.</p>
+
+                <h2>Power:
+                    <span id="p-out"></span>%</h2>
+                <input type="range" min="1" max="100" value="58" class="slideBar" id="pRange">
+
+                <h2>Angle:
+                    <span id="a-out"></span>&deg;</h2>
+                <input type="range" min="0" max="90" value="45" class="slideBar2" id="aRange">
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <h1>Player 2 - Cannon</h1>
+                <p>Drag the slider to display the current power and angle values.</p>
+
+                <h2>Power:
+                    <span id="p-out2"></span>%</h2>
+                <input type="range" min="1" max="100" value="58" class="slideBar" id="pRange2">
+
+                <h2>Angle:
+                    <span id="a-out2"></span>&deg;</h2>
+                <input type="range" min="0" max="90" value="45" class="slideBar2" id="aRange2">
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-4">
-            <h1>Player 1 - Cannon</h1>
-            <p>Drag the slider to display the current power and angle values.</p>
-
-            <h2>Power: <span id="p-out"></span>%</h2>
-            <input type="range" min="1" max="100" value="58" class="slideBar" id="pRange">
-
-            <h2>Angle: <span id="a-out"></span>&deg;</h2>
-            <input type="range" min="0" max="90" value="45" class="slideBar2" id="aRange">
-
-        </div>
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <h1>Player 2 - Cannon</h1>
-            <p>Drag the slider to display the current power and angle values.</p>
-
-            <h2>Power: <span id="p-out2"></span>%</h2>
-            <input type="range" min="1" max="100" value="58" class="slideBar" id="pRange2">
-
-            <h2>Angle: <span id="a-out2"></span>&deg;</h2>
-            <input type="range" min="0" max="90" value="45" class="slideBar2" id="aRange2">
-        </div>
-    </div>
-
     <script>
-        var canvas = $("#gameWindow")[0] // Retrieve canvas element
-        var context = canvas.getContext("2d");  // retrieve canvas context
+        //Rotation of Cannon controls from angle input__________
+
+        // $(document).ready( function(){
+        //     $("#cannon1").change();
+            
+
+        //     pRange.oninput = function () {
+        //         p_output.innerHTML = this.value;
+        //         console.log("Power: ", this.value);
+        //     }
+        //     var c1 = document.getElementById("cannon1");
+        //     c1.style.transform = "rotate(" + (56 + (deg * 1.58)) + "deg)";
+
+        // bar.css({
+        //     transform: "rotate(" + (56 + (deg * 1.58)) + "deg)"
+        //   });
+        //___________________________________________________
 
         //-Player 1 controls________________________________
         var angle; var power;
@@ -125,12 +162,16 @@
         a_output.innerHTML = aRange.value;
 
         pRange.oninput = function () {
-            p_output.innerHTML = this.value;
-            console.log("Power: ", this.value);
+            power = this.value;
+            p_output.innerHTML = power;
+            console.log("Power: ", power);
         }
         aRange.oninput = function () {
-            a_output.innerHTML = this.value;
-            console.log("Angle: ", this.value);
+            angle = this.value;
+            a_output.innerHTML = angle;
+            console.log("Angle: ", angle);
+            var c1 = document.getElementById("cannon1");
+            c1.style.transform = "rotate(" + ((90 - angle) -  56) + "deg)";
         }
         //__________________________________________________
 
@@ -145,19 +186,18 @@
         a_output2.innerHTML = aRange2.value;
 
         pRange2.oninput = function () {
-            p_output2.innerHTML = this.value;
-            console.log("Power2: ", this.value);
+            power2 = this.value;
+            p_output2.innerHTML = power2;
+            console.log("Power2: ", power2);
         }
         aRange2.oninput = function () {
-            a_output2.innerHTML = this.value;
-            console.log("Angle2: ", this.value);
+            angle2 = this.value;
+            a_output2.innerHTML = angle2;
+            console.log("Angle2: ", angle2);
+            var c2 = document.getElementById("cannon2");
+            c2.style.transform = "rotate(" + (angle2 - 37) + "deg) scaleX(-1)";
         }
         //__________________________________________________
-
-
-
-
-
 
     </script>
 </body>
