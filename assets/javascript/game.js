@@ -1,27 +1,44 @@
+window.gameInfo = {
+  player: "",
+  gameId: "",
+  opponent: ""
+};
+
 $(document).ready(function () {
   var angle;
   var power;
 
-  var fireCannon = function () {
-    var currentPlayer = $(this).attr("data-player");
-    var gameId = parseInt($(this).attr("data-gameId"));
+  function startGame() {
+    var newGameId = $("#game-id-field").val() || Math.floor(Date.now() / 1000);
+
+    database.ref("games/" + newGameId).once("value").then(function(snap) {
+      if (snap.val()) {
+        window.gameInfo = {
+          player: "playerTwo",
+          gameId: newGameId,
+          opponent: "playerOne",
+        };
+      } else {
+        window.gameInfo = {
+          player: "playerOne",
+          gameId: newGameId,
+          opponent: "playerTwo",
+        };
+        createNewGame(newGameId);
+      };
+    });
+  }
+
+  // adds click listener on start game button in modal
+  $("#start-game").on("click", startGame);
+
+  function fireCannon(gameInfo) {
+    var currentPlayer = gameInfo.player;
+    var gameId = parseInt(gameInfo.gameId);
     var angleInput = parseInt($("#" + currentPlayer + "-angle").val());
     var powerInput = parseInt($("#" + currentPlayer + "-power").val());
 
-    // var currentPlayer = "playerOne";
-    // var gameId = 1;
-    // var angleInput = 45;
-    // var powerInput = 100;
-
-    // console.log(currentPlayer);
-    // console.log(gameId);
-    // console.log(angleInput);
-    // console.log(powerInput);
-
-    // set db stats
     updateAnglePower(gameId, currentPlayer, angleInput, powerInput);
-
-    // Firebase listeners
 
     var playerAngleRef = database.ref("games/" + gameId + "/" + currentPlayer + "/angle");
     var playerPowerRef = database.ref("games/" + gameId + "/" + currentPlayer + "/power");
@@ -39,7 +56,11 @@ $(document).ready(function () {
     incrementShotsFired(gameId, currentPlayer);
   };
 
-  $("#fireButton").on("click", fireCannon);
+  $("#fireButton").on("click", function() {
+    fireCannon(window.gameInfo);
+  });
+
+  // TODO: add firebase listeners on opponent player's data change
 
   //begin matter.js logic
 
