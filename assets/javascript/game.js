@@ -1,7 +1,7 @@
 window.gameInfo = {
-  player: "",
-  gameId: "",
-  opponent: ""
+  player: "playerOne",
+  gameId: "1",
+  opponent: "playerTwo",
 };
 
 $(document).ready(function () {
@@ -133,6 +133,7 @@ $(document).ready(function () {
   }
 
   function launchCannonBall(angle, power) {
+    console.log("fired");
     var dampener = .001;
     var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
 
