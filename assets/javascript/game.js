@@ -1,3 +1,6 @@
+var cannonball,
+    Body;
+
 $(document).ready(function () {
     // adds click listener on join and start new game buttons in modal
     $("#start-game").on("click", startGame);
@@ -15,8 +18,9 @@ $(document).ready(function () {
         Render = Matter.Render,
         World = Matter.World,
         Bodies = Matter.Bodies,
-        Body = Matter.Body,
         Events = Matter.Events;
+
+        Body = Matter.Body
 
     // create an engine
     var engine = Engine.create();
@@ -28,7 +32,6 @@ $(document).ready(function () {
     canvas.width = 2000;
     canvas.height = 1500;
 
-    document.body.appendChild(canvas);
     // create a renderer
     var render = Render.create({
         element: document.body,
@@ -41,12 +44,14 @@ $(document).ready(function () {
         }
     });
 
+    document.body.appendChild(canvas);
+
     // create two boxes and a ground
     var cannonA = Bodies.rectangle(200, 550, 100, 60, { isStatic: true });
     cannonA.label = "cannonA";
     var cannonB = Bodies.rectangle(1500, 550, 100, 60, { isStatic: true });
     cannonB.label = "cannonB";
-    var cannonBall = Bodies.circle(200, 450, 25);
+    cannonBall = Bodies.circle(200, 450, 25);
     cannonBall.label = "cannonBall";
     cannonBall.friction = 1;
     cannonBall.restitution = 0;
@@ -64,6 +69,24 @@ $(document).ready(function () {
 
     // run the renderer
     Render.run(render);
+    // Checks to see if the active collision involves the cannonball and stops it from spinning if so
+    Events.on(engine, "collisionActive", function (event) {
+        var pairs = event.pairs;
+        for (var i = 0; i < pairs.length; i++) {
+            var pair = pairs[i];
+            if (pair.bodyA.label === "cannonBall" || pair.bodyB.label === "cannonBall") {
+                Body.setAngularVelocity(cannonBall, 0);
+            }
+            //checks for impact with cannonB
+            if (pair.bodyA.label === "cannonBall" && pair.bodyB.label === "cannonB") {
+                console.log("you win");
+            }
+            if (pair.bodyB.label === "cannonBall" && pair.bodyA.label === "cannonB") {
+                console.log("you win");
+            }
+        }
+    });
+}); 
 
     function toRadians(angle) {
         return angle * (Math.PI / 180);
@@ -93,23 +116,5 @@ $(document).ready(function () {
     //     }
     // });
 
-    // Checks to see if the active collision involves the cannonball and stops it from spinning if so
-    Events.on(engine, "collisionActive", function (event) {
-        var pairs = event.pairs;
-        for (var i = 0; i < pairs.length; i++) {
-            var pair = pairs[i];
-            if (pair.bodyA.label === "cannonBall" || pair.bodyB.label === "cannonBall") {
-                Body.setAngularVelocity(cannonBall, 0);
-            }
-            //checks for impact with cannonB
-            if (pair.bodyA.label === "cannonBall" && pair.bodyB.label === "cannonB") {
-                console.log("you win");
-            }
-            if (pair.bodyB.label === "cannonBall" && pair.bodyA.label === "cannonB") {
-                console.log("you win");
-            }
-        }
-    });
 
     //distance equation is ([velocity]^2*sin(2*angle))/grav
-}); 
