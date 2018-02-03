@@ -1,16 +1,16 @@
 <!DOCTYPE html>
+<html>
 
 <head>
     <title>Cannon Practice</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="assets/javascript/matter/build/matter.js"></script>
 </head>
 
 <style>
     body {
-        background: linear-gradient(-90deg, rgb(60, 61, 141),rgb(48, 40, 117));
+        background: linear-gradient(-90deg, rgb(60, 61, 141), rgb(48, 40, 117));
         color: white;
     }
 
@@ -59,38 +59,107 @@
         background: #303dfc;
         cursor: pointer;
     }
+
+    #gameWindow {
+        background-color: #c2c2c2;
+        width: 100%;
+        height: 430px;
+    }
+
+    #fire {
+        width: 120px;
+        height: 70px;
+        padding: 10px 0px;
+        margin-top: 50px;
+        border: solid 1px rgb(20, 0, 0);
+        border-radius: 5px;
+        opacity: 0.88;
+        font-size: 30px;
+        background-color: rgb(95, 0, 0);
+        box-shadow: 0 15px rgb(32, 0, 0);
+    }
 </style>
 
 <body>
+    <div class="row">
+        <div class="col-md-12 main">
+            <canvas id="gameWindow"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h1>Player 1 - Cannon</h1>
+            <p>Drag the slider to display the current power and angle values.</p>
 
-    <h1>Cannon Range Slider</h1>
-    <p>Drag the slider to display the current power and angle values.</p>
+            <h2>Power: <span id="p-out"></span>%</h2>
+            <input type="range" min="1" max="100" value="58" class="slideBar" id="pRange">
 
-        <h2>Power: <span id="p-out"></span>%</h2>
-        <input type="range" min="1" max="100" value="58" class="slideBar" id="myRange">
+            <h2>Angle: <span id="a-out"></span>&deg;</h2>
+            <input type="range" min="0" max="90" value="45" class="slideBar2" id="aRange">
 
-        <h2>Angle: <span id="a-out"></span>&deg;</h2>
-        <input type="range" min="0" max="90" value="45" class="slideBar2" id="myRange2">
+        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <h1>Player 2 - Cannon</h1>
+            <p>Drag the slider to display the current power and angle values.</p>
+
+            <h2>Power: <span id="p-out2"></span>%</h2>
+            <input type="range" min="1" max="100" value="58" class="slideBar" id="pRange2">
+
+            <h2>Angle: <span id="a-out2"></span>&deg;</h2>
+            <input type="range" min="0" max="90" value="45" class="slideBar2" id="aRange2">
+        </div>
+    </div>
 
     <script>
-        var angle;  var power;
-        var pVal = $("#myRange").val();
-        var aVal = $("#myRange2").val();
-        console.log("pVal: ", pVal)
-        $("#p-out").html(pVal);
-        $("#a-out").html(aVal);
+        var canvas = $("#gameWindow")[0] // Retrieve canvas element
+        var context = canvas.getContext("2d");  // retrieve canvas context
 
-        $("#myRange").change(function () {//Power silder bar
-            $("#p-out").html($(this).val());
-            power = $(this).val();
-            console.log("power: ", power);
-        });
+        //-Player 1 controls________________________________
+        var angle; var power;
+        var pRange = document.getElementById("pRange");
+        var aRange = document.getElementById("aRange");
+        var p_output = document.getElementById("p-out");
+        var a_output = document.getElementById("a-out");
+        p_output.innerHTML = pRange.value;
+        a_output.innerHTML = aRange.value;
 
-        $("#myRange2").change(function () {//Power silder bar
-            $("#a-out").html($(this).val());
-            angle = $(this).val();
-            console.log("angle: ", angle);
-        });
+        pRange.oninput = function () {
+            p_output.innerHTML = this.value;
+            console.log("Power: ", this.value);
+        }
+        aRange.oninput = function () {
+            a_output.innerHTML = this.value;
+            console.log("Angle: ", this.value);
+        }
+        //__________________________________________________
+
+
+        //-Player 2 controls________________________________
+        var angle2; var power2;
+        var pRange2 = document.getElementById("pRange2");
+        var aRange2 = document.getElementById("aRange2");
+        var p_output2 = document.getElementById("p-out2");
+        var a_output2 = document.getElementById("a-out2");
+        p_output2.innerHTML = pRange2.value;
+        a_output2.innerHTML = aRange2.value;
+
+        pRange2.oninput = function () {
+            p_output2.innerHTML = this.value;
+            console.log("Power2: ", this.value);
+        }
+        aRange2.oninput = function () {
+            a_output2.innerHTML = this.value;
+            console.log("Angle2: ", this.value);
+        }
+        //__________________________________________________
+
+
+
+
+
+
     </script>
+</body>
 
-    </html>
+</html>
