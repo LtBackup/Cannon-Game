@@ -67,7 +67,9 @@ $(document).ready(function () {
     engine: engine,
     options: {
       width: 2000,
-      height: 1500
+      height: 1500,
+      showAngleIndicator: true,
+      showWireframes: true
     }
   });
 
