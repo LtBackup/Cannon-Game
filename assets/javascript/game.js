@@ -4,7 +4,10 @@ var cannonball,
 $(document).ready(function () {
     // adds click listener on join and start new game buttons in modal
     $("#start-game").on("click", startGame);
-    $("#join-game").on("click", joinGame);
+    $("#join-game").on("click", function() {
+      var newGameId = Number($("#game-id-field").val());
+      joinGame(newGameId, database);
+    });
     $("#fireButton").on("click", function () {
         fireCannon(window.gameInfo);
     });

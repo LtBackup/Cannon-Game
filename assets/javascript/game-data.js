@@ -7,10 +7,8 @@ window.gameInfo = {
 var angle;
 var power;
 
-function joinGame() {
-    var newGameId = Number($("#game-id-field").val());
-
-    database.ref("games/" + newGameId).once("value").then(function (snap) {
+function joinGame(newGameId, db) {
+    db.ref("games/" + newGameId).once("value").then(function (snap) {
         if (snap.val()) {
             window.gameInfo = {
                 player: "playerTwo",
