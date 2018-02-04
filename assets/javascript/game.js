@@ -26,24 +26,29 @@ $(document).ready(function () {
         Events = Matter.Events;
 
     // create an engine
-    var engine = Engine.create();
+    var engine = Engine.create(),
+        world = engine.world;
 
     //create the canvas dimensions
     var canvas = document.createElement("canvas");
     var context = canvas.getContext("2d");
+    canvas.className = "canvas";
+    var element = document.getElementsByClassName("mainRow");
 
-    canvas.width = 2000;
-    canvas.height = 1500;
-    console.log(canvas);
-    document.body.appendChild(canvas);
+    // canvas.width = 2000;
+    // canvas.height = 1500;
+    // console.log(canvas);
+    // document.body.appendChild(canvas);
+    $(".mainRow").append(canvas);
 
     // create a renderer
     var render = Render.create({
         element: document.body,
         engine: engine,
+        canvas: canvas,
         options: {
-            width: 2000,
-            height: 1500,
+            width: 1140,
+            height: 500,
             showAngleIndicator: true,
             showWireframes: true
         }
@@ -52,23 +57,27 @@ $(document).ready(function () {
     console.log(render);
 
     //function createObjects(){
-    var cannonA = Bodies.rectangle(200, 550, 100, 60, { isStatic: true });
+    var cannonA = Bodies.rectangle(90, 360, 75, 64, { isStatic: true });
     cannonA.label = "cannonA";
-    var cannonB = Bodies.rectangle(1500, 550, 100, 60, { isStatic: true });
+    var cannonB = Bodies.rectangle(1000, 360, 75, 64, { isStatic: true });
     cannonB.label = "cannonB";
-    var cannonBallA = Bodies.circle(200, 450, 25);
+    var cannonBallA = Bodies.circle(90, 260, 16);
     cannonBallA.label = "cannonBallA";
     cannonBallA.friction = 1;
     cannonBallA.restitution = 0;
+    cannonBallA.mass = 1.9444530819999999;
     var cannonBallAOrigin = { x: cannonBallA.position.x, y: cannonBallA.position.y };
-    var cannonBallB = Bodies.circle(1500, 450, 25);
+    var cannonBallB = Bodies.circle(1000, 250, 16);
     cannonBallB.label = "cannonBallB";
     cannonBallB.friction = 1;
     cannonBallB.restitution = 0;
+    cannonBallB.mass = 1.9444530819999999;
     var cannonBallBOrigin = { x: cannonBallB.position.x, y: cannonBallB.position.y };
-    var ground = Bodies.rectangle(600, 610, 4000, 60, { isStatic: true });
+    var ground = Bodies.rectangle(570, 442, 1140, 100, { isStatic: true });
     ground.label = "ground";
     ground.friction = 1;
+
+    console.log(cannonBallA);
 
     // add all of the bodies to the world
     World.add(engine.world, [cannonA, cannonB, cannonBallA, cannonBallB, ground]);
