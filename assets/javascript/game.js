@@ -106,6 +106,8 @@ $(document).ready(function () {
         }
     });
 
+    console.log(render);
+
     //function createObjects(){
     var cannonA = Bodies.rectangle(200, 550, 100, 60, { isStatic: true });
     cannonA.label = "cannonA";
