@@ -87,8 +87,8 @@ $(document).ready(function () {
     var engine = Engine.create();
 
     //create the canvas dimensions
-    var canvas = document.createElement('canvas'),
-        context = canvas.getContext('2d');
+    var canvas = document.createElement("canvas"),
+        context = canvas.getContext("2d");
 
     canvas.width = 2000;
     canvas.height = 1500;
@@ -106,23 +106,31 @@ $(document).ready(function () {
         }
     });
 
-    // create two boxes and a ground
+    //function createObjects(){
     var cannonA = Bodies.rectangle(200, 550, 100, 60, { isStatic: true });
     cannonA.label = "cannonA";
     var cannonB = Bodies.rectangle(1500, 550, 100, 60, { isStatic: true });
     cannonB.label = "cannonB";
-    var cannonBall = Bodies.circle(200, 450, 25);
-    cannonBall.label = "cannonBall";
-    cannonBall.friction = 1;
-    cannonBall.restitution = 0;
+    var cannonBallA = Bodies.circle(200, 450, 25);
+    cannonBallA.label = "cannonBallA";
+    cannonBallA.friction = 1;
+    cannonBallA.restitution = 0;
+    var cannonBallAOrigin = { x: cannonBallA.position.x, y: cannonBallA.position.y };
+    var cannonBallB = Bodies.circle(1500, 450, 25);
+    cannonBallB.label = "cannonBallB";
+    cannonBallB.friction = 1;
+    cannonBallB.restitution = 0;
+    var cannonBallBOrigin = { x: cannonBallB.position.x, y: cannonBallB.position.y };
     var launchVector = Matter.Vector.create(100, 0);
     launchVector = Matter.Vector.rotate(launchVector, .8);
-
     var ground = Bodies.rectangle(600, 610, 4000, 60, { isStatic: true });
+    ground.label = "ground";
     ground.friction = 1;
 
     // add all of the bodies to the world
-    World.add(engine.world, [cannonA, cannonB, cannonBall, ground]);
+    World.add(engine.world, [cannonA, cannonB, cannonBallA, cannonBallB, ground]);
+    //}
+
 
     // run the engine
     Engine.run(engine);
@@ -138,12 +146,24 @@ $(document).ready(function () {
         return angle * (180 / Math.PI);
     }
 
+    function resetBallA() {
+        console.log("reset cannonball");
+        Body.setPosition(cannonBallA, cannonBallAOrigin);
+        //Body.setAngularVelocity(cannonBallA, 0);
+        //Body.setVelocity(cannonBallA, { x: 0, y: 0});
+    }
+
+    function resetBallB() {
+        Body.setPosition(cannonBallB, cannonBallBOrigin);
+    }
+
+    //need to pass in the cannonball object for the active player
     function launchCannonBall(angle, power) {
         console.log("fired");
         var dampener = .001;
         var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
 
-        Body.applyForce(cannonBall, { x: cannonBall.position.x, y: cannonBall.position.y }, launchVector);
+        Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
     }
 
     // // an example of using collisionStart event on an engine
@@ -159,19 +179,31 @@ $(document).ready(function () {
     // });
 
     // Checks to see if the active collision involves the cannonball and stops it from spinning if so
+
     Events.on(engine, "collisionActive", function (event) {
         var pairs = event.pairs;
         for (var i = 0; i < pairs.length; i++) {
             var pair = pairs[i];
-            if (pair.bodyA.label === "cannonBall" || pair.bodyB.label === "cannonBall") {
-                Body.setAngularVelocity(cannonBall, 0);
+            if (pair.bodyA.label === "cannonBallA" || pair.bodyB.label === "cannonBallA") {
+                Body.setVelocity(cannonBallA, { x: 0, y: 0});
+                Body.setAngularVelocity(cannonBallA, 0);
             }
+
             //checks for impact with cannonB
-            if (pair.bodyA.label === "cannonBall" && pair.bodyB.label === "cannonB") {
-                console.log("you win");
+            if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "cannonB") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "cannonB")) {
+                //TODO trigger explosion
+                resetBallA();
+                console.log("Player 1 wins");
             }
-            if (pair.bodyB.label === "cannonBall" && pair.bodyA.label === "cannonB") {
-                console.log("you win");
+            //checks for impact with cannonA
+            if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "cannonA") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "cannonA")) {
+                //TODO trigger explosion
+                resetBallB();
+                console.log("Player 2 wins");
+            }
+            if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "ground")) {
+                resetBallA();
+                console.log("miss");
             }
         }
     });
