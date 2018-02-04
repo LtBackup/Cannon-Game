@@ -49,6 +49,7 @@ $(document).ready(function () {
   var render = Render.create({
     element: document.body,
     engine: engine,
+    canvas: canvas,
     options: {
       width: 1140,
       height: 500,
