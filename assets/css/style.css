@@ -1,9 +1,9 @@
-body {
-    background: rgb(233, 233, 233);
-    font-family: 'Open Sans', sans-serif;
-    color: #fff;
-}
 
+body, html, .container {
+    background: #c2c2c2;
+    color: white;
+    height: 100%;
+   }
 .container.mainContent {
     min-width: 1160px;
     border-left: 2px solid #888;;
@@ -240,4 +240,46 @@ h1 {
     background-repeat: repeat;
     border-radius: 10px;
     box-shadow: 2px 2px 10px rgb(70, 70, 70);
+}
+/*Efosa css for slidebar animation below----------------------------------------*/
+.slideBar {
+    -webkit-appearance: none;
+    width: 600px;
+    height: 22px;
+    border-radius: 10px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+}
+.slideBar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgb(235, 52, 52);
+    cursor: pointer;
+}
+.slideBar2 {
+    -webkit-appearance: none;
+    width: 600px;
+    height: 22px;
+    border-radius: 10px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+}
+.slideBar2::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #303dfc;
+    cursor: pointer;
+}
+.slideBar:hover, .slideBar2:hover {
+    opacity: 1;
+}
+.controls {
+    background: linear-gradient(-90deg, rgb(60, 61, 141), rgb(48, 40, 117));
+    min-height: 50%;
 }

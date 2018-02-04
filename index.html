@@ -32,14 +32,8 @@
           <hr class="title-header-hr"/>
           <div class="row">
             <div class="container-fluid col-md-12 gamebox">
-<<<<<<< HEAD
-              <div class="row">
-                <div>
-                  <canvas id="cv"></canvas>
-=======
               <div class="row mainRow">
                 <div class="canvas">
->>>>>>> 84e6e62a12876efbdb36b87222447918b1da76e7
                   <div class="overlay" aria-hidden="false">
                     <div class="startmenu">
                       <p>
@@ -87,6 +81,33 @@
           </div>
         </article>
       </section>
+      <div class="row controls">
+          <div class="col-md-4">
+              <h1>Player 1 - Cannon</h1>
+              <p>Drag the slider to display the current power and angle values.</p>
+
+              <h2>Power:
+                  <span id="p-out"></span>%</h2>
+              <input type="range" min="1" max="100" value="58" class="slideBar" id="pRange">
+
+              <h2>Angle:
+                  <span id="a-out"></span>&deg;</h2>
+              <input type="range" min="0" max="90" value="45" class="slideBar2" id="aRange">
+          </div>
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+              <h1>Player 2 - Cannon</h1>
+              <p>Drag the slider to display the current power and angle values.</p>
+
+              <h2>Power:
+                  <span id="p-out2"></span>%</h2>
+              <input type="range" min="1" max="100" value="58" class="slideBar" id="pRange2">
+
+              <h2>Angle:
+                  <span id="a-out2"></span>&deg;</h2>
+              <input type="range" min="0" max="90" value="45" class="slideBar2" id="aRange2">
+          </div>
+      </div>
     </div>
   </div>
 </body>
