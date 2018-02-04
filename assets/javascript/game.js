@@ -12,6 +12,9 @@ $(document).ready(function () {
   $("#fireButton").on("click", function () {
     fireCannon(window.gameInfo);
   });
+  $("#fireButton2").on("click", function () {
+    fireCannon(window.gameInfo);
+  });
 
   // TODO: add firebase listeners on opponent player's data change
 
