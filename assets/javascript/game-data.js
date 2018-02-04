@@ -16,6 +16,7 @@ function joinGame(newGameId, db) {
                 opponent: "playerOne",
             };
             // TODO: close modal
+            $(".overlay").addClass("hidden");
         } else {
             alert("Please enter a valid id or start a new game");
             // TODO: goes back to modal 
@@ -32,6 +33,7 @@ function startGame() {
     };
     createNewGame(newGameId);
     // TODO: close modal
+    $(".overlay").addClass("hidden");
 }
 
 var fireCannon = function (gameInfo) {

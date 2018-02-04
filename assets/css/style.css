@@ -100,8 +100,8 @@ h1 {
     box-shadow: 5px 2px 10px rgb(70, 70, 70);
 }
 
-.angleInput, .powerInput {
-    font-size: 12px;
+.angleInput, .powerInput, .game-id-field {
+    font-size: 8px;
     font-weight: 800;
     line-height: 1;
     margin-right: 15px;
@@ -118,4 +118,111 @@ h1 {
 
 .angleSpan, .powerSpan {
     width: 125px;
+}
+
+.overlay:before {
+    display: none;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left:0;
+    right:0;
+    z-index: 10;
+    width: 1140px;
+    height: 500px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    background-color: rgba(0,0,0,0.8);
+}
+
+.opened:before {
+    display: block;
+}
+
+.opened .startmenu {
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+    top: 111px;
+    left: 350px;
+}
+
+.startmenu {
+    position:absolute;
+    top: 50%;
+    left:50%;
+    background-image: url("../images/bg.png");
+    width: 440px;
+    height: 252px;    
+    border: 2px solid #000;
+    border-radius: 10px;
+    text-align: center;
+    padding: 1% 0;
+    -webkit-transform: translate(0, -500%);
+    -ms-transform: translate(0, -500%);
+    transform: translate(0, 500%);
+    -webkit-transition: -webkit-transform 0.3s ease-out;
+    -moz-transition: -moz-transform 0.3s ease-out;
+    -o-transition: -o-transform 0.3s ease-out;
+    transition: transform 0.3s ease-out;
+}
+
+#start-game, #highscore, .join-game-group {
+    width: 330px;
+    text-align: center;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1;
+    background-color: #679b36;
+    color: #fff;
+    text-shadow: 2px 2px 5px #000;
+    transition: 0.2s; 
+    border-radius: 10px;
+    padding: 5% 0;
+}
+
+.join-game-group {
+    display: inline-block;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+#join-game {
+    text-align: center;
+    font-family: 'Press Start 2P', cursive;
+    background-color: #679b36;
+    color: #fff;
+    text-shadow: 2px 2px 5px #000;
+    transition: 0.2s; 
+    margin-right: 15%;
+    height: 32px;
+}
+
+#join-game, #game-id-field {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 800;  
+    border-radius: 10px;  
+}
+
+.input-group-addon.game-id-field-span {
+    background-color: #679b36;
+}
+
+#game-id-field {
+    margin-left: 10px;
+    font-family: 'Open Sans', sans-serif;
+    width: 150px;
+    height: 32px;
+}
+
+#start-game:hover:enabled,
+#join-game:hover:enabled,
+#highscore:hover:enabled {
+    color: #fff;
+    background-color: #b9ff5d;
+    box-shadow: 5px 2px 10px rgb(70, 70, 70);
 }
