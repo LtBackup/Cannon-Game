@@ -35,6 +35,8 @@ $(document).ready(function () {
   //create the canvas dimensions
   var canvas = document.createElement("canvas");
   var context = canvas.getContext("2d");
+  canvas.className = "canvas";
+  var element = document.getElementsByClassName("mainRow");
 
   // canvas.width = 2000;
   // canvas.height = 1500;
@@ -48,34 +50,33 @@ $(document).ready(function () {
     element: document.body,
     engine: engine,
     options: {
-      width: 2000,
-      height: 1500,
+      width: 1140,
+      height: 500,
       showAngleIndicator: true,
       showWireframes: true,
-      element: canvas,
     }
   });
 
   // console.log(render);
 
   //function createObjects(){
-  cannonA = Bodies.rectangle(200, 550, 100, 60, { isStatic: true });
+  cannonA = Bodies.rectangle(90, 360, 75, 64, { isStatic: true });
   cannonA.label = "cannonA";
-  cannonB = Bodies.rectangle(1500, 550, 100, 60, { isStatic: true });
+  cannonB = Bodies.rectangle(1000, 360, 75, 64, { isStatic: true });
   cannonB.label = "cannonB";
-  cannonBallA = Bodies.circle(200, 450, 25);
+  cannonBallA = Bodies.circle(90, 260, 16);
   cannonBallA.label = "cannonBallA";
   cannonBallA.friction = 1;
   cannonBallA.restitution = 0;
   cannonBallA.mass = 1.9444530819999999;
   cannonBallAOrigin = { x: cannonBallA.position.x, y: cannonBallA.position.y };
-  cannonBallB = Bodies.circle(1500, 450, 25);
+  cannonBallB = Bodies.circle(1000, 250, 16);
   cannonBallB.label = "cannonBallB";
   cannonBallB.friction = 1;
   cannonBallB.restitution = 0;
   cannonBallB.mass = 1.9444530819999999;
   cannonBallBOrigin = { x: cannonBallB.position.x, y: cannonBallB.position.y };
-  ground = Bodies.rectangle(600, 610, 4000, 60, { isStatic: true });
+  ground = Bodies.rectangle(570, 442, 1140, 100, { isStatic: true });
   ground.label = "ground";
   ground.friction = 1;
 
