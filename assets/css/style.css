@@ -152,7 +152,7 @@ h1 {
 .startmenu {
     position:absolute;
     top: 50%;
-    left:50%;
+    left: 50%;
     background-image: url("../images/bg.png");
     width: 440px;
     height: 252px;    
@@ -225,4 +225,19 @@ h1 {
     color: #fff;
     background-color: #b9ff5d;
     box-shadow: 5px 2px 10px rgb(70, 70, 70);
+}
+
+#cv {
+    position: relative;
+    left: 27px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    background-color: rgb(247, 245, 245);
+    border: 1px solid #888;
+    width: 1140px;
+    height: 500px;
+    background-image: url("../images/canvasbg.jpg");
+    background-repeat: repeat;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgb(70, 70, 70);
 }

@@ -30,11 +30,16 @@ $(document).ready(function () {
   var engine = Engine.create();
 
   //create the canvas dimensions
-  var canvas = document.createElement('canvas'),
-    context = canvas.getContext('2d');
-
-  canvas.width = 2000;
-  canvas.height = 1500;
+  // var canvas = document.getElementById("cv"); // get the canvas element
+  // var context = c.getContext("2d");  // get the canvas context
+  // canvas.width = window.innerWidth;  // set canvas width and height to browser window size
+  // canvas.height = window.innerHeight;
+   
+  // // add a function to adjust the canvas size if the screen is resized
+  // window.onresize = function(event) {
+  //   canvas.width = window.innerWidth; // set canvas width and height to browser window size
+  //   canvas.height = window.innerHeight;
+  // };  
 
   // create a renderer
   var render = Render.create({
@@ -47,8 +52,6 @@ $(document).ready(function () {
       showWireframes: true
     }
   });
-
-  document.body.appendChild(canvas);
 
   // create two boxes and a ground
   var cannonA = Bodies.rectangle(200, 550, 100, 60, { isStatic: true });
