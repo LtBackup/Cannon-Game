@@ -46,6 +46,7 @@ $(document).ready(function () {
         element: document.body,
         engine: engine,
         canvas: canvas,
+        context: "2d",
         options: {
             width: 1140,
             height: 500,
@@ -156,7 +157,7 @@ $(document).ready(function () {
         angle2 = this.value;
         a_output2.innerHTML = angle2;
         console.log("Angle2: ", angle2);
-        Matter.Body.setAngle(cannonB, toRadians(angle));
+        Matter.Body.setAngle(cannonB, toRadians(-angle2));
     }
     //__________________________________________________
 
