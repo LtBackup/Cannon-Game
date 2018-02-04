@@ -1,115 +1,110 @@
-var cannonball,
-  Body;
+var cannonBallA,
+    Body;
 
 $(document).ready(function () {
-  $(".overlay").addClass("opened");
-  // adds click listener on join and start new game buttons in modal
-  $("#start-game").on("click", startGame);
-  $("#join-game").on("click", function () {
-    var newGameId = Number($("#game-id-field").val());
-    joinGame(newGameId, database);
-  });
-  $("#fireButton").on("click", function () {
-    fireCannon(window.gameInfo);
-  });
+    $(".overlay").addClass("opened");
+    // adds click listener on join and start new game buttons in modal
+    $("#start-game").on("click", startGame);
+    $("#join-game").on("click", function () {
+        var newGameId = Number($("#game-id-field").val());
+        joinGame(newGameId, database);
+    });
+    $("#fireButton").on("click", function () {
+        fireCannon(window.gameInfo);
+    });
 
-  // TODO: add firebase listeners on opponent player's data change
+    // TODO: add firebase listeners on opponent player's data change
 
-  //begin matter.js logic
+    //begin matter.js logic
 
-  // module aliases
-  var Engine = Matter.Engine,
-    Render = Matter.Render,
-    World = Matter.World,
-    Bodies = Matter.Bodies,
-    Events = Matter.Events;
+    // module aliases
+    var Engine = Matter.Engine,
+        Render = Matter.Render,
+        World = Matter.World,
+        Bodies = Matter.Bodies,
+        Body = Matter.Body,
+        Events = Matter.Events;
 
-  Body = Matter.Body
+    // create an engine
+    var engine = Engine.create();
 
-  // create an engine
-  var engine = Engine.create();
+    //create the canvas dimensions
+    var canvas = document.createElement("canvas");
+    var context = canvas.getContext("2d");
 
-  //create the canvas dimensions
-  // var canvas = document.getElementById("cv"); // get the canvas element
-  // var context = c.getContext("2d");  // get the canvas context
-  // canvas.width = window.innerWidth;  // set canvas width and height to browser window size
-  // canvas.height = window.innerHeight;
-   
-  // // add a function to adjust the canvas size if the screen is resized
-  // window.onresize = function(event) {
-  //   canvas.width = window.innerWidth; // set canvas width and height to browser window size
-  //   canvas.height = window.innerHeight;
-  // };  
+    canvas.width = 2000;
+    canvas.height = 1500;
+    console.log(canvas);
+    document.body.appendChild(canvas);
 
-  // create a renderer
-  var render = Render.create({
-    element: document.body,
-    engine: engine,
-    options: {
-      width: 2000,
-      height: 1500,
-      showAngleIndicator: true,
-      showWireframes: true
+    // create a renderer
+    var render = Render.create({
+        element: document.body,
+        engine: engine,
+        options: {
+            width: 2000,
+            height: 1500,
+            showAngleIndicator: true,
+            showWireframes: true
+        }
+    });
+
+    console.log(render);
+
+    //function createObjects(){
+    var cannonA = Bodies.rectangle(200, 550, 100, 60, { isStatic: true });
+    cannonA.label = "cannonA";
+    var cannonB = Bodies.rectangle(1500, 550, 100, 60, { isStatic: true });
+    cannonB.label = "cannonB";
+    var cannonBallA = Bodies.circle(200, 450, 25);
+    cannonBallA.label = "cannonBallA";
+    cannonBallA.friction = 1;
+    cannonBallA.restitution = 0;
+    var cannonBallAOrigin = { x: cannonBallA.position.x, y: cannonBallA.position.y };
+    var cannonBallB = Bodies.circle(1500, 450, 25);
+    cannonBallB.label = "cannonBallB";
+    cannonBallB.friction = 1;
+    cannonBallB.restitution = 0;
+    var cannonBallBOrigin = { x: cannonBallB.position.x, y: cannonBallB.position.y };
+    var ground = Bodies.rectangle(600, 610, 4000, 60, { isStatic: true });
+    ground.label = "ground";
+    ground.friction = 1;
+
+    // add all of the bodies to the world
+    World.add(engine.world, [cannonA, cannonB, cannonBallA, cannonBallB, ground]);
+    //}
+
+
+    // run the engine
+    Engine.run(engine);
+
+    // run the renderer
+    Render.run(render);
+
+    function toRadians(angle) {
+        return angle * (Math.PI / 180);
     }
-  });
 
-  // create two boxes and a ground
-  var cannonA = Bodies.rectangle(200, 550, 100, 60, { isStatic: true });
-  cannonA.label = "cannonA";
-  var cannonB = Bodies.rectangle(1500, 550, 100, 60, { isStatic: true });
-  cannonB.label = "cannonB";
-  cannonBall = Bodies.circle(200, 450, 25);
-  cannonBall.label = "cannonBall";
-  cannonBall.friction = 1;
-  cannonBall.restitution = 0;
-  var launchVector = Matter.Vector.create(100, 0);
-  launchVector = Matter.Vector.rotate(launchVector, .8);
-
-  var ground = Bodies.rectangle(600, 610, 4000, 60, { isStatic: true });
-  ground.friction = 1;
-
-  // add all of the bodies to the world
-  World.add(engine.world, [cannonA, cannonB, cannonBall, ground]);
-
-  // run the engine
-  Engine.run(engine);
-
-  // run the renderer
-  Render.run(render);
-  // Checks to see if the active collision involves the cannonball and stops it from spinning if so
-  Events.on(engine, "collisionActive", function (event) {
-    var pairs = event.pairs;
-    for (var i = 0; i < pairs.length; i++) {
-      var pair = pairs[i];
-      if (pair.bodyA.label === "cannonBall" || pair.bodyB.label === "cannonBall") {
-        Body.setAngularVelocity(cannonBall, 0);
-      }
-      //checks for impact with cannonB
-      if (pair.bodyA.label === "cannonBall" && pair.bodyB.label === "cannonB") {
-        console.log("you win");
-      }
-      if (pair.bodyB.label === "cannonBall" && pair.bodyA.label === "cannonB") {
-        console.log("you win");
-      }
+    function toDegrees(angle) {
+        return angle * (180 / Math.PI);
     }
-  });
-});
 
-function toRadians(angle) {
-  return angle * (Math.PI / 180);
-}
+    function resetBallA() {
+        Body.setPosition(cannonBallA, cannonBallAOrigin);
+    }
 
-function toDegrees(angle) {
-  return angle * (180 / Math.PI);
-}
+    function resetBallB() {
+        Body.setPosition(cannonBallB, cannonBallBOrigin);
+    }
 
-function launchCannonBall(angle, power) {
-  console.log("fired");
-  var dampener = .001;
-  var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
+    //need to pass in the cannonball object for the active player
+    function launchCannonBall(angle, power) {
+        console.log("fired");
+        var dampener = .001;
+        var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
 
-  Body.applyForce(cannonBall, { x: cannonBall.position.x, y: cannonBall.position.y }, launchVector);
-}
+        Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
+    }
 
     // // an example of using collisionStart event on an engine
     // Events.on(engine, 'collisionStart', function (event) {
@@ -123,5 +118,71 @@ function launchCannonBall(angle, power) {
     //     }
     // });
 
+    // Checks to see if the active collision involves the cannonball and stops it from spinning if so
+
+    Events.on(engine, "collisionActive", function (event) {
+        var pairs = event.pairs;
+        for (var i = 0; i < pairs.length; i++) {
+            var pair = pairs[i];
+            if (pair.bodyA.label === "cannonBallA" || pair.bodyB.label === "cannonBallA") {
+                Body.setVelocity(cannonBallA, { x: 0, y: 0 });
+                Body.setAngularVelocity(cannonBallA, 0);
+            }
+
+            //checks for impact with cannonB
+            if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "cannonB") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "cannonB")) {
+                //TODO trigger explosion
+                resetBallA();
+                console.log("Player 1 wins");
+            }
+            //checks for impact with cannonA
+            if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "cannonA") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "cannonA")) {
+                //TODO trigger explosion
+                resetBallB();
+                console.log("Player 2 wins");
+            }
+            if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "ground")) {
+                resetBallA();
+                console.log("miss");
+            }
+        }
+    });
 
     //distance equation is ([velocity]^2*sin(2*angle))/grav
+
+    // adds click listener on join and start new game buttons in modal
+    $("#start-game").on("click", startGame);
+    $("#join-game").on("click", joinGame);
+
+    var fireCannon = function (gameInfo) {
+        var currentPlayer = gameInfo.player;
+        var gameId = parseInt(gameInfo.gameId);
+        var angleInput = parseInt($("#" + currentPlayer + "-angle").val());
+        var powerInput = parseInt($("#" + currentPlayer + "-power").val());
+
+
+        updateAnglePower(gameId, currentPlayer, angleInput, powerInput);
+
+        var playerAngleRef = database.ref("games/" + gameId + "/" + currentPlayer + "/angle");
+        var playerPowerRef = database.ref("games/" + gameId + "/" + currentPlayer + "/power");
+
+        playerAngleRef.on("value", function (snapshot) {
+            angle = snapshot.val();
+        });
+
+        playerPowerRef.on("value", function (snapshot) {
+            power = snapshot.val();
+        });
+
+        // physics
+        launchCannonBall(angle, power);
+        incrementShotsFired(gameId, currentPlayer);
+    };
+
+    $("#fireButton").on("click", function () {
+        fireCannon(window.gameInfo);
+    });
+
+    // TODO: add firebase listeners on opponent player's data change
+
+});
