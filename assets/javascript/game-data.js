@@ -44,17 +44,6 @@ function fireCannon(gameInfo) {
 
   updateAnglePower(gameId, currentPlayer, angleInput, powerInput);
 
-  /* var playerAngleRef = database.ref("games/" + gameId + "/" + currentPlayer + "/angle"); */
-  /* var playerPowerRef = database.ref("games/" + gameId + "/" + currentPlayer + "/power"); */
-
-  /* playerAngleRef.on("value", function (snapshot) { */
-  /*   angle = snapshot.val(); */
-  /* }); */
-
-  /* playerPowerRef.on("value", function (snapshot) { */
-  /*   power = snapshot.val(); */
-  /* }); */
-
   // physics
   if (gameInfo.player === "playerOne") {
     launchCannonBall(angleInput, powerInput);
@@ -74,13 +63,19 @@ function addOpponentListeners(gameInfo) {
   var opponentPowerRef = database.ref("games/" + gameId + "/" + opponent + "/power");
 
   opponentAngleRef.on("value", function (snapshot) {
-    angle = snapshot.val();
-    console.log("opponent took turn - ");
-    console.log("angle", angle);
+    if (snapshot.val()) {
+      angle = snapshot.val();
+      console.log("opponent took turn - ");
+      console.log("angle", angle);
+      //fire opponent cannon
+    }
   });
 
   opponentPowerRef.on("value", function (snapshot) {
-    power = snapshot.val();
-    console.log("power", power);
+    if (snapshot.val()) {
+      power = snapshot.val();
+      console.log("power", power);
+      //fire opponent cannon
+    }
   });
 }
