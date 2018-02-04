@@ -36,11 +36,11 @@ $(document).ready(function () {
   var canvas = document.createElement("canvas");
   var context = canvas.getContext("2d");
 
-  canvas.width = 2000;
-  canvas.height = 1500;
-  // console.log(canvas);
-  document.body.appendChild(canvas);
-
+  // canvas.width = 2000;
+  // canvas.height = 1500;
+  // // console.log(canvas);
+  // document.body.appendChild(canvas);
+  $(".mainRow").append(canvas);
   //begin matter.js logic
 
   // create a renderer
@@ -67,11 +67,13 @@ $(document).ready(function () {
   cannonBallA.label = "cannonBallA";
   cannonBallA.friction = 1;
   cannonBallA.restitution = 0;
+  cannonBallA.mass = 1.9444530819999999;
   cannonBallAOrigin = { x: cannonBallA.position.x, y: cannonBallA.position.y };
   cannonBallB = Bodies.circle(1500, 450, 25);
   cannonBallB.label = "cannonBallB";
   cannonBallB.friction = 1;
   cannonBallB.restitution = 0;
+  cannonBallB.mass = 1.9444530819999999;
   cannonBallBOrigin = { x: cannonBallB.position.x, y: cannonBallB.position.y };
   ground = Bodies.rectangle(600, 610, 4000, 60, { isStatic: true });
   ground.label = "ground";
