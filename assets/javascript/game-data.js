@@ -61,6 +61,11 @@ function addOpponentListeners(gameInfo) {
   opponentAngleRef.on("value", function (snapshot) {
     if (snapshot.val()) {
       opponentAngle = snapshot.val();
+      if (opponent === "playerOne") {
+        Matter.Body.setAngle(cannonA, toRadians(opponentAngle) * -1);
+      } else {
+        Matter.Body.setAngle(cannonB, toRadians(opponentAngle));
+      }
     }
   });
   opponentPowerRef.on("value", function (snapshot) {
