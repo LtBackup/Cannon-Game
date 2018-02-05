@@ -16,8 +16,6 @@ var cannonBallA,
 
 $(document).ready(function () {
   $(".overlay").addClass("opened");
-  // adds click listener on join and start new game buttons in modal
-
   $("#start-game").on("click", startGame);
   $("#join-game").on("click", function () {
     var newGameId = Number($("#game-id-field").val());
@@ -58,9 +56,6 @@ $(document).ready(function () {
     }
   });
 
-  // console.log(render);
-
-  //function createObjects(){
   cannonA = Bodies.rectangle(90, 360, 75, 64, { isStatic: true });
   cannonA.label = "cannonA";
   cannonB = Bodies.rectangle(1000, 360, 75, 64, { isStatic: true });
@@ -83,8 +78,6 @@ $(document).ready(function () {
 
   // add all of the bodies to the world
   World.add(engine.world, [cannonA, cannonB, cannonBallA, cannonBallB, ground]);
-  //}
-
 
   // run the engine
   Engine.run(engine);
@@ -185,11 +178,16 @@ function resetBallB() {
 
 //need to pass in the cannonball object for the active player
 function launchCannonBall(angle, power) {
-  console.log("fired");
   var dampener = .001;
   var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
 
-  Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
+  if (gameInfo.player === "playerOne") {
+    console.log("playerOne fired");
+    Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
+  } else {
+    console.log("playerTwo fired");
+    Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector);
+  }
 }
 
 

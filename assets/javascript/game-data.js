@@ -44,16 +44,8 @@ function fireCannon(gameInfo) {
 
   updateAnglePower(gameId, currentPlayer, angleInput, powerInput);
 
-  // physics
-  if (gameInfo.player === "playerOne") {
-    launchCannonBall(angleInput, powerInput);
-  } else {
-    console.log("Firing playerTwo cannon");
-    // fire playerTwo cannon fn;
-  }
-
+  launchCannonBall(angleInput, powerInput);
   incrementShotsFired(gameId, currentPlayer);
-  /* opponentTurn(gameInfo); */
 }
 
 function addOpponentListeners(gameInfo) {
