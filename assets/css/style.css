@@ -9,7 +9,7 @@ body, html, .container {
     border-left: 2px solid #888;;
     border-right: 2px solid #888;
     border-bottom: 2px solid #888;
-    background-image: url("../images/bg.png");
+    background-image: url("../images/darkGreen.jpeg");
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     overflow: hidden;
@@ -27,7 +27,7 @@ h1 {
 
 .title-header {
     font-family: 'Press Start 2P', cursive;
-    font-size: 72px;
+    font-size: 78px;
     font-weight: bold;
     text-align: center;
     margin-bottom:40px;
@@ -81,17 +81,16 @@ h1 {
 }
 
 .fireButton {
-    font-size: 12px;
+    font-size: 25px;
     font-weight: 800;
     line-height: 1;
-    margin: 0.2em;
-    padding: 0.5em 1em; 
+    margin-top: 5px;
+    padding: 10px; 
     background-color: #9b3636;
     color: #fff;
     text-shadow: 2px 2px 5px #000;
     transition: 0.2s;
-    margin-right: 15px;
-    border-left: 0px;
+    border: solid 1px white;
 }
 
 .fireButton:hover:enabled {
@@ -247,7 +246,8 @@ h1 {
     width: 600px;
     height: 22px;
     border-radius: 10px;
-    background: #d3d3d3;
+    border: solid 2px white;
+    background: rgba(243, 16, 16, 0.616);
     outline: none;
     opacity: 0.7;
 }
@@ -256,7 +256,8 @@ h1 {
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    background: rgb(235, 52, 52);
+    border: solid 2px white;
+    background: rgb(243, 30, 30);
     cursor: pointer;
 }
 .slideBar2 {
@@ -264,7 +265,8 @@ h1 {
     width: 600px;
     height: 22px;
     border-radius: 10px;
-    background: #d3d3d3;
+    border: solid 2px white;
+    background: #2432f89a;
     outline: none;
     opacity: 0.7;
 }
@@ -273,13 +275,17 @@ h1 {
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    background: #303dfc;
+    border: solid 2px white;
+    background: #2432f8;
     cursor: pointer;
 }
 .slideBar:hover, .slideBar2:hover {
     opacity: 1;
+    background: white;
+    
 }
 .controls {
-    background: linear-gradient(-90deg, rgb(60, 61, 141), rgb(48, 40, 117));
+    background: linear-gradient(-90deg, rgb(17, 20, 66), rgb(22, 21, 92));
     min-height: 50%;
+    padding: 15px;
 }
