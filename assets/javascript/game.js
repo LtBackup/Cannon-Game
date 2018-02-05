@@ -30,8 +30,6 @@ $(document).ready(function () {
     fireCannon(window.gameInfo);
   });
 
-  // TODO: add firebase listeners on opponent player's data change
-
   //create the canvas dimensions
   var canvas = document.createElement("canvas");
   var context = canvas.getContext("2d");
@@ -43,6 +41,7 @@ $(document).ready(function () {
   // // console.log(canvas);
   // document.body.appendChild(canvas);
   $(".mainRow").append(canvas);
+
   //begin matter.js logic
 
   // create a renderer
@@ -58,9 +57,6 @@ $(document).ready(function () {
     }
   });
 
-  // console.log(render);
-
-  //function createObjects(){
   cannonA = Bodies.rectangle(90, 360, 75, 64, { isStatic: true });
   cannonA.label = "cannonA";
   cannonB = Bodies.rectangle(1000, 360, 75, 64, { isStatic: true });
@@ -83,8 +79,6 @@ $(document).ready(function () {
 
   // add all of the bodies to the world
   World.add(engine.world, [cannonA, cannonB, cannonBallA, cannonBallB, ground]);
-  //}
-
 
   // run the engine
   Engine.run(engine);
@@ -134,7 +128,7 @@ $(document).ready(function () {
    pRange.oninput = function () {
        power = this.value;
        p_output.innerHTML = power;
-       console.log("Power: ", power);
+       console.log("Power: ", typeof power);
    }
    aRange.oninput = function () {
        angle = this.value;
