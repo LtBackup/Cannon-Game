@@ -39,6 +39,7 @@ $(document).ready(function () {
   // // console.log(canvas);
   // document.body.appendChild(canvas);
   $(".mainRow").append(canvas);
+
   //begin matter.js logic
 
   // create a renderer
@@ -125,7 +126,7 @@ $(document).ready(function () {
    pRange.oninput = function () {
        power = this.value;
        p_output.innerHTML = power;
-       console.log("Power: ", power);
+       console.log("Power: ", typeof power);
    }
    aRange.oninput = function () {
        angle = this.value;
