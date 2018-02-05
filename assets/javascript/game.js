@@ -140,7 +140,7 @@ $(document).ready(function () {
        angle = this.value;
        a_output.innerHTML = angle;
        console.log("Angle: ", angle);
-       Matter.Body.setAngle(cannonA, toRadians(angle));
+       Matter.Body.setAngle(cannonA, toRadians(angle) * -1);
    }
    //__________________________________________________
 
@@ -163,7 +163,7 @@ $(document).ready(function () {
        angle2 = this.value;
        a_output2.innerHTML = angle2;
        console.log("Angle2: ", angle2);
-       Matter.Body.setAngle(cannonB, toRadians(-angle2));
+       Matter.Body.setAngle(cannonB, toRadians(angle2));
    }
 });
 
