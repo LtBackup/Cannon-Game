@@ -47,7 +47,8 @@ $(document).ready(function () {
             width: 1140,
             height: 500,
             showAngleIndicator: true,
-            showWireframes: true,
+            wireframes: false,
+            background: './assets/images/canvasbg.jpg'
         }
     });
 
@@ -251,7 +252,6 @@ function resetBallB() {
     Body.setPosition(cannonBallB, cannonBallBOrigin);
 }
 
-//need to pass in the cannonball object for the active player
 function launchCannonBall(angle, power) {
   var dampener = .002;
   var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));

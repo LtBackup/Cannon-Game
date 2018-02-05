@@ -3,6 +3,7 @@ body, html, .container {
     background: #c2c2c2;
     color: white;
     height: 100%;
+    font-family: 'Open Sans', sans-serif;
    }
 .container.mainContent {
     min-width: 1160px;
