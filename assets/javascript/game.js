@@ -20,17 +20,16 @@ $(document).ready(function () {
   //create the canvas dimensions
   var canvas = document.createElement("canvas");
   var context = canvas.getContext("2d");
-  console.log(canvas);
   canvas.className = "hidden";
   var element = document.getElementsByClassName("mainRow");
 
   // adds click listener on join and start new game buttons in modal
 
-  $("#start-game").on("click", startGame);
   $("#start-game").on("click", function () {
     $(".canvas").addClass("hidden");
     canvas.classList.remove("hidden");
     canvas.classList.add("canvas");
+    startGame();
   });
   $("#join-game").on("click", function () {
     $(".canvas").addClass("hidden");
@@ -44,7 +43,6 @@ $(document).ready(function () {
     fireCannon(window.gameInfo);
   });
 
-  // document.body.appendChild(canvas);
   $(".mainRow").append(canvas);
   //begin matter.js logic
 
@@ -97,8 +95,6 @@ $(document).ready(function () {
       visible: false
     }
   });
-
-  console.log(launchPlatformA);
 
   cannonB = Bodies.rectangle(1000, 355, 75, 70, {
     isStatic: true,
