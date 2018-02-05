@@ -4,9 +4,6 @@ window.gameInfo = {
   opponent: "playerTwo",
 };
 
-/* var angle = 0; */
-/* var power = 0; */
-
 function joinGame(newGameId, db) {
   db.ref("games/" + newGameId).once("value").then(function (snap) {
     if (snap.val()) {
@@ -42,14 +39,12 @@ function fireCannon(gameInfo) {
   var angleInput;
   var powerInput;
 
-  // physics
   if (gameInfo.player === "playerOne") {
     angleInput = Number($("#aRange").val());
     powerInput = Number($("#pRange").val());
   } else {
     angleInput = Number($("#aRange2").val());
     powerInput = Number($("#pRange2").val());
-    console.log("Firing playerTwo cannon");
   }
 
   launchCannonBall(angleInput, powerInput);
@@ -76,7 +71,7 @@ function addOpponentListeners(gameInfo) {
     if (snapshot.val()) {
       opponentPower = snapshot.val();
       console.log("power", opponentPower);
-      //fire opponent cannon
+      launchOpponentCannonBall(opponentAngle, opponentPower);
     }
   });
 }

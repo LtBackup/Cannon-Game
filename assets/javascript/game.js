@@ -24,9 +24,6 @@ $(document).ready(function () {
   $("#fireButton").on("click", function () {
     fireCannon(window.gameInfo);
   });
-  $("#fireButton2").on("click", function () {
-    fireCannon(window.gameInfo);
-  });
 
   //create the canvas dimensions
   var canvas = document.createElement("canvas");
@@ -190,6 +187,19 @@ function launchCannonBall(angle, power) {
   }
 }
 
+function launchOpponentCannonBall(angle, power) {
+  var dampener = .001;
+  var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
+  var launchVector2 = Matter.Vector.create(-Math.sin(toRadians(angle)) * (power * dampener), -Math.cos(toRadians(angle)) * (power * dampener));
+
+  if (gameInfo.opponent === "playerOne") {
+    console.log("playerOne fired");
+    Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
+  } else {
+    console.log("playerTwo fired");
+    Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
+  }
+}
 
 // // an example of using collisionStart event on an engine
 // Events.on(engine, 'collisionStart', function (event) {
