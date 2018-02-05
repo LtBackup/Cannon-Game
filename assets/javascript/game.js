@@ -16,6 +16,8 @@ var cannonBallA,
 
 $(document).ready(function () {
   $(".overlay").addClass("opened");
+  // adds click listener on join and start new game buttons in modal
+
   $("#start-game").on("click", startGame);
   $("#join-game").on("click", function () {
     var newGameId = Number($("#game-id-field").val());
@@ -28,6 +30,8 @@ $(document).ready(function () {
     fireCannon(window.gameInfo);
   });
 
+  // TODO: add firebase listeners on opponent player's data change
+
   //create the canvas dimensions
   var canvas = document.createElement("canvas");
   var context = canvas.getContext("2d");
@@ -39,7 +43,6 @@ $(document).ready(function () {
   // // console.log(canvas);
   // document.body.appendChild(canvas);
   $(".mainRow").append(canvas);
-
   //begin matter.js logic
 
   // create a renderer
@@ -51,32 +54,126 @@ $(document).ready(function () {
       width: 1140,
       height: 500,
       showAngleIndicator: true,
-      showWireframes: true,
+      wireframes: false,
+      background: './assets/images/canvasbg.jpg'
     }
   });
 
-  cannonA = Bodies.rectangle(90, 360, 75, 64, { isStatic: true });
-  cannonA.label = "cannonA";
-  cannonB = Bodies.rectangle(1000, 360, 75, 64, { isStatic: true });
-  cannonB.label = "cannonB";
-  cannonBallA = Bodies.circle(90, 260, 16);
-  cannonBallA.label = "cannonBallA";
-  cannonBallA.friction = 1;
-  cannonBallA.restitution = 0;
-  cannonBallA.mass = 1.9444530819999999;
+  // define our categories (as bit fields, there are up to 32 available)
+  var defaultCategory = 0x0001,
+    playerOne = 0x0002,
+    playerTwo = 0x0004,
+    neutralPlatform = 0x0008;
+
+  var playerOneColor = '#C44D58',
+    playerTwoColor = '#4ECDC4';
+
+  //function createObjects(){
+  cannonA = Bodies.rectangle(90, 355, 75, 64, {
+    isStatic: true,
+    label: "cannonA",
+    collisionFilter: {
+      category: playerOne
+    },
+    render: {
+      sprite: {
+        texture: './assets/images/cannon.png'
+      }
+    }
+  });
+
+  launchPlatformA = Bodies.rectangle(90, 400, 50, 50, {
+    isStatic: true,
+    label: "launchPlatform",
+    friction: 1,
+    collisionFilter: {
+      category: neutralPlatform
+    },
+    render: {
+      fillStyle: 'transparent',
+      visible: false
+    }
+  });
+
+  console.log(launchPlatformA);
+
+  cannonB = Bodies.rectangle(1000, 355, 75, 70, {
+    isStatic: true,
+    label: "cannonB",
+    collisionFilter: {
+      category: playerTwo
+    },
+    render: {
+      sprite: {
+        texture: './assets/images/cannon2.png'
+      }
+    }
+  });
+
+  launchPlatformB = Bodies.rectangle(1000, 400, 60, 60, {
+    isStatic: true,
+    label: "launchPlatform",
+    friction: 1,
+    collisionFilter: {
+      category: neutralPlatform
+    },
+    render: {
+      fillStyle: 'transparent',
+      visible: false
+    }
+  });
+
+  cannonBallA = Bodies.circle(90, 260, 16, {
+    label: "cannonBallA",
+    friction: 1,
+    restitution: 0,
+    mass: 1.9444530819999999,
+    collisionFilter: {
+      mask: defaultCategory | playerTwo | neutralPlatform
+    },
+    render: {
+      fillStyle: playerOneColor,
+      sprite: {
+        texture: './assets/images/cannonball.png'
+      }
+    }
+  });
   cannonBallAOrigin = { x: cannonBallA.position.x, y: cannonBallA.position.y };
-  cannonBallB = Bodies.circle(1000, 250, 16);
-  cannonBallB.label = "cannonBallB";
-  cannonBallB.friction = 1;
-  cannonBallB.restitution = 0;
-  cannonBallB.mass = 1.9444530819999999;
+
+  cannonBallB = Bodies.circle(1000, 250, 16, {
+    label: "cannonBallB",
+    friction: 1,
+    restitution: 0,
+    mass: 1.9444530819999999,
+    collisionFilter: {
+      mask: defaultCategory | playerOne | neutralPlatform
+    },
+    render: {
+      fillStyle: playerOneColor,
+      sprite: {
+        texture: './assets/images/cannonball.png'
+      }
+    }
+  });
   cannonBallBOrigin = { x: cannonBallB.position.x, y: cannonBallB.position.y };
-  ground = Bodies.rectangle(570, 442, 1140, 100, { isStatic: true });
-  ground.label = "ground";
-  ground.friction = 1;
+
+  ground = Bodies.rectangle(570, 442, 1140, 100, {
+    isStatic: true,
+    label: "ground",
+    friction: 1,
+    collisionFilter: {
+      category: defaultCategory
+    },
+    render: {
+      fillStyle: 'transparent',
+      visible: false
+    }
+  });
 
   // add all of the bodies to the world
-  World.add(engine.world, [cannonA, cannonB, cannonBallA, cannonBallB, ground]);
+  World.add(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]);
+  //}
+
 
   // run the engine
   Engine.run(engine);
@@ -90,18 +187,21 @@ $(document).ready(function () {
     var pairs = event.pairs;
     for (var i = 0; i < pairs.length; i++) {
       var pair = pairs[i];
-      if (pair.bodyA.label === "cannonBallA" || pair.bodyB.label === "cannonBallA") {
+      //stops rolling motion if on launch platform
+      if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "launchPlatform") || (pair.bodyA.label === "launchPlatform" && pair.bodyB.label === "cannonBallA")) {
         Body.setVelocity(cannonBallA, { x: 0, y: 0 });
         Body.setAngularVelocity(cannonBallA, 0);
       }
-
-      //checks for impact with cannonB
+      if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "launchPlatform") || (pair.bodyA.label === "launchPlatform" && pair.bodyB.label === "cannonBallB")) {
+        Body.setVelocity(cannonBallB, { x: 0, y: 0 });
+        Body.setAngularVelocity(cannonBallB, 0);
+      }
+      //checks for impact with enemy cannons and ground
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "cannonB") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "cannonB")) {
         //TODO trigger explosion
         resetBallA();
         console.log("Player 1 wins");
       }
-      //checks for impact with cannonA
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "cannonA") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "cannonA")) {
         //TODO trigger explosion
         resetBallB();
@@ -111,52 +211,56 @@ $(document).ready(function () {
         resetBallA();
         console.log("miss");
       }
+      if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "ground")) {
+        resetBallB();
+        console.log("miss");
+      }
     }
   });
 
-   //-Player 1 controls________________________________
-   var angle; var power;
-   var pRange = document.getElementById("pRange");
-   var aRange = document.getElementById("aRange");
-   var p_output = document.getElementById("p-out");
-   var a_output = document.getElementById("a-out");
-   p_output.innerHTML = pRange.value;
-   a_output.innerHTML = aRange.value;
+  //-Player 1 controls________________________________
+  var angle; var power;
+  var pRange = document.getElementById("pRange");
+  var aRange = document.getElementById("aRange");
+  var p_output = document.getElementById("p-out");
+  var a_output = document.getElementById("a-out");
+  p_output.innerHTML = pRange.value;
+  a_output.innerHTML = aRange.value;
 
-   pRange.oninput = function () {
-       power = this.value;
-       p_output.innerHTML = power;
-       console.log("Power: ", typeof power);
-   }
-   aRange.oninput = function () {
-       angle = this.value;
-       a_output.innerHTML = angle;
-       console.log("Angle: ", angle);
-       Matter.Body.setAngle(cannonA, toRadians(angle) * -1);
-   }
-   //__________________________________________________
+  pRange.oninput = function () {
+    power = this.value;
+    p_output.innerHTML = power;
+    console.log("Power: ", typeof power);
+  }
+  aRange.oninput = function () {
+    angle = this.value;
+    a_output.innerHTML = angle;
+    console.log("Angle: ", angle);
+    Matter.Body.setAngle(cannonA, toRadians(angle) * -1);
+  }
+  //__________________________________________________
 
 
-   //-Player 2 controls________________________________
-   var angle2; var power2;
-   var pRange2 = document.getElementById("pRange2");
-   var aRange2 = document.getElementById("aRange2");
-   var p_output2 = document.getElementById("p-out2");
-   var a_output2 = document.getElementById("a-out2");
-   p_output2.innerHTML = pRange2.value;
-   a_output2.innerHTML = aRange2.value;
+  //-Player 2 controls________________________________
+  var angle2; var power2;
+  var pRange2 = document.getElementById("pRange2");
+  var aRange2 = document.getElementById("aRange2");
+  var p_output2 = document.getElementById("p-out2");
+  var a_output2 = document.getElementById("a-out2");
+  p_output2.innerHTML = pRange2.value;
+  a_output2.innerHTML = aRange2.value;
 
-   pRange2.oninput = function () {
-       power2 = this.value;
-       p_output2.innerHTML = power2;
-       console.log("Power2: ", power2);
-   }
-   aRange2.oninput = function () {
-       angle2 = this.value;
-       a_output2.innerHTML = angle2;
-       console.log("Angle2: ", angle2);
-       Matter.Body.setAngle(cannonB, toRadians(angle2));
-   }
+  pRange2.oninput = function () {
+    power2 = this.value;
+    p_output2.innerHTML = power2;
+    console.log("Power2: ", power2);
+  }
+  aRange2.oninput = function () {
+    angle2 = this.value;
+    a_output2.innerHTML = angle2;
+    console.log("Angle2: ", angle2);
+    Matter.Body.setAngle(cannonB, toRadians(angle2));
+  }
 });
 
 function toRadians(angle) {
@@ -168,16 +272,20 @@ function toDegrees(angle) {
 }
 
 function resetBallA() {
+  Body.setVelocity(cannonBallA, { x: 0, y: 0 });
+  Body.setAngularVelocity(cannonBallA, 0);
   Body.setPosition(cannonBallA, cannonBallAOrigin);
 }
 
 function resetBallB() {
+  Body.setVelocity(cannonBallB, { x: 0, y: 0 });
+  Body.setAngularVelocity(cannonBallB, 0);
   Body.setPosition(cannonBallB, cannonBallBOrigin);
 }
 
 //need to pass in the cannonball object for the active player
 function launchCannonBall(angle, power) {
-  var dampener = .001;
+  var dampener = .002;
   var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   var launchVector2 = Matter.Vector.create(-Math.sin(toRadians(angle)) * (power * dampener), -Math.cos(toRadians(angle)) * (power * dampener));
 
@@ -189,20 +297,3 @@ function launchCannonBall(angle, power) {
     Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
   }
 }
-
-
-// // an example of using collisionStart event on an engine
-// Events.on(engine, 'collisionStart', function (event) {
-//     var pairs = event.pairs;
-
-//     // change object colours to show those starting a collision
-//     for (var i = 0; i < pairs.length; i++) {
-//         var pair = pairs[i];
-//         pair.bodyA.render.fillStyle = '#333';
-//         pair.bodyB.render.fillStyle = '#333';
-//     }
-// });
-
-    //distance equation is ([velocity]^2*sin(2*angle))/grav
-
-// });
