@@ -20,17 +20,16 @@ $(document).ready(function () {
   //create the canvas dimensions
   var canvas = document.createElement("canvas");
   var context = canvas.getContext("2d");
-  console.log(canvas);
   canvas.className = "hidden";
   var element = document.getElementsByClassName("mainRow");
 
   // adds click listener on join and start new game buttons in modal
 
-  $("#start-game").on("click", startGame);
   $("#start-game").on("click", function () {
     $(".canvas").addClass("hidden");
     canvas.classList.remove("hidden");
     canvas.classList.add("canvas");
+    startGame();
   });
   $("#join-game").on("click", function () {
     $(".canvas").addClass("hidden");
@@ -44,7 +43,6 @@ $(document).ready(function () {
     fireCannon(window.gameInfo);
   });
 
-  // document.body.appendChild(canvas);
   $(".mainRow").append(canvas);
   //begin matter.js logic
 
@@ -97,8 +95,6 @@ $(document).ready(function () {
       visible: false
     }
   });
-
-  console.log(launchPlatformA);
 
   cannonB = Bodies.rectangle(1000, 355, 75, 70, {
     isStatic: true,
@@ -289,7 +285,7 @@ function resetBallB() {
 function launchCannonBall(angle, power) {
   var dampener = .002;
   var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
-  var launchVector2 = Matter.Vector.create(-Math.sin(toRadians(angle)) * (power * dampener), -Math.cos(toRadians(angle)) * (power * dampener));
+  var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   if (gameInfo.player === "playerOne") {
     console.log("playerOne fired");
     Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
@@ -302,7 +298,7 @@ function launchCannonBall(angle, power) {
 function launchOpponentCannonBall(angle, power) {
   var dampener = .002;
   var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
-  var launchVector2 = Matter.Vector.create(-Math.sin(toRadians(angle)) * (power * dampener), -Math.cos(toRadians(angle)) * (power * dampener));
+  var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   if (gameInfo.opponent === "playerOne") {
     console.log("playerOne fired");
     Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);

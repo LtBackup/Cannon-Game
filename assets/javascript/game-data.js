@@ -39,7 +39,6 @@ function fireCannon(gameInfo) {
   var gameId = gameInfo.gameId;
   var angleInput;
   var powerInput;
-
   if (gameInfo.player === "playerOne") {
     angleInput = Number($("#aRange").val());
     powerInput = Number($("#pRange").val());
@@ -47,7 +46,6 @@ function fireCannon(gameInfo) {
     angleInput = Number($("#aRange2").val());
     powerInput = Number($("#pRange2").val());
   }
-
   launchCannonBall(angleInput, powerInput);
   updateAnglePower(gameId, currentPlayer, angleInput, powerInput);
   incrementShotsFired(gameId, currentPlayer);
@@ -58,21 +56,26 @@ function addOpponentListeners(gameInfo) {
   var gameId = gameInfo.gameId;
   var opponentAngleRef = database.ref("games/" + gameId + "/" + opponent + "/angle");
   var opponentPowerRef = database.ref("games/" + gameId + "/" + opponent + "/power");
-
-  opponentAngleRef.on("value", function (snapshot) {
-    if (snapshot.val()) {
-      opponentAngle = snapshot.val();
-      if (opponent === "playerOne") {
-        Matter.Body.setAngle(cannonA, toRadians(opponentAngle) * -1);
-      } else {
-        Matter.Body.setAngle(cannonB, toRadians(opponentAngle));
-      }
-    }
-  });
-  opponentPowerRef.on("value", function (snapshot) {
-    if (snapshot.val()) {
-      opponentPower = snapshot.val();
-      launchOpponentCannonBall(opponentAngle, opponentPower);
+  var opponentShotsRef = database.ref("games/" + gameId + "/" + opponent + "/shotsFired");
+  opponentShotsRef.on("value", function(shotsSnap) {
+    if(shotsSnap.val()){
+      // checks for opponent angle input
+      opponentAngleRef.once("value").then(function (angleSnap) {
+        var opponentAngle = 0;
+        var opponentPower = 0;
+        opponentAngle = angleSnap.val();
+        if (opponent === "playerOne") {
+          Matter.Body.setAngle(cannonA, toRadians(opponentAngle) * -1);
+        } else {
+          Matter.Body.setAngle(cannonB, toRadians(opponentAngle));
+        }
+        // checks for opponent power input
+        opponentPowerRef.once("value").then(function (powerSnap) {
+          opponentPower = powerSnap.val();
+          launchOpponentCannonBall(opponentAngle, opponentPower);
+        });
+      });
     }
   });
 }
+
