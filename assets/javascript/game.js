@@ -16,31 +16,41 @@ var cannonBallA,
 
 $(document).ready(function () {
   $(".overlay").addClass("opened");
-  $("#start-game").on("click", startGame);
-  $("#join-game").on("click", function () {
-    var newGameId = Number($("#game-id-field").val());
-    joinGame(newGameId, database);
-  });
-  $(".fireButton").on("click", function () {
-    fireCannon(window.gameInfo);
-  });
 
   //create the canvas dimensions
   var canvas = document.createElement("canvas");
   var context = canvas.getContext("2d");
-  canvas.className = "canvas";
+  console.log(canvas);
+  canvas.className = "hidden";
   var element = document.getElementsByClassName("mainRow");
 
-  // canvas.width = 2000;
-  // canvas.height = 1500;
-  // // console.log(canvas);
+  // adds click listener on join and start new game buttons in modal
+
+  $("#start-game").on("click", startGame);
+  $("#start-game").on("click", function () {
+    $(".canvas").addClass("hidden");
+    canvas.classList.remove("hidden");
+    canvas.classList.add("canvas");
+  });
+  $("#join-game").on("click", function () {
+    $(".canvas").addClass("hidden");
+    canvas.classList.remove("hidden");
+    canvas.classList.add("canvas");
+    var newGameId = Number($("#game-id-field").val());
+    joinGame(newGameId, database);
+  });
+  
+  $(".fireButton").on("click", function () {
+    fireCannon(window.gameInfo);
+  });
+
   // document.body.appendChild(canvas);
   $(".mainRow").append(canvas);
   //begin matter.js logic
 
   // create a renderer
   var render = Render.create({
-    element: document.body,
+    element: element,
     engine: engine,
     canvas: canvas,
     options: {
