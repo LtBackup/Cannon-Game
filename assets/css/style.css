@@ -282,7 +282,6 @@ h1 {
 }
 .slideBar:hover, .slideBar2:hover {
     opacity: 1;
-    background: white;
     
 }
 .controls {
