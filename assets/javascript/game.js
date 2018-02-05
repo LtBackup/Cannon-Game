@@ -205,13 +205,13 @@ $(document).ready(function () {
     pRange.oninput = function () {
         power = this.value;
         p_output.innerHTML = power;
-        console.log("Power: ", power);
+        console.log("Power: ", typeof power);
     }
     aRange.oninput = function () {
         angle = this.value;
         a_output.innerHTML = angle;
         console.log("Angle: ", angle);
-        Matter.Body.setAngle(cannonA, toRadians(angle));
+        Matter.Body.setAngle(cannonA, toRadians(angle) * -1);
     }
     //__________________________________________________
 
@@ -234,7 +234,7 @@ $(document).ready(function () {
         angle2 = this.value;
         a_output2.innerHTML = angle2;
         console.log("Angle2: ", angle2);
-        Matter.Body.setAngle(cannonB, toRadians(-angle2));
+        Matter.Body.setAngle(cannonB, toRadians(angle2));
     }
 });
 
@@ -260,26 +260,15 @@ function resetBallB() {
 
 //need to pass in the cannonball object for the active player
 function launchCannonBall(angle, power) {
-    console.log("fired");
     var dampener = .001;
     var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
+    var launchVector2 = Matter.Vector.create(-Math.sin(toRadians(angle)) * (power * dampener), -Math.cos(toRadians(angle)) * (power * dampener));
 
-    Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
+    if (gameInfo.player === "playerOne") {
+        console.log("playerOne fired");
+        Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
+    } else {
+        console.log("playerTwo fired");
+        Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
+    }
 }
-
-
-// // an example of using collisionStart event on an engine
-// Events.on(engine, 'collisionStart', function (event) {
-//     var pairs = event.pairs;
-
-//     // change object colours to show those starting a collision
-//     for (var i = 0; i < pairs.length; i++) {
-//         var pair = pairs[i];
-//         pair.bodyA.render.fillStyle = '#333';
-//         pair.bodyB.render.fillStyle = '#333';
-//     }
-// });
-
-    //distance equation is ([velocity]^2*sin(2*angle))/grav
-
-// });
