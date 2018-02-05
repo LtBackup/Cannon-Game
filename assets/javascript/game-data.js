@@ -61,16 +61,11 @@ function addOpponentListeners(gameInfo) {
   opponentAngleRef.on("value", function (snapshot) {
     if (snapshot.val()) {
       opponentAngle = snapshot.val();
-      console.log("opponent took turn - ");
-      console.log("angle", opponentAngle);
-      //fire opponent cannon
     }
   });
-
   opponentPowerRef.on("value", function (snapshot) {
     if (snapshot.val()) {
       opponentPower = snapshot.val();
-      console.log("power", opponentPower);
       launchOpponentCannonBall(opponentAngle, opponentPower);
     }
   });
