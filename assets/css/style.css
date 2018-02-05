@@ -35,6 +35,15 @@ h1 {
     cursor: default;
 }
 
+.info {
+    text-align: center;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 800;
+    text-shadow: 2px 2px 5px #000;
+    margin-bottom: 10px;
+}
+
 .canvas {
     /* margin: 0 auto; */
     margin-left: 30px;
