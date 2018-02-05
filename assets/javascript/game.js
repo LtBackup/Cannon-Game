@@ -21,10 +21,10 @@ $(document).ready(function () {
     var newGameId = Number($("#game-id-field").val());
     joinGame(newGameId, database);
   });
-  $("#fireButton").on("click", function () {
+  $(".fireButton").on("click", function () {
     fireCannon(window.gameInfo);
   });
-  
+
   //create the canvas dimensions
   var canvas = document.createElement("canvas");
   var context = canvas.getContext("2d");
