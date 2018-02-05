@@ -28,8 +28,6 @@ $(document).ready(function () {
     fireCannon(window.gameInfo);
   });
 
-  // TODO: add firebase listeners on opponent player's data change
-
   //create the canvas dimensions
   var canvas = document.createElement("canvas");
   var context = canvas.getContext("2d");
