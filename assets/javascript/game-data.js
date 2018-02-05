@@ -46,16 +46,14 @@ function fireCannon(gameInfo) {
   if (gameInfo.player === "playerOne") {
     angleInput = Number($("#aRange").val());
     powerInput = Number($("#pRange").val());
-    launchCannonBall(angleInput, powerInput);
   } else {
     angleInput = Number($("#aRange2").val());
     powerInput = Number($("#pRange2").val());
     console.log("Firing playerTwo cannon");
-    // fire playerTwo cannon fn;
   }
 
+  launchCannonBall(angleInput, powerInput);
   updateAnglePower(gameId, currentPlayer, angleInput, powerInput);
-
   incrementShotsFired(gameId, currentPlayer);
 }
 

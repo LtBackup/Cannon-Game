@@ -16,8 +16,6 @@ var cannonBallA,
 
 $(document).ready(function () {
   $(".overlay").addClass("opened");
-  // adds click listener on join and start new game buttons in modal
-
   $("#start-game").on("click", startGame);
   $("#join-game").on("click", function () {
     var newGameId = Number($("#game-id-field").val());
@@ -179,11 +177,17 @@ function resetBallB() {
 
 //need to pass in the cannonball object for the active player
 function launchCannonBall(angle, power) {
-  console.log("fired");
   var dampener = .001;
   var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
+  var launchVector2 = Matter.Vector.create(-Math.sin(toRadians(angle)) * (power * dampener), -Math.cos(toRadians(angle)) * (power * dampener));
 
-  Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
+  if (gameInfo.player === "playerOne") {
+    console.log("playerOne fired");
+    Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
+  } else {
+    console.log("playerTwo fired");
+    Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
+  }
 }
 
 
