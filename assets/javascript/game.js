@@ -16,21 +16,14 @@ var cannonBallA,
 
 $(document).ready(function () {
   $(".overlay").addClass("opened");
-  // adds click listener on join and start new game buttons in modal
-
   $("#start-game").on("click", startGame);
   $("#join-game").on("click", function () {
     var newGameId = Number($("#game-id-field").val());
     joinGame(newGameId, database);
   });
-  $("#fireButton").on("click", function () {
+  $(".fireButton").on("click", function () {
     fireCannon(window.gameInfo);
   });
-  $("#fireButton2").on("click", function () {
-    fireCannon(window.gameInfo);
-  });
-
-  // TODO: add firebase listeners on opponent player's data change
 
   //create the canvas dimensions
   var canvas = document.createElement("canvas");
@@ -283,13 +276,24 @@ function resetBallB() {
   Body.setPosition(cannonBallB, cannonBallBOrigin);
 }
 
-//need to pass in the cannonball object for the active player
 function launchCannonBall(angle, power) {
   var dampener = .002;
   var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   var launchVector2 = Matter.Vector.create(-Math.sin(toRadians(angle)) * (power * dampener), -Math.cos(toRadians(angle)) * (power * dampener));
-
   if (gameInfo.player === "playerOne") {
+    console.log("playerOne fired");
+    Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
+  } else {
+    console.log("playerTwo fired");
+    Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
+  }
+}
+
+function launchOpponentCannonBall(angle, power) {
+  var dampener = .002;
+  var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
+  var launchVector2 = Matter.Vector.create(-Math.sin(toRadians(angle)) * (power * dampener), -Math.cos(toRadians(angle)) * (power * dampener));
+  if (gameInfo.opponent === "playerOne") {
     console.log("playerOne fired");
     Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
   } else {
