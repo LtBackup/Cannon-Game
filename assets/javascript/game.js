@@ -121,6 +121,50 @@ $(document).ready(function () {
       }
     }
   });
+
+   //-Player 1 controls________________________________
+   var angle; var power;
+   var pRange = document.getElementById("pRange");
+   var aRange = document.getElementById("aRange");
+   var p_output = document.getElementById("p-out");
+   var a_output = document.getElementById("a-out");
+   p_output.innerHTML = pRange.value;
+   a_output.innerHTML = aRange.value;
+
+   pRange.oninput = function () {
+       power = this.value;
+       p_output.innerHTML = power;
+       console.log("Power: ", power);
+   }
+   aRange.oninput = function () {
+       angle = this.value;
+       a_output.innerHTML = angle;
+       console.log("Angle: ", angle);
+       Matter.Body.setAngle(cannonA, toRadians(angle));
+   }
+   //__________________________________________________
+
+
+   //-Player 2 controls________________________________
+   var angle2; var power2;
+   var pRange2 = document.getElementById("pRange2");
+   var aRange2 = document.getElementById("aRange2");
+   var p_output2 = document.getElementById("p-out2");
+   var a_output2 = document.getElementById("a-out2");
+   p_output2.innerHTML = pRange2.value;
+   a_output2.innerHTML = aRange2.value;
+
+   pRange2.oninput = function () {
+       power2 = this.value;
+       p_output2.innerHTML = power2;
+       console.log("Power2: ", power2);
+   }
+   aRange2.oninput = function () {
+       angle2 = this.value;
+       a_output2.innerHTML = angle2;
+       console.log("Angle2: ", angle2);
+       Matter.Body.setAngle(cannonB, toRadians(-angle2));
+   }
 });
 
 function toRadians(angle) {
@@ -147,6 +191,7 @@ function launchCannonBall(angle, power) {
 
   Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
 }
+
 
 // // an example of using collisionStart event on an engine
 // Events.on(engine, 'collisionStart', function (event) {
