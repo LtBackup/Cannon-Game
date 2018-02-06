@@ -17,6 +17,14 @@ var cannonBallA,
 $(document).ready(function () {
   $(".overlay").addClass("opened");
 
+  //Set sound effects as an object (Needs to be an object to use with jQuery_________
+  var audio = {
+    cannonSound : new Audio("assets/sounds/cannonShot.mp3"),
+    winSound : new Audio("assets/sounds/explosion.mp3"),
+    missSound : new Audio("assets/sounds/thump.mp3")
+  };
+  //______________________________________________
+  
   //create the canvas dimensions
   var canvas = document.createElement("canvas");
   var context = canvas.getContext("2d");
@@ -41,6 +49,7 @@ $(document).ready(function () {
   
   $(".fireButton").on("click", function () {
     fireCannon(window.gameInfo);
+    audio.cannonSound.play();
   });
 
   $(".mainRow").append(canvas);
@@ -200,19 +209,23 @@ $(document).ready(function () {
         //TODO trigger explosion
         resetBallA();
         alertPOneWin(window.gameInfo);
+        audio.winSound.play();//This will play the winning sound when p1 wins.
         console.log("1 win");
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "cannonA") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "cannonA")) {
         //TODO trigger explosion
         resetBallB();
         console.log("2 win");
+        audio.winSound.play();//This will play the winning sound when p2 wins.
         alertPTwoWin(window.gameInfo);
       }
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "ground")) {
+        audio.missSound.play();//This will play the miss sound when p1 misses.
         resetBallA();
         alertPOneMiss(window.gameInfo);
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "ground")) {
+        audio.missSound.play();//This will play the miss sound when p2 misses.
         resetBallB();
         alertPTwoMiss(window.gameInfo);
       }

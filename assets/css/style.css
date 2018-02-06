@@ -317,6 +317,9 @@ hr {
     margin: 0px;
     padding: 0px; 
 }
+h3 {
+    font-size: 21px;
+}
 
 .player-alerts {
   text-align: center;
