@@ -53,8 +53,8 @@ $(document).ready(function () {
     engine: engine,
     canvas: canvas,
     options: {
-      width: 3420,
-      height: 1500,
+      width: 2280,
+      height: 1000,
       //pixelRatio: "auto",
       hasBounds: true,
       showAngleIndicator: true,
@@ -72,14 +72,13 @@ $(document).ready(function () {
   var playerOneColor = '#C44D58',
     playerTwoColor = '#4ECDC4';
 
-  var playerOnePosition = Math.floor(Math.random()*(render.options.width *.15) + render.options.width *.05);
-  var playerTwoPosition = Math.floor(Math.random()*(render.options.width *.15) + render.options.width *.80);
-  var groundHeight = render.options.height * .3;
+  var playerOnePosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.02);
+  var playerTwoPosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.70);
+  var groundHeight = (render.options.height * .3)/2;
   var groundPosition = render.options.height - groundHeight;
-  ;
 
   //function createObjects(){
-  cannonA = Bodies.rectangle(playerOnePosition, groundPosition + 5, 75, 70, {
+  cannonA = Bodies.rectangle(playerOnePosition, groundPosition - 20, 75, 70, {
     isStatic: true,
     label: "cannonA",
     collisionFilter: {
@@ -92,7 +91,7 @@ $(document).ready(function () {
     }
   });
 
-  launchPlatformA = Bodies.rectangle(playerOnePosition, groundPosition + 50, 60, 60, {
+  launchPlatformA = Bodies.rectangle(playerOnePosition, groundPosition + 25, 60, 60, {
     isStatic: true,
     label: "launchPlatform",
     friction: 1,
@@ -105,7 +104,7 @@ $(document).ready(function () {
     }
   });
 
-  cannonB = Bodies.rectangle(playerTwoPosition, groundPosition + 5, 75, 70, {
+  cannonB = Bodies.rectangle(playerTwoPosition, groundPosition -20, 75, 70, {
     isStatic: true,
     label: "cannonB",
     collisionFilter: {
@@ -118,7 +117,7 @@ $(document).ready(function () {
     }
   });
 
-  launchPlatformB = Bodies.rectangle(playerTwoPosition, groundPosition + 50, 60, 60, {
+  launchPlatformB = Bodies.rectangle(playerTwoPosition, groundPosition + 25, 60, 60, {
     isStatic: true,
     label: "launchPlatform",
     friction: 1,
@@ -131,7 +130,7 @@ $(document).ready(function () {
     }
   });
 
-  cannonBallA = Bodies.circle(playerOnePosition, 310, 16, {
+  cannonBallA = Bodies.circle(playerOnePosition, 5+16, 16, {
     label: "cannonBallA",
     friction: 1,
     frictionAir: 0,
@@ -149,7 +148,7 @@ $(document).ready(function () {
   });
   cannonBallAOrigin = { x: cannonBallA.position.x, y: cannonBallA.position.y };
 
-  cannonBallB = Bodies.circle(playerTwoPosition, 310, 16, {
+  cannonBallB = Bodies.circle(playerTwoPosition, 5+16, 16, {
     label: "cannonBallB",
     friction: 1,
     frictionAir: 0,
@@ -167,7 +166,7 @@ $(document).ready(function () {
   });
   cannonBallBOrigin = { x: cannonBallB.position.x, y: cannonBallB.position.y };
 
-  ground = Bodies.rectangle(render.options.width*.5, render.options.height, render.options.width * 2, groundHeight, {
+  ground = Bodies.rectangle(render.options.width*.5, render.options.height, render.options.width * 2, groundHeight*2, {
     isStatic: true,
     label: "ground",
     friction: 1,
@@ -193,6 +192,7 @@ $(document).ready(function () {
 
   // create runner
   var runner = Runner.create();
+  runner.delta = 1000/30;
   Runner.run(runner, engine);
 
   // Checks to see if the active collision involves the cannonball and stops it from spinning if so
