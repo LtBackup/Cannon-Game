@@ -193,26 +193,28 @@ $(document).ready(function () {
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "launchPlatform") || (pair.bodyA.label === "launchPlatform" && pair.bodyB.label === "cannonBallB")) {
         Body.setVelocity(cannonBallB, { x: 0, y: 0 });
-        Body.setAngularVelocity(cannonBallB, 0);
+        Body.setAngularVelocity(cannonBallB, 0)
       }
       //checks for impact with enemy cannons and ground
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "cannonB") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "cannonB")) {
         //TODO trigger explosion
         resetBallA();
-        console.log("Player 1 wins");
+        alertPOneWin(window.gameInfo);
+        console.log("1 win");
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "cannonA") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "cannonA")) {
         //TODO trigger explosion
         resetBallB();
-        console.log("Player 2 wins");
+        console.log("2 win");
+        alertPTwoWin(window.gameInfo);
       }
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "ground")) {
         resetBallA();
-        console.log("miss");
+        alertPOneMiss(window.gameInfo);
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "ground")) {
         resetBallB();
-        console.log("miss");
+        alertPTwoMiss(window.gameInfo);
       }
     }
   });
