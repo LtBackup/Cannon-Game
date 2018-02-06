@@ -2,6 +2,7 @@ var cannonBallA,
   Body,
   Engine = Matter.Engine,
   Render = Matter.Render,
+  Runner = Matter.Runner,
   World = Matter.World,
   Bodies = Matter.Bodies,
   Body = Matter.Body,
@@ -179,6 +180,10 @@ $(document).ready(function () {
 
   // run the renderer
   Render.run(render);
+
+  // create runner
+  var runner = Runner.create();
+  Runner.run(runner, engine);
 
   // Checks to see if the active collision involves the cannonball and stops it from spinning if so
 
