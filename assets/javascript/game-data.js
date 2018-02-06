@@ -29,7 +29,6 @@ function startGame() {
   };
   createNewGame(newGameId);
   $(".overlay").addClass("hidden");
-  // alert("Welcome Player One.\nYour new game id is " + window.gameInfo.gameId);
   $(".info").text("Welcome Player 1. Your new game id is " + window.gameInfo.gameId);
   addOpponentListeners(window.gameInfo);
 }

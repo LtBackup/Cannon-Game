@@ -320,3 +320,13 @@ hr {
 h3 {
     font-size: 21px;
 }
+
+.player-alerts {
+  text-align: center;
+}
+
+.alert-box {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
