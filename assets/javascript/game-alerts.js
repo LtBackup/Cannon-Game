@@ -24,6 +24,7 @@ function alertPOneWin(gameInfo) {
 }
 
 function alertPTwoWin(gameInfo) {
+  placeReloadButton();
   if (gameInfo.player === "playerTwo") {
     $(".player-alerts").text("You WIN!")
   } else {
@@ -34,7 +35,7 @@ function alertPTwoWin(gameInfo) {
 function placeReloadButton() {
   $("#control-box").empty();
   var alertDiv = $("<div>");
-  alertDiv.addClass("col-md-4 col-md-offset-4");
+  alertDiv.addClass("col-md-4 col-md-offset-4 alert-box");
   var alertP = $("<p>");
   alertP.addClass("player-alerts");
   var playAgainBtn = $("<button>");
