@@ -53,8 +53,10 @@ $(document).ready(function () {
     engine: engine,
     canvas: canvas,
     options: {
-      width: 1140,
-      height: 500,
+      width: 3420,
+      height: 1500,
+      //pixelRatio: "auto",
+      hasBounds: true,
       showAngleIndicator: true,
       wireframes: false,
       background: './assets/images/canvasbg.jpg'
@@ -70,8 +72,14 @@ $(document).ready(function () {
   var playerOneColor = '#C44D58',
     playerTwoColor = '#4ECDC4';
 
+  var playerOnePosition = Math.floor(Math.random()*(render.options.width *.15) + render.options.width *.05);
+  var playerTwoPosition = Math.floor(Math.random()*(render.options.width *.15) + render.options.width *.80);
+  var groundHeight = render.options.height * .3;
+  var groundPosition = render.options.height - groundHeight;
+  ;
+
   //function createObjects(){
-  cannonA = Bodies.rectangle(90, 355, 75, 64, {
+  cannonA = Bodies.rectangle(playerOnePosition, groundPosition + 5, 75, 70, {
     isStatic: true,
     label: "cannonA",
     collisionFilter: {
@@ -84,7 +92,7 @@ $(document).ready(function () {
     }
   });
 
-  launchPlatformA = Bodies.rectangle(90, 400, 50, 50, {
+  launchPlatformA = Bodies.rectangle(playerOnePosition, groundPosition + 50, 60, 60, {
     isStatic: true,
     label: "launchPlatform",
     friction: 1,
@@ -93,11 +101,11 @@ $(document).ready(function () {
     },
     render: {
       fillStyle: 'transparent',
-      visible: false
+      visible: true
     }
   });
 
-  cannonB = Bodies.rectangle(1000, 355, 75, 70, {
+  cannonB = Bodies.rectangle(playerTwoPosition, groundPosition + 5, 75, 70, {
     isStatic: true,
     label: "cannonB",
     collisionFilter: {
@@ -110,7 +118,7 @@ $(document).ready(function () {
     }
   });
 
-  launchPlatformB = Bodies.rectangle(1000, 400, 60, 60, {
+  launchPlatformB = Bodies.rectangle(playerTwoPosition, groundPosition + 50, 60, 60, {
     isStatic: true,
     label: "launchPlatform",
     friction: 1,
@@ -119,13 +127,14 @@ $(document).ready(function () {
     },
     render: {
       fillStyle: 'transparent',
-      visible: false
+      visible: true
     }
   });
 
-  cannonBallA = Bodies.circle(90, 260, 16, {
+  cannonBallA = Bodies.circle(playerOnePosition, 310, 16, {
     label: "cannonBallA",
     friction: 1,
+    frictionAir: 0,
     restitution: 0,
     mass: 1.9444530819999999,
     collisionFilter: {
@@ -140,9 +149,10 @@ $(document).ready(function () {
   });
   cannonBallAOrigin = { x: cannonBallA.position.x, y: cannonBallA.position.y };
 
-  cannonBallB = Bodies.circle(1000, 250, 16, {
+  cannonBallB = Bodies.circle(playerTwoPosition, 310, 16, {
     label: "cannonBallB",
     friction: 1,
+    frictionAir: 0,
     restitution: 0,
     mass: 1.9444530819999999,
     collisionFilter: {
@@ -157,7 +167,7 @@ $(document).ready(function () {
   });
   cannonBallBOrigin = { x: cannonBallB.position.x, y: cannonBallB.position.y };
 
-  ground = Bodies.rectangle(570, 442, 1140, 100, {
+  ground = Bodies.rectangle(render.options.width*.5, render.options.height, render.options.width * 2, groundHeight, {
     isStatic: true,
     label: "ground",
     friction: 1,
@@ -166,7 +176,7 @@ $(document).ready(function () {
     },
     render: {
       fillStyle: 'transparent',
-      visible: false
+      visible: true
     }
   });
 
@@ -288,7 +298,7 @@ function resetBallB() {
 }
 
 function launchCannonBall(angle, power) {
-  var dampener = .002;
+  var dampener = .003;
   var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   if (gameInfo.player === "playerOne") {
