@@ -193,7 +193,7 @@ $(document).ready(function () {
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "launchPlatform") || (pair.bodyA.label === "launchPlatform" && pair.bodyB.label === "cannonBallB")) {
         Body.setVelocity(cannonBallB, { x: 0, y: 0 });
-        Body.setAngularVelocity(cannonBallB, 0);
+        Body.setAngularVelocity(cannonBallB, 0)
       }
       //checks for impact with enemy cannons and ground
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "cannonB") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "cannonB")) {
@@ -208,11 +208,13 @@ $(document).ready(function () {
       }
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "ground")) {
         resetBallA();
-        console.log("miss");
+        /* console.log("miss"); */
+        alertPOneMiss(window.gameInfo);
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "ground")) {
         resetBallB();
-        console.log("miss");
+        /* console.log("miss"); */
+        alertPTwoMiss(window.gameInfo);
       }
     }
   });
