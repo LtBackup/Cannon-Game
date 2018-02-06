@@ -17,6 +17,14 @@ var cannonBallA,
 $(document).ready(function () {
   $(".overlay").addClass("opened");
 
+  //Set sound effects as an object (Needs to be an object to use with jQuery_________
+  var audio = {
+    cannonSound = new Audio("assets/sounds/cannonShot.mp3"),
+    winSound = new Audio("assets/sounds/cannonShot.mp3"),
+    missSound = new Audio("assets/sounds/cannonShot.mp3")
+  };
+  //______________________________________________
+  
   //create the canvas dimensions
   var canvas = document.createElement("canvas");
   var context = canvas.getContext("2d");
@@ -41,6 +49,7 @@ $(document).ready(function () {
   
   $(".fireButton").on("click", function () {
     fireCannon(window.gameInfo);
+    cannonSound.play();
   });
 
   $(".mainRow").append(canvas);
