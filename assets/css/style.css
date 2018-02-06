@@ -1,18 +1,18 @@
-
+@import url('https://fonts.googleapis.com/css?family=Questrial');
 body, html, .container {
-    background: #c2c2c2;
+    /* background: #d8d8d8; */
+    background-image: url("../images/gray.jpg");
     color: white;
     height: 100%;
     font-family: 'Open Sans', sans-serif;
    }
 .container.mainContent {
     min-width: 1160px;
-    border-left: 2px solid #888;;
-    border-right: 2px solid #888;
-    border-bottom: 2px solid #888;
-    background-image: url("../images/darkGreen.jpeg");
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border: 1px solid rgb(22, 22, 29);
+    /* background: radial-gradient(rgb(17, 190, 1) 15%, rgb(2, 163, 23) 30%, rgb(0, 73, 0) 80%); */
+    background-size: cover;
+    background-image: url("../images/blue.jpg");
+    border-radius: 10px;
     overflow: hidden;
 }
 
@@ -23,15 +23,20 @@ hr {
 h1 {
     font-family: 'Press Start 2P', cursive;
     text-transform: uppercase;
-    text-shadow: 2px 2px 5px #000;
+    text-shadow: 0px 1px 0px rgb(163, 162, 162), 
+                0px 2px 0px #888, 
+                0px 3px 0px #777, 
+                0px 4px 0px #666, 
+                0px 5px 0px #555, 
+                0px 6px 0px #444, 
+                0px 7px 0px #333, 
+                0px 8px 7px #001135;
 }
-
 .title-header {
     font-family: 'Press Start 2P', cursive;
     font-size: 78px;
     font-weight: bold;
     text-align: center;
-    margin-bottom:40px;
     cursor: default;
 }
 
@@ -47,7 +52,7 @@ h1 {
 .canvas {
     /* margin: 0 auto; */
     margin-left: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     background-color: rgb(247, 245, 245);
     border: 1px solid #888;
     width: 1140px;
@@ -92,12 +97,11 @@ h1 {
 }
 
 .fireButton {
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 800;
     line-height: 1;
-    margin-top: 5px;
     padding: 10px; 
-    background-color: #9b3636;
+    background-color: #881515;
     color: #fff;
     text-shadow: 2px 2px 5px #000;
     transition: 0.2s;
@@ -164,10 +168,10 @@ h1 {
     position:absolute;
     top: 50%;
     left: 50%;
-    background-image: url("../images/bg.png");
+    background: radial-gradient(rgb(17, 190, 1) 15%, rgb(2, 163, 23) 30%, rgb(0, 73, 0) 80%);
     width: 440px;
     height: 252px;    
-    border: 2px solid #000;
+    border: 1px solid rgb(255, 255, 255);
     border-radius: 10px;
     text-align: center;
     padding: 1% 0;
@@ -256,48 +260,49 @@ h1 {
 .slideBar {
     -webkit-appearance: none;
     width: 600px;
-    height: 22px;
+    height: 10px;
     border-radius: 10px;
-    border: solid 2px white;
+    border: solid 1px white;
     background: rgba(243, 16, 16, 0.616);
     outline: none;
-    opacity: 0.7;
+    opacity: 0.9;
 }
 .slideBar::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    border: solid 2px white;
+    width: 20px;
+    height: 30px;
+    border-radius: 10%;
+    border: solid 1px white;
     background: rgb(243, 30, 30);
     cursor: pointer;
 }
 .slideBar2 {
     -webkit-appearance: none;
     width: 600px;
-    height: 22px;
+    height: 10px;
     border-radius: 10px;
-    border: solid 2px white;
-    background: #2432f89a;
+    border: solid 1px white;
+    background: #0f19a3;
     outline: none;
-    opacity: 0.7;
+    opacity: 0.9;
 }
 .slideBar2::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    border: solid 2px white;
+    width: 20px;
+    height: 30px;
+    border-radius: 10%;
+    border: solid 1px white;
     background: #2432f8;
     cursor: pointer;
 }
 .slideBar:hover, .slideBar2:hover {
     opacity: 1;
-    background: white;
     
 }
 .controls {
-    background: linear-gradient(-90deg, rgb(17, 20, 66), rgb(22, 21, 92));
-    min-height: 50%;
-    padding: 15px;
+    background: rgba(11, 23, 53, 0.688);
+    padding: 0px 15px 15px;
+    margin: 0px 10px 10px;
+    border-radius: 10px;
+    font-family: 'Questrial', sans-serif;
 }
