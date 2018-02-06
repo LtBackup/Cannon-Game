@@ -15,8 +15,13 @@ var cannonBallA,
   // create an engine
   engine = Engine.create();
 
+var wind = true;
+var tempGravity = -1;
+
 $(document).ready(function () {
   $(".overlay").addClass("opened");
+  // var windSpeed = getWindSpeed().wind.speed;
+  // console.log(windspeed);
 
   //Set sound effects as an object (Needs to be an object to use with jQuery_________
   var audio = {
@@ -50,6 +55,12 @@ $(document).ready(function () {
   
   $(".fireButton").on("click", function () {
     fireCannon(window.gameInfo);
+    if (gameInfo.player === "playerOne") {
+      cannonBallA.isStatic = false;
+    }
+    else {
+      cannonBallB.isStatic = false;
+    }
     audio.cannonSound.play();
   });
 
@@ -212,10 +223,12 @@ $(document).ready(function () {
       var pair = pairs[i];
       //stops rolling motion if on launch platform
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "launchPlatform") || (pair.bodyA.label === "launchPlatform" && pair.bodyB.label === "cannonBallA")) {
+        cannonBallA.isStatic = true;
         Body.setVelocity(cannonBallA, { x: 0, y: 0 });
         Body.setAngularVelocity(cannonBallA, 0);
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "launchPlatform") || (pair.bodyA.label === "launchPlatform" && pair.bodyB.label === "cannonBallB")) {
+        cannonBallB.isStatic = true;
         Body.setVelocity(cannonBallB, { x: 0, y: 0 });
         Body.setAngularVelocity(cannonBallB, 0)
       }
@@ -303,12 +316,14 @@ function toDegrees(angle) {
 function resetBallA() {
   Body.setVelocity(cannonBallA, { x: 0, y: 0 });
   Body.setAngularVelocity(cannonBallA, 0);
+  engine.world.gravity.x = 0;
   Body.setPosition(cannonBallA, cannonBallAOrigin);
 }
 
 function resetBallB() {
   Body.setVelocity(cannonBallB, { x: 0, y: 0 });
   Body.setAngularVelocity(cannonBallB, 0);
+  engine.world.gravity.x = 0;
   Body.setPosition(cannonBallB, cannonBallBOrigin);
 }
 
@@ -318,9 +333,15 @@ function launchCannonBall(angle, power) {
   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   if (gameInfo.player === "playerOne") {
     console.log("playerOne fired");
+    if(wind) {
+      engine.world.gravity.x = tempGravity;
+    }
     Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
   } else {
     console.log("playerTwo fired");
+    if(wind) {
+      engine.world.gravity.x = tempGravity;
+    }
     Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
   }
 }
@@ -331,9 +352,15 @@ function launchOpponentCannonBall(angle, power) {
   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   if (gameInfo.opponent === "playerOne") {
     console.log("playerOne fired");
+    if(wind) {
+      engine.world.gravity.x = tempGravity;
+    }
     Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
   } else {
     console.log("playerTwo fired");
+    if(wind) {
+      engine.world.gravity.x = tempGravity;
+    }
     Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
   }
 }
