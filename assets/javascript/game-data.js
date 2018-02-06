@@ -14,6 +14,7 @@ function joinGame(newGameId, db) {
       };
       $(".overlay").addClass("hidden");
       addOpponentListeners(window.gameInfo);
+      hideOppControls(window.gameInfo);
     } else {
       alert("Please enter a valid id or start a new game");
     };
@@ -30,7 +31,16 @@ function startGame() {
   createNewGame(newGameId);
   $(".overlay").addClass("hidden");
   $(".info").text("Welcome Player 1. Your new game id is " + window.gameInfo.gameId);
+  hideOppControls(window.gameInfo);
   addOpponentListeners(window.gameInfo);
+}
+
+function hideOppControls(gameInfo) {
+  if(gameInfo.player === "playerOne") {
+    $("#player-two-controls").addClass("invisible");
+  } else {
+    $("#player-one-controls").addClass("invisible");
+  }
 }
 
 function fireCannon(gameInfo) {
