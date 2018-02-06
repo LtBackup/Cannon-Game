@@ -306,3 +306,7 @@ h1 {
     border-radius: 10px;
     font-family: 'Questrial', sans-serif;
 }
+
+.player-alerts {
+  text-align: center;
+}

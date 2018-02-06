@@ -20,6 +20,8 @@ function alertPOneWin(gameInfo) {
   } else {
     $(".info").text("You LOSE...")
   }
+  placeReloadButton();
+  hideControls();
 }
 
 function alertPTwoWin(gameInfo) {
@@ -28,4 +30,18 @@ function alertPTwoWin(gameInfo) {
   } else {
     $(".info").text("You LOSE...")
   }
+  placeReloadButton();
+  hideControls();
+}
+
+function placeReloadButton() {
+  $("#play-again-placeholder").html("<button id='play-again-btn' class='fireButton'>PLAY AGAIN</button>");
+  $("#play-again-btn").on("click", function() {
+    location.reload();
+  });
+}
+
+function hideControls() {
+  $("#player-one-controls").hide();
+  $("#player-two-controls").hide();
 }
