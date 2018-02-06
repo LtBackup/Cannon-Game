@@ -175,7 +175,7 @@ $(document).ready(function () {
   });
   cannonBallBOrigin = { x: cannonBallB.position.x, y: cannonBallB.position.y };
 
-  ground = Bodies.rectangle(render.options.width*.5, render.options.height, render.options.width * 2, groundHeight*2, {
+  ground = Bodies.rectangle(render.options.width*.5, render.options.height, render.options.width * 5, groundHeight*2, {
     isStatic: true,
     label: "ground",
     friction: 1,
