@@ -15,33 +15,38 @@ function alertPTwoMiss(gameInfo) {
 }
 
 function alertPOneWin(gameInfo) {
-  if (gameInfo.player === "playerOne") {
-    $(".info").text("You WIN!")
-  } else {
-    $(".info").text("You LOSE...")
-  }
   placeReloadButton();
-  hideControls();
+  if (gameInfo.player === "playerOne") {
+    $(".player-alerts").text("You WIN!")
+  } else {
+    $(".player-alerts").text("You LOSE...")
+  }
 }
 
 function alertPTwoWin(gameInfo) {
   if (gameInfo.player === "playerTwo") {
-    $(".info").text("You WIN!")
+    $(".player-alerts").text("You WIN!")
   } else {
-    $(".info").text("You LOSE...")
+    $(".player-alerts").text("You LOSE...")
   }
-  placeReloadButton();
-  hideControls();
 }
 
 function placeReloadButton() {
-  $("#play-again-placeholder").html("<button id='play-again-btn' class='fireButton'>PLAY AGAIN</button>");
+  $("#control-box").empty();
+  var alertDiv = $("<div>");
+  alertDiv.addClass("col-md-4 col-md-offset-4");
+  var alertP = $("<p>");
+  alertP.addClass("player-alerts");
+  var playAgainBtn = $("<button>");
+  playAgainBtn.attr("id", "play-again-btn");
+  playAgainBtn.addClass("fireButton");
+  playAgainBtn.text("PLAY AGAIN");
+  alertDiv.append(alertP);
+  alertDiv.append(playAgainBtn);
+  $("#control-box").append(alertDiv);
   $("#play-again-btn").on("click", function() {
     location.reload();
   });
+  $(".info").empty();
 }
 
-function hideControls() {
-  $("#player-one-controls").hide();
-  $("#player-two-controls").hide();
-}

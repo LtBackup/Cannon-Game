@@ -200,10 +200,12 @@ $(document).ready(function () {
         //TODO trigger explosion
         resetBallA();
         alertPOneWin(window.gameInfo);
+        console.log("1 win");
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "cannonA") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "cannonA")) {
         //TODO trigger explosion
         resetBallB();
+        console.log("2 win");
         alertPTwoWin(window.gameInfo);
       }
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "ground")) {
