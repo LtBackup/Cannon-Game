@@ -14,6 +14,7 @@ function joinGame(newGameId, db) {
         opponent: "playerOne",
       };
       $(".overlay").addClass("hidden");
+      placeCannons(window.gameInfo)
       addOpponentListeners(window.gameInfo);
       hideOppControls(window.gameInfo);
     } else {
@@ -33,6 +34,7 @@ function startGame() {
   createNewGame(newGameId);
   $(".overlay").addClass("hidden");
   $(".info").text("Welcome Player 1. Your new game id is " + window.gameInfo.gameId);
+  placeCannons(window.gameInfo)
   hideOppControls(window.gameInfo);
   addOpponentListeners(window.gameInfo);
 }
@@ -90,3 +92,18 @@ function addOpponentListeners(gameInfo) {
   });
 }
 
+function placeCannons(gameInfo) {
+  if (gameInfo.player === "playerOne") {
+    playerOnePosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.02);
+    playerTwoPosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.70);
+    updatePositions(gameInfo);
+    createObjects(playerOnePosition, playerTwoPosition);
+  } else {
+    var gameRef = database.ref("games/" + gameInfo.gameId + "/" + gameInfo.opponent);
+    gameRef.once("value").then(function (snapshot) {
+      playerOnePosition = snapshot.val().playerOnePos;
+      playerTwoPosition = snapshot.val().playerTwoPos;
+      createObjects(playerOnePosition, playerTwoPosition);
+    });
+  }
+}

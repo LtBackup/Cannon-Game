@@ -12,6 +12,8 @@ var cannonBallA,
   cannonA,
   cannonBallAOrigin,
   cannonBallBOrigin,
+  launchPlatformA,
+  launchPlatformB,
   // create an engine
   engine = Engine.create();
 var world = engine.world;
@@ -21,20 +23,45 @@ var direction = "";
 var canvasbg = "./assets/images/canvasbg.jpg";
 var dirs = ["east", "west"];
 
+// decides direction of wind and sets the canvas background accordingly
+direction = dirs[Math.floor(Math.random() * dirs.length)];
+if (direction === "west") {
+  canvasbg = "./assets/images/canvasbgwestwind.jpg";
+}
+else if (direction === "east") {
+  canvasbg = "./assets/images/canvasbgeastwind.jpg";
+}
+else {
+  canvasbg = canvasbg;
+}
+
+//create the canvas dimensions
+var canvas = document.createElement("canvas");
+var context = canvas.getContext("2d");
+canvas.className = "hidden";
+var element = document.getElementsByClassName("mainRow");
+var render = Render.create({
+  element: element,
+  engine: engine,
+  canvas: canvas,
+  options: {
+    width: 2280,
+    height: 1000,
+    //pixelRatio: "auto",
+    hasBounds: true,
+    showAngleIndicator: true,
+    wireframes: false,
+    background: canvasbg
+  }
+});
+var playerOnePosition = 0;
+var playerTwoPosition = 0;
+var groundHeight = (render.options.height * .3) / 2;
+var groundPosition = render.options.height - groundHeight;
+var ground;
+
 $(document).ready(function () {
   $(".overlay").addClass("opened");
-
-  // decides direction of wind and sets the canvas background accordingly
-  direction = dirs[Math.floor(Math.random() * dirs.length)];
-  if (direction === "west") {
-    canvasbg = "./assets/images/canvasbgwestwind.jpg";
-  }
-  else if (direction === "east") {
-    canvasbg = "./assets/images/canvasbgeastwind.jpg";
-  }
-  else {
-    canvasbg = canvasbg;
-  }
 
   //Set sound effects as an object (Needs to be an object to use with jQuery_________
   var audio = {
@@ -44,11 +71,11 @@ $(document).ready(function () {
   };
   //______________________________________________
 
-  //create the canvas dimensions
-  var canvas = document.createElement("canvas");
-  var context = canvas.getContext("2d");
-  canvas.className = "hidden";
-  var element = document.getElementsByClassName("mainRow");
+  /* //create the canvas dimensions */
+  /* var canvas = document.createElement("canvas"); */
+  /* var context = canvas.getContext("2d"); */
+  /* canvas.className = "hidden"; */
+  /* var element = document.getElementsByClassName("mainRow"); */
 
   // adds click listener on join and start new game buttons in modal
 
@@ -56,6 +83,9 @@ $(document).ready(function () {
     $(".canvas").addClass("hidden");
     canvas.classList.remove("hidden");
     canvas.classList.add("canvas");
+    // conditional re: wind option
+    // if wind = true, make ajax call then start game
+    // if wind = false, just start game
     // wind logic  
     getWindSpeed();
     startGame();
@@ -82,150 +112,12 @@ $(document).ready(function () {
   });
 
   $(".mainRow").append(canvas);
-  //begin matter.js logic
-
-  // create a renderer
-  var render = Render.create({
-    element: element,
-    engine: engine,
-    canvas: canvas,
-    options: {
-      width: 2280,
-      height: 1000,
-      //pixelRatio: "auto",
-      hasBounds: true,
-      showAngleIndicator: true,
-      wireframes: false,
-      background: canvasbg
-    }
-  });
 
   // make the world bounds a little bigger than the render bounds
   world.bounds.min.x = -300;
   world.bounds.min.y = -300;
   world.bounds.max.x = render.options.width + 300;
   world.bounds.max.y = render.options.height + 300;
-
-  // define our categories (as bit fields, there are up to 32 available)
-  var defaultCategory = 0x0001,
-    playerOne = 0x0002,
-    playerTwo = 0x0004,
-    neutralPlatform = 0x0008;
-
-  var playerOneColor = '#C44D58',
-    playerTwoColor = '#4ECDC4';
-
-  var playerOnePosition = Math.floor(Math.random() * (render.options.width * .28) + render.options.width * .02);
-  var playerTwoPosition = Math.floor(Math.random() * (render.options.width * .28) + render.options.width * .70);
-  var groundHeight = (render.options.height * .3) / 2;
-  var groundPosition = render.options.height - groundHeight;
-
-  //function createObjects(){
-  cannonA = Bodies.rectangle(playerOnePosition, groundPosition - 20, 75, 70, {
-    isStatic: true,
-    label: "cannonA",
-    collisionFilter: {
-      category: playerOne
-    },
-    render: {
-      sprite: {
-        texture: './assets/images/cannon.png'
-      }
-    }
-  });
-
-  launchPlatformA = Bodies.rectangle(playerOnePosition, groundPosition + 25, 60, 60, {
-    isStatic: true,
-    label: "launchPlatform",
-    friction: 1,
-    collisionFilter: {
-      category: neutralPlatform
-    },
-    render: {
-      fillStyle: 'transparent',
-      visible: true
-    }
-  });
-
-  cannonB = Bodies.rectangle(playerTwoPosition, groundPosition - 20, 75, 70, {
-    isStatic: true,
-    label: "cannonB",
-    collisionFilter: {
-      category: playerTwo
-    },
-    render: {
-      sprite: {
-        texture: './assets/images/cannon2.png'
-      }
-    }
-  });
-
-  launchPlatformB = Bodies.rectangle(playerTwoPosition, groundPosition + 25, 60, 60, {
-    isStatic: true,
-    label: "launchPlatform",
-    friction: 1,
-    collisionFilter: {
-      category: neutralPlatform
-    },
-    render: {
-      fillStyle: 'transparent',
-      visible: true
-    }
-  });
-
-  cannonBallA = Bodies.circle(playerOnePosition, render.options.height - (5 + 16 + groundHeight), 16, {
-    label: "cannonBallA",
-    friction: 1,
-    frictionAir: 0,
-    restitution: 0,
-    mass: 1.9444530819999999,
-    collisionFilter: {
-      mask: defaultCategory | playerTwo | neutralPlatform
-    },
-    render: {
-      fillStyle: playerOneColor,
-      sprite: {
-        texture: './assets/images/cannonball.png'
-      }
-    }
-  });
-  cannonBallAOrigin = { x: cannonBallA.position.x, y: cannonBallA.position.y };
-
-  cannonBallB = Bodies.circle(playerTwoPosition, render.options.height - (5 + 16 + groundHeight), 16, {
-    label: "cannonBallB",
-    friction: 1,
-    frictionAir: 0,
-    restitution: 0,
-    mass: 1.9444530819999999,
-    collisionFilter: {
-      mask: defaultCategory | playerOne | neutralPlatform
-    },
-    render: {
-      fillStyle: playerOneColor,
-      sprite: {
-        texture: './assets/images/cannonball.png'
-      }
-    }
-  });
-  cannonBallBOrigin = { x: cannonBallB.position.x, y: cannonBallB.position.y };
-
-  ground = Bodies.rectangle(render.options.width * .5, render.options.height, render.options.width * 5, groundHeight * 2, {
-    isStatic: true,
-    label: "ground",
-    friction: 1,
-    collisionFilter: {
-      category: defaultCategory
-    },
-    render: {
-      fillStyle: 'transparent',
-      visible: true
-    }
-  });
-
-  // add all of the bodies to the world
-  World.add(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]);
-  //}
-
 
   // run the engine
   Engine.run(engine);
@@ -284,10 +176,12 @@ $(document).ready(function () {
   });
 
   Events.on(engine, 'afterTick', function () {
-    if (cannonBallA.position.x > world.bounds.max.x || cannonBallA.position.x < world.bounds.min.x)
-      resetBallA();
-    if (cannonBallB.position.x > world.bounds.max.x || cannonBallB.position.x < world.bounds.min.x)
-      resetBallB();
+    if (cannonBallA && cannonBallB) {
+      if (cannonBallA.position.x > world.bounds.max.x || cannonBallA.position.x < world.bounds.min.x)
+        resetBallA();
+      if (cannonBallB.position.x > world.bounds.max.x || cannonBallB.position.x < world.bounds.min.x)
+        resetBallB();
+    }
   });
 
   //-Player 1 controls________________________________
@@ -331,6 +225,7 @@ $(document).ready(function () {
   }
 });
 
+// TODO: enclose following code in module
 function toRadians(angle) {
   return angle * (Math.PI / 180);
 }
@@ -378,12 +273,14 @@ function launchOpponentCannonBall(angle, power) {
   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   if (gameInfo.opponent === "playerOne") {
     console.log("playerOne fired");
+    cannonBallA.isStatic = false;
     if (gameInfo.wind) {
       engine.world.gravity.x = newGravity;
     }
     Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
   } else {
     console.log("playerTwo fired");
+    cannonBallB.isStatic = false;
     if (gameInfo.wind) {
       engine.world.gravity.x = newGravity;
     }
