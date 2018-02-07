@@ -2,7 +2,7 @@ window.gameInfo = {
   player: "playerOne",
   gameId: 1,
   opponent: "playerTwo",
-  wind: true
+  wind: false
 };
 
 function joinGame(newGameId, db) {
@@ -29,7 +29,7 @@ function startGame() {
     player: "playerOne",
     gameId: newGameId,
     opponent: "playerTwo",
-    wind: true
+    wind: false
   };
   createNewGame(newGameId);
   $(".overlay").addClass("hidden");
@@ -45,6 +45,14 @@ function hideOppControls(gameInfo) {
   } else {
     $("#player-one-controls").addClass("invisible");
   }
+}
+
+function setWindFlag (value) {
+  gameInfo.wind = value;
+}
+
+function getWind() {
+  return gameInfo.wind;
 }
 
 function fireCannon(gameInfo) {

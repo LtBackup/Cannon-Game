@@ -23,20 +23,6 @@ var direction = "";
 var canvasbg = "./assets/images/canvasbg.jpg";
 var dirs = ["east", "west"];
 
-// decides direction of wind and sets the canvas background accordingly
-direction = dirs[Math.floor(Math.random() * dirs.length)];
-  function setBackground(direction) {
-  if (direction === "west") {
-    canvasbg = "./assets/images/canvasbgwestwind.jpg";
-  }
-  else if (direction === "east") {
-    canvasbg = "./assets/images/canvasbgeastwind.jpg";
-  }
-  else {
-    canvasbg = canvasbg;
-  }
-}
-
 //create the canvas dimensions
 var canvas = document.createElement("canvas");
 var context = canvas.getContext("2d");
@@ -56,6 +42,7 @@ var render = Render.create({
     background: canvasbg
   }
 });
+
 var playerOnePosition = 0;
 var playerTwoPosition = 0;
 var groundHeight = (render.options.height * .3) / 2;
@@ -73,26 +60,40 @@ $(document).ready(function () {
   };
   //______________________________________________
 
-
   $("#start-game").on("click", function () {
-    $(".canvas").addClass("hidden");
-    canvas.classList.remove("hidden");
-    canvas.classList.add("canvas");
     // conditional re: wind option
     // if wind = true, make ajax call then start game
     // if wind = false, just start game
-    // wind logic  
-    getWindSpeed();
+    if($("#windcheckbox").is(":checked")) {
+      setWindFlag(true);
+      console.log("checked");
+
+      // defined in wind.js
+      // selects a random direction and sets the background based on the direction of wind
+      getWindSpeed();
+    }
+
+    // hide prerendered canvas and display the matter.js canvas
+    $(".canvas").addClass("hidden");
+    canvas.classList.remove("hidden");
+    canvas.classList.add("canvas");
     startGame();
   });
+
+  // adds click listener on join game button in modal
   $("#join-game").on("click", function () {
     $(".canvas").addClass("hidden");
     canvas.classList.remove("hidden");
     canvas.classList.add("canvas");
-    // wind logic  
-    getWindSpeed();
+
+    // TODO: Implement logic to warn user that his wind selection was ignored
     var newGameId = Number($("#game-id-field").val());
     joinGame(newGameId, database);
+  });
+
+   // adds click listener on settings button in modal
+  $("#settings").on("click", function() {
+    $(".checkbox").removeClass("hidden");
   });
 
   $(".fireButton").on("click", function () {
@@ -219,6 +220,11 @@ $(document).ready(function () {
     Matter.Body.setAngle(cannonB, toRadians(angle2));
   }
 });
+// END document.ready()
+
+// function renderCanvas() {
+
+// }
 
 // TODO: enclose following code in module
 function toRadians(angle) {
@@ -249,6 +255,7 @@ function launchCannonBall(angle, power) {
   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   if (gameInfo.player === "playerOne") {
     console.log("playerOne fired");
+    console.log("from here: " , gameInfo.wind);
     if (gameInfo.wind) {
       engine.world.gravity.x = newGravity;
     }
