@@ -14,6 +14,7 @@ var cannonBallA,
   cannonBallBOrigin,
   // create an engine
   engine = Engine.create();
+world = engine.world;
 
 var wind = true;
 var tempGravity = -1;
@@ -25,12 +26,12 @@ $(document).ready(function () {
 
   //Set sound effects as an object (Needs to be an object to use with jQuery_________
   var audio = {
-    cannonSound : new Audio("assets/sounds/cannonShot.mp3"),
-    winSound : new Audio("assets/sounds/explosion.mp3"),
-    missSound : new Audio("assets/sounds/thump.mp3")
+    cannonSound: new Audio("assets/sounds/cannonShot.mp3"),
+    winSound: new Audio("assets/sounds/explosion.mp3"),
+    missSound: new Audio("assets/sounds/thump.mp3")
   };
   //______________________________________________
-  
+
   //create the canvas dimensions
   var canvas = document.createElement("canvas");
   var context = canvas.getContext("2d");
@@ -52,7 +53,7 @@ $(document).ready(function () {
     var newGameId = Number($("#game-id-field").val());
     joinGame(newGameId, database);
   });
-  
+
   $(".fireButton").on("click", function () {
     fireCannon(window.gameInfo);
     if (gameInfo.player === "playerOne") {
@@ -83,6 +84,12 @@ $(document).ready(function () {
     }
   });
 
+  // make the world bounds a little bigger than the render bounds
+  world.bounds.min.x = -300;
+  world.bounds.min.y = -300;
+  world.bounds.max.x = render.options.width + 300;
+  world.bounds.max.y = render.options.height + 300;
+
   // define our categories (as bit fields, there are up to 32 available)
   var defaultCategory = 0x0001,
     playerOne = 0x0002,
@@ -92,9 +99,9 @@ $(document).ready(function () {
   var playerOneColor = '#C44D58',
     playerTwoColor = '#4ECDC4';
 
-  var playerOnePosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.02);
-  var playerTwoPosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.70);
-  var groundHeight = (render.options.height * .3)/2;
+  var playerOnePosition = Math.floor(Math.random() * (render.options.width * .28) + render.options.width * .02);
+  var playerTwoPosition = Math.floor(Math.random() * (render.options.width * .28) + render.options.width * .70);
+  var groundHeight = (render.options.height * .3) / 2;
   var groundPosition = render.options.height - groundHeight;
 
   //function createObjects(){
@@ -124,7 +131,7 @@ $(document).ready(function () {
     }
   });
 
-  cannonB = Bodies.rectangle(playerTwoPosition, groundPosition -20, 75, 70, {
+  cannonB = Bodies.rectangle(playerTwoPosition, groundPosition - 20, 75, 70, {
     isStatic: true,
     label: "cannonB",
     collisionFilter: {
@@ -150,7 +157,7 @@ $(document).ready(function () {
     }
   });
 
-  cannonBallA = Bodies.circle(playerOnePosition, 5+16, 16, {
+  cannonBallA = Bodies.circle(playerOnePosition, render.options.height - (5 + 16 + groundHeight), 16, {
     label: "cannonBallA",
     friction: 1,
     frictionAir: 0,
@@ -168,7 +175,7 @@ $(document).ready(function () {
   });
   cannonBallAOrigin = { x: cannonBallA.position.x, y: cannonBallA.position.y };
 
-  cannonBallB = Bodies.circle(playerTwoPosition, 5+16, 16, {
+  cannonBallB = Bodies.circle(playerTwoPosition, render.options.height - (5 + 16 + groundHeight), 16, {
     label: "cannonBallB",
     friction: 1,
     frictionAir: 0,
@@ -186,7 +193,7 @@ $(document).ready(function () {
   });
   cannonBallBOrigin = { x: cannonBallB.position.x, y: cannonBallB.position.y };
 
-  ground = Bodies.rectangle(render.options.width*.5, render.options.height, render.options.width * 2, groundHeight*2, {
+  ground = Bodies.rectangle(render.options.width * .5, render.options.height, render.options.width * 5, groundHeight * 2, {
     isStatic: true,
     label: "ground",
     friction: 1,
@@ -212,7 +219,7 @@ $(document).ready(function () {
 
   // create runner
   var runner = Runner.create();
-  runner.delta = 1000/30;
+  runner.delta = 1000 / 30;
   Runner.run(runner, engine);
 
   // Checks to see if the active collision involves the cannonball and stops it from spinning if so
@@ -257,6 +264,11 @@ $(document).ready(function () {
         resetBallB();
         alertPTwoMiss(window.gameInfo);
       }
+      // prevent the ball from moving outside the horizontal bounds
+      if (cannonBallA.position.x > world.bounds.max.x)
+        resetBallA();
+      if (cannonBallB.position.x < world.bounds.min.x)
+        resetBallB();
     }
   });
 
