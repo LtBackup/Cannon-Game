@@ -79,8 +79,6 @@ $(document).ready(function () {
   world.bounds.max.x = render.options.width + 300;
   world.bounds.max.y = render.options.height + 300;
 
-  console.log(world.bounds);
-
   // define our categories (as bit fields, there are up to 32 available)
   var defaultCategory = 0x0001,
     playerOne = 0x0002,
