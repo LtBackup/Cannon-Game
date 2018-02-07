@@ -17,7 +17,6 @@ function createNewGame(gameId) {
       angle: 0,
       power: 0,
       shotsFired: 0,
-      wind: false,
       playerOnePos: 0,
       playerTwoPos: 0,
       windInfo: {

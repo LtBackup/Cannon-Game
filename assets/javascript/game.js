@@ -61,20 +61,15 @@ $(document).ready(function () {
   //______________________________________________
 
   $("#start-game").on("click", function () {
-    // conditional re: wind option
-    // if wind = true, make ajax call then start game
-    // if wind = false, just start game
+    $(".canvas").addClass("hidden");
+    canvas.classList.remove("hidden");
+    canvas.classList.add("canvas");
+    startGame();
     if($("#windcheckbox").is(":checked")) {
       setWindFlag(true);
       console.log("checked");
       setWindOptions(window.gameInfo);
     }
-
-    // hide prerendered canvas and display the matter.js canvas
-    $(".canvas").addClass("hidden");
-    canvas.classList.remove("hidden");
-    canvas.classList.add("canvas");
-    startGame();
   });
 
   // adds click listener on join game button in modal

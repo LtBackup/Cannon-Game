@@ -62,7 +62,7 @@ function hideOppControls(gameInfo) {
 }
 
 function setWindFlag (value) {
-  gameInfo.wind = value;
+  window.gameInfo.wind = value;
 }
 
 function getWind() {
@@ -132,15 +132,8 @@ function placeCannons(gameInfo) {
 
 //only call if wind is true
 function setWindOptions(gameInfo) {
-  if (gameInfo.player === "playerOne") {
     direction = dirs[Math.floor(Math.random() * dirs.length)];
     getWindSpeed();
-  } else {
-    /* var gameRef = database.ref("games/" + gameInfo.gameId + "/playerOne/windInfo"); */
-    /* gameRef.once("value").then(function (snapshot) { */
-    /*   gameInfo.wind = true; */
-    /*   direction = snapshot.val().direction; */
-    /*   windSpeed = snapshot.val().speed; */
-  }
 }
+
 
