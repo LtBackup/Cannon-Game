@@ -67,10 +67,7 @@ $(document).ready(function () {
     if($("#windcheckbox").is(":checked")) {
       setWindFlag(true);
       console.log("checked");
-
-      // defined in wind.js
-      // selects a random direction and sets the background based on the direction of wind
-      getWindSpeed();
+      setWindOptions(window.gameInfo);
     }
 
     // hide prerendered canvas and display the matter.js canvas
