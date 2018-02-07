@@ -21,6 +21,7 @@ function alertPOneWin(gameInfo) {
   } else {
     $(".player-alerts").text("You LOSE...")
   }
+  resetGame(gameInfo);
 }
 
 function alertPTwoWin(gameInfo) {
@@ -30,6 +31,7 @@ function alertPTwoWin(gameInfo) {
   } else {
     $(".player-alerts").text("You LOSE...")
   }
+  resetGame(gameInfo);
 }
 
 function placeReloadButton() {
