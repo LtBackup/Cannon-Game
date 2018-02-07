@@ -12,8 +12,35 @@ var cannonBallA,
   cannonA,
   cannonBallAOrigin,
   cannonBallBOrigin,
+  launchPlatformA,
+  launchPlatformB,
   // create an engine
   engine = Engine.create();
+
+//create the canvas dimensions
+var canvas = document.createElement("canvas");
+var context = canvas.getContext("2d");
+canvas.className = "hidden";
+var element = document.getElementsByClassName("mainRow");
+var render = Render.create({
+    element: element,
+    engine: engine,
+    canvas: canvas,
+    options: {
+      width: 2280,
+      height: 1000,
+      //pixelRatio: "auto",
+      hasBounds: true,
+      showAngleIndicator: true,
+      wireframes: false,
+      background: './assets/images/canvasbg.jpg'
+    }
+  });
+var playerOnePosition = 0;
+var playerTwoPosition = 0;
+var groundHeight = (render.options.height * .3)/2;
+var groundPosition = render.options.height - groundHeight;
+var ground;
 
 $(document).ready(function () {
   $(".overlay").addClass("opened");
@@ -26,11 +53,11 @@ $(document).ready(function () {
   };
   //______________________________________________
   
-  //create the canvas dimensions
-  var canvas = document.createElement("canvas");
-  var context = canvas.getContext("2d");
-  canvas.className = "hidden";
-  var element = document.getElementsByClassName("mainRow");
+  /* //create the canvas dimensions */
+  /* var canvas = document.createElement("canvas"); */
+  /* var context = canvas.getContext("2d"); */
+  /* canvas.className = "hidden"; */
+  /* var element = document.getElementsByClassName("mainRow"); */
 
   // adds click listener on join and start new game buttons in modal
 
@@ -38,6 +65,9 @@ $(document).ready(function () {
     $(".canvas").addClass("hidden");
     canvas.classList.remove("hidden");
     canvas.classList.add("canvas");
+    // conditional re: wind option
+    // if wind = true, make ajax call then start game
+    // if wind = false, just start game
     startGame();
   });
   $("#join-game").on("click", function () {
@@ -57,139 +87,139 @@ $(document).ready(function () {
   //begin matter.js logic
 
   // create a renderer
-  var render = Render.create({
-    element: element,
-    engine: engine,
-    canvas: canvas,
-    options: {
-      width: 2280,
-      height: 1000,
-      //pixelRatio: "auto",
-      hasBounds: true,
-      showAngleIndicator: true,
-      wireframes: false,
-      background: './assets/images/canvasbg.jpg'
-    }
-  });
+  /* render = Render.create({ */
+  /*   element: element, */
+  /*   engine: engine, */
+  /*   canvas: canvas, */
+  /*   options: { */
+  /*     width: 2280, */
+  /*     height: 1000, */
+  /*     //pixelRatio: "auto", */
+  /*     hasBounds: true, */
+  /*     showAngleIndicator: true, */
+  /*     wireframes: false, */
+  /*     background: './assets/images/canvasbg.jpg' */
+  /*   } */
+  /* }); */
 
   // define our categories (as bit fields, there are up to 32 available)
-  var defaultCategory = 0x0001,
-    playerOne = 0x0002,
-    playerTwo = 0x0004,
-    neutralPlatform = 0x0008;
+  /* var defaultCategory = 0x0001, */
+  /*   playerOne = 0x0002, */
+  /*   playerTwo = 0x0004, */
+  /*   neutralPlatform = 0x0008; */
 
-  var playerOneColor = '#C44D58',
-    playerTwoColor = '#4ECDC4';
+  /* var playerOneColor = '#C44D58', */
+  /*   playerTwoColor = '#4ECDC4'; */
 
-  var playerOnePosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.02);
-  var playerTwoPosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.70);
-  var groundHeight = (render.options.height * .3)/2;
-  var groundPosition = render.options.height - groundHeight;
+  /* var playerOnePosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.02); */
+  /* var playerTwoPosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.70); */
+  /* var groundHeight = (render.options.height * .3)/2; */
+  /* var groundPosition = render.options.height - groundHeight; */
 
-  //function createObjects(){
-  cannonA = Bodies.rectangle(playerOnePosition, groundPosition - 20, 75, 70, {
-    isStatic: true,
-    label: "cannonA",
-    collisionFilter: {
-      category: playerOne
-    },
-    render: {
-      sprite: {
-        texture: './assets/images/cannon.png'
-      }
-    }
-  });
+  /* //function createObjects(){ */
+  /* cannonA = Bodies.rectangle(playerOnePosition, groundPosition - 20, 75, 70, { */
+  /*   isStatic: true, */
+  /*   label: "cannonA", */
+  /*   collisionFilter: { */
+  /*     category: playerOne */
+  /*   }, */
+  /*   render: { */
+  /*     sprite: { */
+  /*       texture: './assets/images/cannon.png' */
+  /*     } */
+  /*   } */
+  /* }); */
 
-  launchPlatformA = Bodies.rectangle(playerOnePosition, groundPosition + 25, 60, 60, {
-    isStatic: true,
-    label: "launchPlatform",
-    friction: 1,
-    collisionFilter: {
-      category: neutralPlatform
-    },
-    render: {
-      fillStyle: 'transparent',
-      visible: true
-    }
-  });
+  /* launchPlatformA = Bodies.rectangle(playerOnePosition, groundPosition + 25, 60, 60, { */
+  /*   isStatic: true, */
+  /*   label: "launchPlatform", */
+  /*   friction: 1, */
+  /*   collisionFilter: { */
+  /*     category: neutralPlatform */
+  /*   }, */
+  /*   render: { */
+  /*     fillStyle: 'transparent', */
+  /*     visible: true */
+  /*   } */
+  /* }); */
 
-  cannonB = Bodies.rectangle(playerTwoPosition, groundPosition -20, 75, 70, {
-    isStatic: true,
-    label: "cannonB",
-    collisionFilter: {
-      category: playerTwo
-    },
-    render: {
-      sprite: {
-        texture: './assets/images/cannon2.png'
-      }
-    }
-  });
+  /* cannonB = Bodies.rectangle(playerTwoPosition, groundPosition -20, 75, 70, { */
+  /*   isStatic: true, */
+  /*   label: "cannonB", */
+  /*   collisionFilter: { */
+  /*     category: playerTwo */
+  /*   }, */
+  /*   render: { */
+  /*     sprite: { */
+  /*       texture: './assets/images/cannon2.png' */
+  /*     } */
+  /*   } */
+  /* }); */
 
-  launchPlatformB = Bodies.rectangle(playerTwoPosition, groundPosition + 25, 60, 60, {
-    isStatic: true,
-    label: "launchPlatform",
-    friction: 1,
-    collisionFilter: {
-      category: neutralPlatform
-    },
-    render: {
-      fillStyle: 'transparent',
-      visible: true
-    }
-  });
+  /* launchPlatformB = Bodies.rectangle(playerTwoPosition, groundPosition + 25, 60, 60, { */
+  /*   isStatic: true, */
+  /*   label: "launchPlatform", */
+  /*   friction: 1, */
+  /*   collisionFilter: { */
+  /*     category: neutralPlatform */
+  /*   }, */
+  /*   render: { */
+  /*     fillStyle: 'transparent', */
+  /*     visible: true */
+  /*   } */
+  /* }); */
 
-  cannonBallA = Bodies.circle(playerOnePosition, 5+16, 16, {
-    label: "cannonBallA",
-    friction: 1,
-    frictionAir: 0,
-    restitution: 0,
-    mass: 1.9444530819999999,
-    collisionFilter: {
-      mask: defaultCategory | playerTwo | neutralPlatform
-    },
-    render: {
-      fillStyle: playerOneColor,
-      sprite: {
-        texture: './assets/images/cannonball.png'
-      }
-    }
-  });
-  cannonBallAOrigin = { x: cannonBallA.position.x, y: cannonBallA.position.y };
+  /* cannonBallA = Bodies.circle(playerOnePosition, 5+16, 16, { */
+  /*   label: "cannonBallA", */
+  /*   friction: 1, */
+  /*   frictionAir: 0, */
+  /*   restitution: 0, */
+  /*   mass: 1.9444530819999999, */
+  /*   collisionFilter: { */
+  /*     mask: defaultCategory | playerTwo | neutralPlatform */
+  /*   }, */
+  /*   render: { */
+  /*     fillStyle: playerOneColor, */
+  /*     sprite: { */
+  /*       texture: './assets/images/cannonball.png' */
+  /*     } */
+  /*   } */
+  /* }); */
+  /* cannonBallAOrigin = { x: cannonBallA.position.x, y: cannonBallA.position.y }; */
 
-  cannonBallB = Bodies.circle(playerTwoPosition, 5+16, 16, {
-    label: "cannonBallB",
-    friction: 1,
-    frictionAir: 0,
-    restitution: 0,
-    mass: 1.9444530819999999,
-    collisionFilter: {
-      mask: defaultCategory | playerOne | neutralPlatform
-    },
-    render: {
-      fillStyle: playerOneColor,
-      sprite: {
-        texture: './assets/images/cannonball.png'
-      }
-    }
-  });
-  cannonBallBOrigin = { x: cannonBallB.position.x, y: cannonBallB.position.y };
+  /* cannonBallB = Bodies.circle(playerTwoPosition, 5+16, 16, { */
+  /*   label: "cannonBallB", */
+  /*   friction: 1, */
+  /*   frictionAir: 0, */
+  /*   restitution: 0, */
+  /*   mass: 1.9444530819999999, */
+  /*   collisionFilter: { */
+  /*     mask: defaultCategory | playerOne | neutralPlatform */
+  /*   }, */
+  /*   render: { */
+  /*     fillStyle: playerOneColor, */
+  /*     sprite: { */
+  /*       texture: './assets/images/cannonball.png' */
+  /*     } */
+  /*   } */
+  /* }); */
+  /* cannonBallBOrigin = { x: cannonBallB.position.x, y: cannonBallB.position.y }; */
 
-  ground = Bodies.rectangle(render.options.width*.5, render.options.height, render.options.width * 2, groundHeight*2, {
-    isStatic: true,
-    label: "ground",
-    friction: 1,
-    collisionFilter: {
-      category: defaultCategory
-    },
-    render: {
-      fillStyle: 'transparent',
-      visible: true
-    }
-  });
+  /* ground = Bodies.rectangle(render.options.width*.5, render.options.height, render.options.width * 2, groundHeight*2, { */
+  /*   isStatic: true, */
+  /*   label: "ground", */
+  /*   friction: 1, */
+  /*   collisionFilter: { */
+  /*     category: defaultCategory */
+  /*   }, */
+  /*   render: { */
+  /*     fillStyle: 'transparent', */
+  /*     visible: true */
+  /*   } */
+  /* }); */
 
   // add all of the bodies to the world
-  World.add(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]);
+  /* World.add(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]); */
   //}
 
 
@@ -326,7 +356,7 @@ function launchCannonBall(angle, power) {
 }
 
 function launchOpponentCannonBall(angle, power) {
-  var dampener = .002;
+  var dampener = .003;
   var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   if (gameInfo.opponent === "playerOne") {

@@ -16,7 +16,10 @@ function createNewGame(gameId) {
     playerOne: {
       angle: 0,
       power: 0,
-      shotsFired: 0
+      shotsFired: 0,
+      wind: false,
+      playerOnePos: 0,
+      playerTwoPos: 0
     },
     playerTwo: {
       angle: 0,
@@ -47,3 +50,45 @@ function updateShotsFired(gameId, player, updatedShots) {
   var newValue = { shotsFired: updatedShots, }
   gameRef.update(newValue);
 }
+
+function resetGame(gameInfo) {
+  if (gameInfo.player === "playerOne") {
+    database.ref('games/' + gameInfo.gameId + "/" + gameInfo.player).update({
+      angle: 0,
+      power: 0,
+      shotsFired: 0,
+      playerOnePos: 0,
+      playerTwoPos: 0,
+    });
+  } else {
+    database.ref('games/' + gameInfo.gameId + "/" + gameInfo.player).update({
+      angle: 0,
+      power: 0,
+      shotsFired: 0,
+    });
+  }
+}
+
+function updatePositions(gameInfo) {
+  database.ref('games/' + gameInfo.gameId + "/" + gameInfo.player).update({
+    playerOnePos: playerOnePosition,
+    playerTwoPos: playerTwoPosition,
+  });
+}  
+
+
+/* function placeCannons(gameInfo) { */
+/*   if (gameInfo.player === "playerOne") { */
+/*     playerOnePosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.02); */
+/*     playerTwoPosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.70); */
+/*     updatePositions(gameInfo); */
+/*     createObjects(playerOnePostion, playerTwoPosition); */
+/*   } else { */
+/*     var gameRef = database.ref("games/" + gameId + "/" + player); */
+/*     gameRef.once("value").then(function (snapshot) { */
+/*       playerOnePosition = snapshot.val().playerOnePos; */
+/*       playerTwoPosition = snapshot.val().playerTwoPos; */
+/*       createObjects(playerOnePostion, playerTwoPosition); */
+/*     }); */
+/*   } */
+/* } */
