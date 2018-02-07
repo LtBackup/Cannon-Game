@@ -119,7 +119,7 @@ $(document).ready(function () {
   Runner.run(runner, engine);
 
   // Checks to see if the active collision involves the cannonball and stops it from spinning if so
-
+  
   Events.on(engine, "collisionActive", function (event) {
     var pairs = event.pairs;
     for (var i = 0; i < pairs.length; i++) {
@@ -171,6 +171,8 @@ $(document).ready(function () {
         resetBallB();
     }
   });
+
+  
 
   //-Player 1 controls________________________________
   var angle; var power;

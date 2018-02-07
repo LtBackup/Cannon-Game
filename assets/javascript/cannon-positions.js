@@ -9,6 +9,7 @@ function createObjects(playerOnePostion, playerTwoPosition) {
   
   cannonA = Bodies.rectangle(playerOnePosition, groundPosition - 20, 75, 70, {
     isStatic: true,
+    isSensor: true,
     label: "cannonA",
     collisionFilter: {
       category: playerOne
@@ -35,6 +36,7 @@ function createObjects(playerOnePostion, playerTwoPosition) {
 
   cannonB = Bodies.rectangle(playerTwoPosition, groundPosition -20, 75, 70, {
     isStatic: true,
+    isSensor: true,
     label: "cannonB",
     collisionFilter: {
       category: playerTwo
@@ -97,6 +99,7 @@ function createObjects(playerOnePostion, playerTwoPosition) {
 
   ground = Bodies.rectangle(render.options.width*.5, render.options.height, render.options.width * 2, groundHeight*2, {
     isStatic: true,
+    isSensor: true,
     label: "ground",
     friction: 1,
     collisionFilter: {
