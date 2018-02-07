@@ -23,45 +23,45 @@ var direction = "";
 var canvasbg = "./assets/images/canvasbg.jpg";
 var dirs = ["east", "west"];
 
+// decides direction of wind and sets the canvas background accordingly
+direction = dirs[Math.floor(Math.random() * dirs.length)];
+if (direction === "west") {
+  canvasbg = "./assets/images/canvasbgwestwind.jpg";
+}
+else if (direction === "east") {
+  canvasbg = "./assets/images/canvasbgeastwind.jpg";
+}
+else {
+  canvasbg = canvasbg;
+}
+
 //create the canvas dimensions
 var canvas = document.createElement("canvas");
 var context = canvas.getContext("2d");
 canvas.className = "hidden";
 var element = document.getElementsByClassName("mainRow");
 var render = Render.create({
-    element: element,
-    engine: engine,
-    canvas: canvas,
-    options: {
-      width: 2280,
-      height: 1000,
-      //pixelRatio: "auto",
-      hasBounds: true,
-      showAngleIndicator: true,
-      wireframes: false,
-      background: './assets/images/canvasbg.jpg'
-    }
-  });
+  element: element,
+  engine: engine,
+  canvas: canvas,
+  options: {
+    width: 2280,
+    height: 1000,
+    //pixelRatio: "auto",
+    hasBounds: true,
+    showAngleIndicator: true,
+    wireframes: false,
+    background: canvasbg
+  }
+});
 var playerOnePosition = 0;
 var playerTwoPosition = 0;
-var groundHeight = (render.options.height * .3)/2;
+var groundHeight = (render.options.height * .3) / 2;
 var groundPosition = render.options.height - groundHeight;
 var ground;
 
 $(document).ready(function () {
   $(".overlay").addClass("opened");
-
-  // decides direction of wind and sets the canvas background accordingly
-  direction = dirs[Math.floor(Math.random() * dirs.length)];
-  if (direction === "west") {
-    canvasbg = "./assets/images/canvasbgwestwind.jpg";
-  }
-  else if (direction === "east") {
-    canvasbg = "./assets/images/canvasbgeastwind.jpg";
-  }
-  else {
-    canvasbg = canvasbg;
-  }
 
   //Set sound effects as an object (Needs to be an object to use with jQuery_________
   var audio = {
@@ -70,7 +70,7 @@ $(document).ready(function () {
     missSound: new Audio("assets/sounds/thump.mp3")
   };
   //______________________________________________
-  
+
   /* //create the canvas dimensions */
   /* var canvas = document.createElement("canvas"); */
   /* var context = canvas.getContext("2d"); */
@@ -176,10 +176,12 @@ $(document).ready(function () {
   });
 
   Events.on(engine, 'afterTick', function () {
-    if (cannonBallA.position.x > world.bounds.max.x || cannonBallA.position.x < world.bounds.min.x)
-      resetBallA();
-    if (cannonBallB.position.x > world.bounds.max.x || cannonBallB.position.x < world.bounds.min.x)
-      resetBallB();
+    if (cannonBallA && cannonBallB) {
+      if (cannonBallA.position.x > world.bounds.max.x || cannonBallA.position.x < world.bounds.min.x)
+        resetBallA();
+      if (cannonBallB.position.x > world.bounds.max.x || cannonBallB.position.x < world.bounds.min.x)
+        resetBallB();
+    }
   });
 
   //-Player 1 controls________________________________
