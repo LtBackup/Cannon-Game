@@ -15,7 +15,8 @@ function getWindSpeed() {
                 newGravity = -Math.abs(newGravity);
             }
         }
-
+        updateWindInfo(window.gameInfo);
         console.log(newGravity + " from wind.js");
     });
 }
+

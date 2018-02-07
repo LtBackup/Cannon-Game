@@ -25,14 +25,16 @@ var dirs = ["east", "west"];
 
 // decides direction of wind and sets the canvas background accordingly
 direction = dirs[Math.floor(Math.random() * dirs.length)];
-if (direction === "west") {
-  canvasbg = "./assets/images/canvasbgwestwind.jpg";
-}
-else if (direction === "east") {
-  canvasbg = "./assets/images/canvasbgeastwind.jpg";
-}
-else {
-  canvasbg = canvasbg;
+  function setBackground(direction) {
+  if (direction === "west") {
+    canvasbg = "./assets/images/canvasbgwestwind.jpg";
+  }
+  else if (direction === "east") {
+    canvasbg = "./assets/images/canvasbgeastwind.jpg";
+  }
+  else {
+    canvasbg = canvasbg;
+  }
 }
 
 //create the canvas dimensions
@@ -71,13 +73,6 @@ $(document).ready(function () {
   };
   //______________________________________________
 
-  /* //create the canvas dimensions */
-  /* var canvas = document.createElement("canvas"); */
-  /* var context = canvas.getContext("2d"); */
-  /* canvas.className = "hidden"; */
-  /* var element = document.getElementsByClassName("mainRow"); */
-
-  // adds click listener on join and start new game buttons in modal
 
   $("#start-game").on("click", function () {
     $(".canvas").addClass("hidden");

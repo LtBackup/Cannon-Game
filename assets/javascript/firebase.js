@@ -19,7 +19,12 @@ function createNewGame(gameId) {
       shotsFired: 0,
       wind: false,
       playerOnePos: 0,
-      playerTwoPos: 0
+      playerTwoPos: 0,
+      windInfo: {
+        wind: false,
+        direction: "",
+        speed: 0
+      }
     },
     playerTwo: {
       angle: 0,
@@ -76,3 +81,14 @@ function updatePositions(gameInfo) {
   });
 }  
 
+function updateWindInfo(gameInfo) {
+  if (gameInfo.wind) {
+    database.ref('games/' + gameInfo.gameId + "/playerOne/windInfo").update({
+      wind: gameInfo.wind,
+      direction: direction,
+      speed: windSpeed, 
+    });
+  } else {
+
+  }
+}  
