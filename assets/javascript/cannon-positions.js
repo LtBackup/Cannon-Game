@@ -1,8 +1,3 @@
-/* var playerOnePosition = 0; */
-/* var playerTwoPosition = 0; */
-/* var groundHeight = (render.options.height * .3)/2; */
-/* var groundPosition = render.options.height - groundHeight; */
-
 function createObjects(playerOnePostion, playerTwoPosition){
   var defaultCategory = 0x0001,
     playerOne = 0x0002,

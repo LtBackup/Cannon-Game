@@ -76,19 +76,3 @@ function updatePositions(gameInfo) {
   });
 }  
 
-
-/* function placeCannons(gameInfo) { */
-/*   if (gameInfo.player === "playerOne") { */
-/*     playerOnePosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.02); */
-/*     playerTwoPosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.70); */
-/*     updatePositions(gameInfo); */
-/*     createObjects(playerOnePostion, playerTwoPosition); */
-/*   } else { */
-/*     var gameRef = database.ref("games/" + gameId + "/" + player); */
-/*     gameRef.once("value").then(function (snapshot) { */
-/*       playerOnePosition = snapshot.val().playerOnePos; */
-/*       playerTwoPosition = snapshot.val().playerTwoPos; */
-/*       createObjects(playerOnePostion, playerTwoPosition); */
-/*     }); */
-/*   } */
-/* } */
