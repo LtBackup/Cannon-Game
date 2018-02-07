@@ -35,59 +35,80 @@
           <div class="row">
             <div class="info"></div>
           </div>
-            <div class="row">
-                <div class="container-fluid col-md-12 gamebox">
-                    <div class="row mainRow">
-                        <div class="canvas">
-                            <div class="overlay" aria-hidden="false">
-                                <div class="startmenu">
-                                <p>
-                                    <button class="btn btn-default start-game" id="start-game" type="button">START NEW GAME</button>
-                                </p>
-                                <p class="input-group join-game-group">
-                                    <span class="input-group-addon game-id-field-span">
-                                    <input class="form-control game-id-field" id="game-id-field" type="number" placeholder="Enter Game Id" aria-label="GameId">
-                                    </span>
-                                    <span class="input-group-btn">
-                                    <button class="btn btn-default join-game" id="join-game" type="button">JOIN GAME</button>
-                                    </span>
-                                </p>
-                                <p>
-                                    <button class="btn btn-default highscore" id="highscore" type="button">HIGH SCORES</button>
-                                </p>
-                                </div>
-                            </div>
-                        </div>
+          <div class="row">
+            <div class="container-fluid col-md-12 gamebox">
+              <div class="row mainRow">
+                <div class="canvas">
+                  <div class="overlay" aria-hidden="false">
+                    <div class="startmenu">
+                      <p>
+                        <button class="btn btn-default start-game" id="start-game" type="button">START NEW GAME</button>
+                      </p>
+                      <p class="input-group join-game-group">
+                        <span class="input-group-addon game-id-field-span">
+                          <input class="form-control game-id-field" id="game-id-field" type="number" placeholder="Enter Game Id" aria-label="GameId">
+                        </span>
+                        <span class="input-group-btn">
+                          <button class="btn btn-default join-game" id="join-game" type="button">JOIN GAME</button>
+                        </span>
+                      </p>
+                      <p>
+                        <button class="btn btn-default settings" id="settings" type="button">SETTINGS
+                          <div class="checkbox hidden">
+                            <span>
+                              <label>
+                                ENABLE WIND?
+                              </label>
+                              <label>
+                                  <input type="checkbox" value="" id="windcheckbox">
+                              </label>
+                            </span>
+                          </div>
+                        </button>
+                      </p>
+                      <p>
+                        <button class="btn btn-default highscore" id="highscore" type="button">HIGH SCORES</button>
+                      </p>
+                      <p>
+                        <button class="btn btn-default highscore" id="highscore" type="button">HIGH SCORES</button>
+                      </p>
                     </div>
-                    <div id="control-box" class="row controls">
-                        <div id="player-one-controls" class="col-md-6">
-                            <h3 class="playerTitle">PLAYER 1 CANNON</h3>
-                            <hr>
-                            <h3>Power: <span id="p-out"></span>%</h3>
-                                
-                            <input type="range" min="1" max="100" value="50" class="slideBar" id="pRange">
-                
-                            <h3>Angle: <span id="a-out"></span>&deg;</h3>
-                            <input type="range" min="0" max="90" value="0" class="slideBar2" id="aRange">
-                            <h3></h3>
-                            <button class="btn btn-default fireButton" id="fireButton" type="button">FIRE</button>
-                        </div>
-                        <!-- <div class="col-md-4"></div> -->
-                        <div id="player-two-controls" class="col-md-6">
-                            <h3 class="playerTitle">PLAYER 2 CANNON</h3>
-                            <hr>
-                            <h3>Power: <span id="p-out2"></span>%</h3>
-                            
-                            <input type="range" min="1" max="100" value="50" class="slideBar" id="pRange2">
-                
-                            <h3>Angle: <span id="a-out2"></span>&deg;</h3>
-                            <input type="range" min="0" max="90" value="0" class="slideBar2" id="aRange2">
-                            <h3></h3>
-                            <button class="btn btn-default fireButton" id="fireButton" type="button">FIRE</button>
-                        </div>
-                    </div>
-                </div>    
+                  </div>
+                </div>
+              </div>
+              <div id="control-box" class="row controls">
+                <div id="player-one-controls" class="col-md-6">
+                  <h3 class="playerTitle">PLAYER 1 CANNON</h3>
+                  <hr>
+                  <h3>Power:
+                    <span id="p-out"></span>%</h3>
+
+                  <input type="range" min="1" max="100" value="50" class="slideBar" id="pRange">
+
+                  <h3>Angle:
+                    <span id="a-out"></span>&deg;</h3>
+                  <input type="range" min="0" max="90" value="0" class="slideBar2" id="aRange">
+                  <h3></h3>
+                  <button class="btn btn-default fireButton" id="fireButton" type="button">FIRE</button>
+                </div>
+                <!-- <div class="col-md-4"></div> -->
+                <div id="player-two-controls" class="col-md-6">
+                  <h3 class="playerTitle">PLAYER 2 CANNON</h3>
+                  <hr>
+                  <h3>Power:
+                    <span id="p-out2"></span>%</h3>
+
+                  <input type="range" min="1" max="100" value="50" class="slideBar" id="pRange2">
+
+                  <h3>Angle:
+                    <span id="a-out2"></span>&deg;</h3>
+                  <input type="range" min="0" max="90" value="0" class="slideBar2" id="aRange2">
+                  <h3></h3>
+                  <button class="btn btn-default fireButton" id="fireButton" type="button">FIRE</button>
+                </div>
+              </div>
             </div>
+          </div>
         </article>
       </section>
     </div>
