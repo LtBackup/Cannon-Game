@@ -16,6 +16,7 @@ var cannonBallA,
   launchPlatformB,
   // create an engine
   engine = Engine.create();
+world = engine.world;
 
 //create the canvas dimensions
 var canvas = document.createElement("canvas");
@@ -47,9 +48,9 @@ $(document).ready(function () {
 
   //Set sound effects as an object (Needs to be an object to use with jQuery_________
   var audio = {
-    cannonSound : new Audio("assets/sounds/cannonShot.mp3"),
-    winSound : new Audio("assets/sounds/explosion.mp3"),
-    missSound : new Audio("assets/sounds/thump.mp3")
+    cannonSound: new Audio("assets/sounds/cannonShot.mp3"),
+    winSound: new Audio("assets/sounds/explosion.mp3"),
+    missSound: new Audio("assets/sounds/thump.mp3")
   };
   //______________________________________________
   
@@ -77,13 +78,19 @@ $(document).ready(function () {
     var newGameId = Number($("#game-id-field").val());
     joinGame(newGameId, database);
   });
-  
+
   $(".fireButton").on("click", function () {
     fireCannon(window.gameInfo);
     audio.cannonSound.play();
   });
 
   $(".mainRow").append(canvas);
+
+  // make the world bounds a little bigger than the render bounds
+  world.bounds.min.x = -300;
+  world.bounds.min.y = -300;
+  world.bounds.max.x = render.options.width + 300;
+  world.bounds.max.y = render.options.height + 300;
 
   // run the engine
   Engine.run(engine);
@@ -93,7 +100,7 @@ $(document).ready(function () {
 
   // create runner
   var runner = Runner.create();
-  runner.delta = 1000/30;
+  runner.delta = 1000 / 30;
   Runner.run(runner, engine);
 
   // Checks to see if the active collision involves the cannonball and stops it from spinning if so
@@ -136,6 +143,11 @@ $(document).ready(function () {
         resetBallB();
         alertPTwoMiss(window.gameInfo);
       }
+      // prevent the ball from moving outside the horizontal bounds
+      if (cannonBallA.position.x > world.bounds.max.x)
+        resetBallA();
+      if (cannonBallB.position.x < world.bounds.min.x)
+        resetBallB();
     }
   });
 

@@ -1,4 +1,4 @@
-function createObjects(playerOnePostion, playerTwoPosition){
+function createObjects(playerOnePostion, playerTwoPosition) {
   var defaultCategory = 0x0001,
     playerOne = 0x0002,
     playerTwo = 0x0004,
