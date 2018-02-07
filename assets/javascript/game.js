@@ -14,7 +14,7 @@ var cannonBallA,
   cannonBallBOrigin,
   // create an engine
   engine = Engine.create();
-world = engine.world;
+var world = engine.world;
 
 var newGravity = 0;
 var direction = "";
@@ -235,7 +235,7 @@ $(document).ready(function () {
 
   // create runner
   var runner = Runner.create();
-  runner.delta = 1000 / 30;
+  runner.delta = 1000 / 60;
   Runner.run(runner, engine);
 
   // Checks to see if the active collision involves the cannonball and stops it from spinning if so
@@ -280,12 +280,14 @@ $(document).ready(function () {
         resetBallB();
         alertPTwoMiss(window.gameInfo);
       }
-      // prevent the ball from moving outside the horizontal bounds
-      if (cannonBallA.position.x > world.bounds.max.x)
-        resetBallA();
-      if (cannonBallB.position.x < world.bounds.min.x)
-        resetBallB();
     }
+  });
+
+  Events.on(engine, 'afterTick', function () {
+    if (cannonBallA.position.x > world.bounds.max.x || cannonBallA.position.x < world.bounds.min.x)
+      resetBallA();
+    if (cannonBallB.position.x > world.bounds.max.x || cannonBallB.position.x < world.bounds.min.x)
+      resetBallB();
   });
 
   //-Player 1 controls________________________________
@@ -300,12 +302,10 @@ $(document).ready(function () {
   pRange.oninput = function () {
     power = this.value;
     p_output.innerHTML = power;
-    console.log("Power: ", typeof power);
   }
   aRange.oninput = function () {
     angle = this.value;
     a_output.innerHTML = angle;
-    console.log("Angle: ", angle);
     Matter.Body.setAngle(cannonA, toRadians(angle) * -1);
   }
   //__________________________________________________
@@ -323,12 +323,10 @@ $(document).ready(function () {
   pRange2.oninput = function () {
     power2 = this.value;
     p_output2.innerHTML = power2;
-    console.log("Power2: ", power2);
   }
   aRange2.oninput = function () {
     angle2 = this.value;
     a_output2.innerHTML = angle2;
-    console.log("Angle2: ", angle2);
     Matter.Body.setAngle(cannonB, toRadians(angle2));
   }
 });
