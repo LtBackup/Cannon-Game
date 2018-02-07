@@ -59,7 +59,7 @@ function createObjects(playerOnePostion, playerTwoPosition) {
     }
   });
 
-  cannonBallA = Bodies.circle(playerOnePosition, 5+16, 16, {
+  cannonBallA = Bodies.circle(playerOnePosition, render.options.height - (5 + 16 + groundHeight), 16, {
     label: "cannonBallA",
     friction: 1,
     frictionAir: 0,
@@ -77,7 +77,7 @@ function createObjects(playerOnePostion, playerTwoPosition) {
   });
   cannonBallAOrigin = { x: cannonBallA.position.x, y: cannonBallA.position.y };
 
-  cannonBallB = Bodies.circle(playerTwoPosition, 5+16, 16, {
+  cannonBallB = Bodies.circle(playerTwoPosition, render.options.height - (5 + 16 + groundHeight), 16, {
     label: "cannonBallB",
     friction: 1,
     frictionAir: 0,
