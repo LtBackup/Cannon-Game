@@ -2,6 +2,7 @@ window.gameInfo = {
   player: "playerOne",
   gameId: 1,
   opponent: "playerTwo",
+  wind: true
 };
 
 function joinGame(newGameId, db) {
@@ -27,6 +28,7 @@ function startGame() {
     player: "playerOne",
     gameId: newGameId,
     opponent: "playerTwo",
+    wind: true
   };
   createNewGame(newGameId);
   $(".overlay").addClass("hidden");

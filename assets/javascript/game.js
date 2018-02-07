@@ -16,13 +16,25 @@ var cannonBallA,
   engine = Engine.create();
 world = engine.world;
 
-var wind = true;
-var tempGravity = -1;
+var newGravity = 0;
+var direction = "";
+var canvasbg = "./assets/images/canvasbg.jpg";
+var dirs = ["east", "west"];
 
 $(document).ready(function () {
   $(".overlay").addClass("opened");
-  // var windSpeed = getWindSpeed().wind.speed;
-  // console.log(windspeed);
+
+  // decides direction of wind and sets the canvas background accordingly
+  direction = dirs[Math.floor(Math.random() * dirs.length)];
+  if (direction === "west") {
+    canvasbg = "./assets/images/canvasbgwestwind.jpg";
+  }
+  else if (direction === "east") {
+    canvasbg = "./assets/images/canvasbgeastwind.jpg";
+  }
+  else {
+    canvasbg = canvasbg;
+  }
 
   //Set sound effects as an object (Needs to be an object to use with jQuery_________
   var audio = {
@@ -44,12 +56,16 @@ $(document).ready(function () {
     $(".canvas").addClass("hidden");
     canvas.classList.remove("hidden");
     canvas.classList.add("canvas");
+    // wind logic  
+    getWindSpeed();
     startGame();
   });
   $("#join-game").on("click", function () {
     $(".canvas").addClass("hidden");
     canvas.classList.remove("hidden");
     canvas.classList.add("canvas");
+    // wind logic  
+    getWindSpeed();
     var newGameId = Number($("#game-id-field").val());
     joinGame(newGameId, database);
   });
@@ -80,7 +96,7 @@ $(document).ready(function () {
       hasBounds: true,
       showAngleIndicator: true,
       wireframes: false,
-      background: './assets/images/canvasbg.jpg'
+      background: canvasbg
     }
   });
 
@@ -345,33 +361,33 @@ function launchCannonBall(angle, power) {
   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   if (gameInfo.player === "playerOne") {
     console.log("playerOne fired");
-    if(wind) {
-      engine.world.gravity.x = tempGravity;
+    if (gameInfo.wind) {
+      engine.world.gravity.x = newGravity;
     }
     Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
   } else {
     console.log("playerTwo fired");
-    if(wind) {
-      engine.world.gravity.x = tempGravity;
+    if (gameInfo.wind) {
+      engine.world.gravity.x = newGravity;
     }
     Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
   }
 }
 
 function launchOpponentCannonBall(angle, power) {
-  var dampener = .002;
+  var dampener = .003;
   var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   if (gameInfo.opponent === "playerOne") {
     console.log("playerOne fired");
-    if(wind) {
-      engine.world.gravity.x = tempGravity;
+    if (gameInfo.wind) {
+      engine.world.gravity.x = newGravity;
     }
     Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
   } else {
     console.log("playerTwo fired");
-    if(wind) {
-      engine.world.gravity.x = tempGravity;
+    if (gameInfo.wind) {
+      engine.world.gravity.x = newGravity;
     }
     Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
   }
