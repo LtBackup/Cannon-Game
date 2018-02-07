@@ -16,7 +16,12 @@ var cannonBallA,
   launchPlatformB,
   // create an engine
   engine = Engine.create();
-world = engine.world;
+var world = engine.world;
+
+var newGravity = 0;
+var direction = "";
+var canvasbg = "./assets/images/canvasbg.jpg";
+var dirs = ["east", "west"];
 
 //create the canvas dimensions
 var canvas = document.createElement("canvas");
@@ -46,6 +51,18 @@ var ground;
 $(document).ready(function () {
   $(".overlay").addClass("opened");
 
+  // decides direction of wind and sets the canvas background accordingly
+  direction = dirs[Math.floor(Math.random() * dirs.length)];
+  if (direction === "west") {
+    canvasbg = "./assets/images/canvasbgwestwind.jpg";
+  }
+  else if (direction === "east") {
+    canvasbg = "./assets/images/canvasbgeastwind.jpg";
+  }
+  else {
+    canvasbg = canvasbg;
+  }
+
   //Set sound effects as an object (Needs to be an object to use with jQuery_________
   var audio = {
     cannonSound: new Audio("assets/sounds/cannonShot.mp3"),
@@ -69,18 +86,28 @@ $(document).ready(function () {
     // conditional re: wind option
     // if wind = true, make ajax call then start game
     // if wind = false, just start game
+    // wind logic  
+    getWindSpeed();
     startGame();
   });
   $("#join-game").on("click", function () {
     $(".canvas").addClass("hidden");
     canvas.classList.remove("hidden");
     canvas.classList.add("canvas");
+    // wind logic  
+    getWindSpeed();
     var newGameId = Number($("#game-id-field").val());
     joinGame(newGameId, database);
   });
 
   $(".fireButton").on("click", function () {
     fireCannon(window.gameInfo);
+    if (gameInfo.player === "playerOne") {
+      cannonBallA.isStatic = false;
+    }
+    else {
+      cannonBallB.isStatic = false;
+    }
     audio.cannonSound.play();
   });
 
@@ -100,7 +127,7 @@ $(document).ready(function () {
 
   // create runner
   var runner = Runner.create();
-  runner.delta = 1000 / 30;
+  runner.delta = 1000 / 60;
   Runner.run(runner, engine);
 
   // Checks to see if the active collision involves the cannonball and stops it from spinning if so
@@ -111,10 +138,12 @@ $(document).ready(function () {
       var pair = pairs[i];
       //stops rolling motion if on launch platform
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "launchPlatform") || (pair.bodyA.label === "launchPlatform" && pair.bodyB.label === "cannonBallA")) {
+        cannonBallA.isStatic = true;
         Body.setVelocity(cannonBallA, { x: 0, y: 0 });
         Body.setAngularVelocity(cannonBallA, 0);
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "launchPlatform") || (pair.bodyA.label === "launchPlatform" && pair.bodyB.label === "cannonBallB")) {
+        cannonBallB.isStatic = true;
         Body.setVelocity(cannonBallB, { x: 0, y: 0 });
         Body.setAngularVelocity(cannonBallB, 0)
       }
@@ -143,12 +172,14 @@ $(document).ready(function () {
         resetBallB();
         alertPTwoMiss(window.gameInfo);
       }
-      // prevent the ball from moving outside the horizontal bounds
-      if (cannonBallA.position.x > world.bounds.max.x)
-        resetBallA();
-      if (cannonBallB.position.x < world.bounds.min.x)
-        resetBallB();
     }
+  });
+
+  Events.on(engine, 'afterTick', function () {
+    if (cannonBallA.position.x > world.bounds.max.x || cannonBallA.position.x < world.bounds.min.x)
+      resetBallA();
+    if (cannonBallB.position.x > world.bounds.max.x || cannonBallB.position.x < world.bounds.min.x)
+      resetBallB();
   });
 
   //-Player 1 controls________________________________
@@ -163,12 +194,10 @@ $(document).ready(function () {
   pRange.oninput = function () {
     power = this.value;
     p_output.innerHTML = power;
-    console.log("Power: ", typeof power);
   }
   aRange.oninput = function () {
     angle = this.value;
     a_output.innerHTML = angle;
-    console.log("Angle: ", angle);
     Matter.Body.setAngle(cannonA, toRadians(angle) * -1);
   }
   //__________________________________________________
@@ -186,12 +215,10 @@ $(document).ready(function () {
   pRange2.oninput = function () {
     power2 = this.value;
     p_output2.innerHTML = power2;
-    console.log("Power2: ", power2);
   }
   aRange2.oninput = function () {
     angle2 = this.value;
     a_output2.innerHTML = angle2;
-    console.log("Angle2: ", angle2);
     Matter.Body.setAngle(cannonB, toRadians(angle2));
   }
 });
@@ -208,12 +235,14 @@ function toDegrees(angle) {
 function resetBallA() {
   Body.setVelocity(cannonBallA, { x: 0, y: 0 });
   Body.setAngularVelocity(cannonBallA, 0);
+  engine.world.gravity.x = 0;
   Body.setPosition(cannonBallA, cannonBallAOrigin);
 }
 
 function resetBallB() {
   Body.setVelocity(cannonBallB, { x: 0, y: 0 });
   Body.setAngularVelocity(cannonBallB, 0);
+  engine.world.gravity.x = 0;
   Body.setPosition(cannonBallB, cannonBallBOrigin);
 }
 
@@ -223,9 +252,15 @@ function launchCannonBall(angle, power) {
   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   if (gameInfo.player === "playerOne") {
     console.log("playerOne fired");
+    if (gameInfo.wind) {
+      engine.world.gravity.x = newGravity;
+    }
     Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
   } else {
     console.log("playerTwo fired");
+    if (gameInfo.wind) {
+      engine.world.gravity.x = newGravity;
+    }
     Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
   }
 }
@@ -236,9 +271,15 @@ function launchOpponentCannonBall(angle, power) {
   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   if (gameInfo.opponent === "playerOne") {
     console.log("playerOne fired");
+    if (gameInfo.wind) {
+      engine.world.gravity.x = newGravity;
+    }
     Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
   } else {
     console.log("playerTwo fired");
+    if (gameInfo.wind) {
+      engine.world.gravity.x = newGravity;
+    }
     Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
   }
 }
