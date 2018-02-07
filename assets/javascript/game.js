@@ -273,12 +273,14 @@ function launchOpponentCannonBall(angle, power) {
   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   if (gameInfo.opponent === "playerOne") {
     console.log("playerOne fired");
+    cannonBallA.isStatic = false;
     if (gameInfo.wind) {
       engine.world.gravity.x = newGravity;
     }
     Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
   } else {
     console.log("playerTwo fired");
+    cannonBallB.isStatic = false;
     if (gameInfo.wind) {
       engine.world.gravity.x = newGravity;
     }
