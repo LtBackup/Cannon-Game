@@ -107,7 +107,10 @@ function createObjects(playerOnePostion, playerTwoPosition) {
     render: {
       fillStyle: 'red',
       strokeStyle: 'blue',
-      lineWidth: 3
+      lineWidth: 3,
+      sprite: {
+        texture: './assets/images/wall.png',
+      }
     }
   });
 
