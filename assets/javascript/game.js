@@ -62,31 +62,44 @@ $(document).ready(function () {
     clickSound: new Audio("assets/sounds/click.mp3")
   };
 
-  // //Run opening background music
-  // var musicVolume = document.getElementById("volume");
-  // var bgSound = new Audio("assets/sounds/bgMusic.mp3");
-  // bgSound.play();
-  // bgSound.loop = true;
-  // var soundLevel = (musicVolume.value / 100);
-  // bgSound.volume = soundLevel;//Sets initial volue of the background music
+  //Run opening background music
+  var musicVolume = document.getElementById("volume");
+  var bgSound = new Audio("assets/sounds/bgMusic.mp3");
+  bgSound.play();
+  bgSound.loop = true;
+  var soundLevel = (musicVolume.value / 100);
+  bgSound.volume = soundLevel;//Sets initial volue of the background music
 
-  // //This will adjust the volume of the background music
-  // musicVolume.oninput = function () {
-  //   soundLevel = (this.value / 100);
-  //   console.log("soundLevel: ", soundLevel);
-  //   bgSound.volume = soundLevel;//Updates background music volume
-  // }
+  //This will adjust the volume of the background music
+  musicVolume.oninput = function () {
+    soundLevel = (this.value / 100);
+    console.log("soundLevel: ", soundLevel);
+    bgSound.volume = soundLevel;//Updates background music volume
+  }
 
-  // //Play hover sound effects for game main menu.
-  // $("#start-game").mouseenter(function() {
-	// 	audio.hoverSound.play();
-  // });
-  // $("#join-game").mouseenter(function() {
-	// 	audio.hoverSound.play();
-  // });
-  // $("#highscore").mouseenter(function() {
-	// 	audio.hoverSound.play();
-  // });
+  //This will create main menu click and hover sounds
+  function clickButton(){
+    audio.clickSound.currentTime = 0;//Resets sound to start from beginning
+    audio.clickSound.play();//Play sound when menu button is clicked.
+  }
+  function hoverButton(){
+    audio.hoverSound.currentTime = 0;//Resets sound to start from beginning
+    audio.hoverSound.play();//Play sound when menu button is hovered over.
+  }
+
+  //Play hover sound effects for game main menu.
+  $("#start-game").mouseenter(function() {
+        hoverButton();
+  });
+  $("#join-game").mouseenter(function() {
+        hoverButton();
+  });
+  $("#settings").mouseenter(function() {
+        hoverButton();
+  });
+  $(".highscore").mouseenter(function() {
+        hoverButton();
+  });
   //______________________________________________________________________________
 
   /* //create the canvas dimensions */
@@ -114,6 +127,7 @@ $(document).ready(function () {
     canvas.classList.remove("hidden");
     canvas.classList.add("canvas");
     startGame();
+    clickButton();
   });
 
   // adds click listener on join game button in modal
@@ -125,6 +139,7 @@ $(document).ready(function () {
     // TODO: Implement logic to warn user that his wind selection was ignored
     var newGameId = Number($("#game-id-field").val());
     joinGame(newGameId, database);
+    clickButton();
   });
 
    // adds click listener on settings button in modal
@@ -140,6 +155,7 @@ $(document).ready(function () {
     else {
       cannonBallB.isStatic = false;
     }
+    audio.cannonSound.currentTime = 0;
     audio.cannonSound.play();
   });
 
@@ -327,3 +343,4 @@ function launchOpponentCannonBall(angle, power) {
     Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
   }
 }
+
