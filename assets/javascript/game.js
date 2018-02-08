@@ -62,31 +62,31 @@ $(document).ready(function () {
     clickSound: new Audio("assets/sounds/click.mp3")
   };
 
-  //Run opening background music
-  var musicVolume = document.getElementById("volume");
-  var bgSound = new Audio("assets/sounds/bgMusic.mp3");
-  bgSound.play();
-  bgSound.loop = true;
-  var soundLevel = (musicVolume.value / 100);
-  bgSound.volume = soundLevel;//Sets initial volue of the background music
+  // //Run opening background music
+  // var musicVolume = document.getElementById("volume");
+  // var bgSound = new Audio("assets/sounds/bgMusic.mp3");
+  // bgSound.play();
+  // bgSound.loop = true;
+  // var soundLevel = (musicVolume.value / 100);
+  // bgSound.volume = soundLevel;//Sets initial volue of the background music
 
-  //This will adjust the volume of the background music
-  musicVolume.oninput = function () {
-    soundLevel = (this.value / 100);
-    console.log("soundLevel: ", soundLevel);
-    bgSound.volume = soundLevel;//Updates background music volume
-  }
+  // //This will adjust the volume of the background music
+  // musicVolume.oninput = function () {
+  //   soundLevel = (this.value / 100);
+  //   console.log("soundLevel: ", soundLevel);
+  //   bgSound.volume = soundLevel;//Updates background music volume
+  // }
 
-  //Play hover sound effects for game main menu.
-  $("#start-game").mouseenter(function() {
-		audio.hoverSound.play();
-  });
-  $("#join-game").mouseenter(function() {
-		audio.hoverSound.play();
-  });
-  $("#highscore").mouseenter(function() {
-		audio.hoverSound.play();
-  });
+  // //Play hover sound effects for game main menu.
+  // $("#start-game").mouseenter(function() {
+	// 	audio.hoverSound.play();
+  // });
+  // $("#join-game").mouseenter(function() {
+	// 	audio.hoverSound.play();
+  // });
+  // $("#highscore").mouseenter(function() {
+	// 	audio.hoverSound.play();
+  // });
   //______________________________________________________________________________
 
   /* //create the canvas dimensions */
