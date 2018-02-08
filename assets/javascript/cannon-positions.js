@@ -6,7 +6,7 @@ function createObjects(playerOnePostion, playerTwoPosition) {
 
   var playerOneColor = '#C44D58',
     playerTwoColor = '#4ECDC4';
-  
+
   cannonA = Bodies.rectangle(playerOnePosition, groundPosition - 20, 75, 70, {
     isStatic: true,
     isSensor: true,
@@ -34,7 +34,7 @@ function createObjects(playerOnePostion, playerTwoPosition) {
     }
   });
 
-  cannonB = Bodies.rectangle(playerTwoPosition, groundPosition -20, 75, 70, {
+  cannonB = Bodies.rectangle(playerTwoPosition, groundPosition - 20, 75, 70, {
     isStatic: true,
     isSensor: true,
     label: "cannonB",
@@ -97,7 +97,24 @@ function createObjects(playerOnePostion, playerTwoPosition) {
   });
   cannonBallBOrigin = { x: cannonBallB.position.x, y: cannonBallB.position.y };
 
-  ground = Bodies.rectangle(render.options.width*.5, render.options.height, render.options.width * 2, groundHeight*2, {
+  wall = Bodies.rectangle(cannonB.position.x - (cannonB.position.x - cannonA.position.x) / 2, groundPosition - ((render.options.height / 4) / 2), 50, render.options.height / 4, {
+    isStatic: true,
+    label: "wall",
+    friction: 0,
+    collisionFilter: {
+      category: defaultCategory
+    },
+    render: {
+      fillStyle: 'red',
+      strokeStyle: 'blue',
+      lineWidth: 3,
+      sprite: {
+        texture: './assets/images/wall.png',
+      }
+    }
+  });
+
+  ground = Bodies.rectangle(render.options.width * .5, render.options.height, render.options.width * 2, groundHeight * 2, {
     isStatic: true,
     isSensor: true,
     label: "ground",

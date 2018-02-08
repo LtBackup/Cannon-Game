@@ -119,6 +119,13 @@ $(document).ready(function () {
       console.log("checked");
       setWindOptions(window.gameInfo);
     }
+    if($("#wallcheckbox").is(":checked")) {
+      setWallFlag(true);
+      World.add(engine.world, wall);
+    }
+
+    console.log(cannonA);
+    console.log(wall);
   });
 
   // adds click listener on join game button in modal
@@ -130,6 +137,9 @@ $(document).ready(function () {
     // TODO: Implement logic to warn user that his wind selection was ignored
     var newGameId = Number($("#game-id-field").val());
     joinGame(newGameId, database);
+    if($("#wallcheckbox").is(":checked")) {
+      World.add(engine.world, wall);
+    }
     clickButton();
   });
 

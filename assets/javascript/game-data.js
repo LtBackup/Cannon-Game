@@ -2,7 +2,8 @@ window.gameInfo = {
   player: "playerOne",
   gameId: 1,
   opponent: "playerTwo",
-  wind: false
+  wind: false,
+  wall: false
 };
 
 function getWindOptions(gameInfo) {
@@ -92,6 +93,14 @@ function setWindFlag (value) {
 
 function getWind() {
   return gameInfo.wind;
+}
+
+function setWallFlag (value) {
+  window.gameInfo.wall = true;
+}
+
+function getWall() {
+  return gameInfo.wall;
 }
 
 function fireCannon(gameInfo) {
