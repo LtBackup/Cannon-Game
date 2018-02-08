@@ -2,26 +2,26 @@ function alertPOneMiss(gameInfo) {
   var turnP = $("<p>");
   if (gameInfo.player === "playerOne") {
     turnP.text("Player Two's Turn")
-    $(".info").text("You missed!")
+    $(".gamemsgs").text("You missed!")
   } else {
     turnP.text("Your Turn")
-    $(".info").text("Player One missed!")
+    $(".gamemsgs").text("Player One missed!")
     $(".fireButton").removeClass("invisible");
   }
-  $(".info").append(turnP);
+  $(".gamemsgs").append(turnP);
 }
 
 function alertPTwoMiss(gameInfo) {
   var turnP = $("<p>");
   if (gameInfo.player === "playerTwo") {
     turnP.text("Player One's Turn")
-    $(".info").text("You missed!")
+    $(".gamemsgs").text("You missed!")
   } else {
-    $(".info").text("Player Two missed!")
+    $(".gamemsgs").text("Player Two missed!")
     turnP.text("Your Turn")
     $(".fireButton").removeClass("invisible");
   }
-  $(".info").append(turnP);
+  $(".gamemsgs").append(turnP);
 }
 
 function alertPOneWin(gameInfo) {
@@ -60,6 +60,6 @@ function placeReloadButton() {
   $("#play-again-btn").on("click", function() {
     location.reload();
   });
-  $(".info").empty();
+  $(".gamemsgs").empty();
 }
 
