@@ -52,19 +52,62 @@ var ground;
 $(document).ready(function () {
   $(".overlay").addClass("opened");
 
-  //Set sound effects as an object (Needs to be an object to use with jQuery_________
+  //Sound for Game________________________________________________________________
+  //Set sound effects as an object (Needs to be an object to use with jQuery.
   var audio = {
     cannonSound: new Audio("assets/sounds/cannonShot.mp3"),
     winSound: new Audio("assets/sounds/explosion.mp3"),
-    missSound: new Audio("assets/sounds/thump.mp3")
+    missSound: new Audio("assets/sounds/thump.mp3"),
+    hoverSound: new Audio("assets/sounds/hover.mp3"),
+    clickSound: new Audio("assets/sounds/click.mp3")
   };
-  //______________________________________________
+
+  //Run opening background music
+  var musicVolume = document.getElementById("volume");
+  var bgSound = new Audio("assets/sounds/bgMusic.mp3");
+  bgSound.play();
+  bgSound.loop = true;
+  var soundLevel = (musicVolume.value / 100);
+  bgSound.volume = soundLevel;//Sets initial volue of the background music
+
+  //This will adjust the volume of the background music
+  musicVolume.oninput = function () {
+    soundLevel = (this.value / 100);
+    console.log("soundLevel: ", soundLevel);
+    bgSound.volume = soundLevel;//Updates background music volume
+  }
+
+  //This will create main menu click and hover sounds
+  function clickButton(){
+    audio.clickSound.currentTime = 0;//Resets sound to start from beginning
+    audio.clickSound.play();//Play sound when menu button is clicked.
+  }
+  function hoverButton(){
+    audio.hoverSound.currentTime = 0;//Resets sound to start from beginning
+    audio.hoverSound.play();//Play sound when menu button is hovered over.
+  }
+
+  //Play hover sound effects for game main menu.
+  $("#start-game").mouseenter(function() {
+        hoverButton();
+  });
+  $("#join-game").mouseenter(function() {
+        hoverButton();
+  });
+  $("#settings").mouseenter(function() {
+        hoverButton();
+  });
+  $(".highscore").mouseenter(function() {
+        hoverButton();
+  });
+  //______________________________________________________________________________
 
   $("#start-game").on("click", function () {
     $(".canvas").addClass("hidden");
     canvas.classList.remove("hidden");
     canvas.classList.add("canvas");
     startGame();
+    clickButton();
     if($("#windcheckbox").is(":checked")) {
       setWindFlag(true);
       console.log("checked");
@@ -81,6 +124,7 @@ $(document).ready(function () {
     // TODO: Implement logic to warn user that his wind selection was ignored
     var newGameId = Number($("#game-id-field").val());
     joinGame(newGameId, database);
+    clickButton();
   });
 
    // adds click listener on settings button in modal
@@ -96,6 +140,7 @@ $(document).ready(function () {
     else {
       cannonBallB.isStatic = false;
     }
+    audio.cannonSound.currentTime = 0;
     audio.cannonSound.play();
   });
 
@@ -283,3 +328,4 @@ function launchOpponentCannonBall(angle, power) {
     Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
   }
 }
+
