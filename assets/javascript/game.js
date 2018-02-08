@@ -59,23 +59,29 @@ $(document).ready(function () {
     winSound: new Audio("assets/sounds/explosion.mp3"),
     missSound: new Audio("assets/sounds/thump.mp3"),
     hoverSound: new Audio("assets/sounds/hover.mp3"),
-    clickSound: new Audio("assets/sounds/click.mp3")
+    clickSound: new Audio("assets/sounds/click.mp3"),
+    bgSound : new Audio("assets/sounds/bgMusic.mp3")
   };
 
-  //Run opening background music
+  //This will adjust the volume for all the sounds in the game
   var musicVolume = document.getElementById("volume");
-  var bgSound = new Audio("assets/sounds/bgMusic.mp3");
-  bgSound.play();
-  bgSound.loop = true;
-  var soundLevel = (musicVolume.value / 100);
-  bgSound.volume = soundLevel;//Sets initial volue of the background music
-
-  //This will adjust the volume of the background music
+  var soundLevel = 0.3 + (musicVolume.value * 0.7);
+  var bgSoundLevel = (musicVolume.value / 100 * 0.25);
   musicVolume.oninput = function () {
     soundLevel = (this.value / 100);
-    console.log("soundLevel: ", soundLevel);
-    bgSound.volume = soundLevel;//Updates background music volume
+    bgSoundLevel = (this.value / 100 * 0.25);
+    audio.cannonSound.volume = soundLevel;//Updates background music volume
+    audio.winSound.volume = soundLevel;//Updates background music volume
+    audio.missSound.volume = soundLevel;//Updates background music volume
+    audio.hoverSound.volume = soundLevel;//Updates background music volume
+    audio.clickSound.volume = soundLevel;//Updates background music volume
+    audio.bgSound.volume = bgSoundLevel;//Updates background music volume
   }
+  //Run opening background music
+  var bgMusic = audio.bgSound;
+  bgMusic.play();
+  bgMusic.loop = true;
+  bgMusic.volume = bgSoundLevel;//Sets initial volue of the background music
 
   //This will create main menu click and hover sounds
   function clickButton(){
@@ -147,10 +153,10 @@ $(document).ready(function () {
   $(".mainRow").append(canvas);
 
   // make the world bounds a little bigger than the render bounds
-  world.bounds.min.x = -300;
-  world.bounds.min.y = -300;
-  world.bounds.max.x = render.options.width + 300;
-  world.bounds.max.y = render.options.height + 300;
+  world.bounds.min.x = -600;
+  world.bounds.min.y = -600;
+  world.bounds.max.x = render.options.width + 600;
+  world.bounds.max.y = render.options.height + 600;
 
   // run the engine
   Engine.run(engine);

@@ -9,15 +9,16 @@ function getWindSpeed() {
         method: "GET"
     }).then(function (response) {
         windSpeed = response.wind.speed;
-        newGravity = windSpeed;
+        newGravity = windSpeed/5;
         setGravityAndBg();
         updateWindInfo(window.gameInfo);
         console.log("the wind direction is: " + direction);
+        console.log(newGravity);
     });
 }
 
 function setGravityAndBg() {
-  newGravity = windSpeed;
+  newGravity = windSpeed/5;
   if (direction === "west") {
       if (newGravity !== 0) {
           newGravity = -Math.abs(newGravity);
