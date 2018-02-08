@@ -1,4 +1,5 @@
 var cannonBallA,
+  wall,
   Body,
   Engine = Matter.Engine,
   Render = Matter.Render,
@@ -122,6 +123,7 @@ $(document).ready(function () {
     if($("#wallcheckbox").is(":checked")) {
       setWallFlag(true);
       World.add(engine.world, wall);
+      updateWallInfo(window.gameInfo);
     }
 
     console.log(cannonA);
@@ -137,9 +139,9 @@ $(document).ready(function () {
     // TODO: Implement logic to warn user that his wind selection was ignored
     var newGameId = Number($("#game-id-field").val());
     joinGame(newGameId, database);
-    if($("#wallcheckbox").is(":checked")) {
-      World.add(engine.world, wall);
-    }
+    /* if($("#wallcheckbox").is(":checked")) { */
+    /*   World.add(engine.world, wall); */
+    /* } */
     clickButton();
   });
 
