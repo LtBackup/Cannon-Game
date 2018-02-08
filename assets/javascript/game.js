@@ -190,14 +190,14 @@ $(document).ready(function () {
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "cannonB") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "cannonB")) {
         //TODO trigger explosion
         resetBallA();
-        alertPOneWin(window.gameInfo);
+        alertBot.alertPOneWin(window.gameInfo);
         audio.winSound.play();//This will play the winning sound when p1 wins.
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "cannonA") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "cannonA")) {
         //TODO trigger explosion
         resetBallB();
         audio.winSound.play();//This will play the winning sound when p2 wins.
-        alertPTwoWin(window.gameInfo);
+        alertBot.alertPTwoWin(window.gameInfo);
       }
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "ground")) {
         audio.missSound.play();//This will play the miss sound when p1 misses.
@@ -211,7 +211,7 @@ $(document).ready(function () {
           }
         }));
         resetBallA();
-        alertPOneMiss(window.gameInfo);
+        alertBot.alertPOneMiss(window.gameInfo);
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "ground")) {
         audio.missSound.play();//This will play the miss sound when p2 misses.
@@ -225,7 +225,7 @@ $(document).ready(function () {
           }
         }));
         resetBallB();
-        alertPTwoMiss(window.gameInfo);
+        alertBot.alertPTwoMiss(window.gameInfo);
       }
     }
   });
@@ -234,11 +234,11 @@ $(document).ready(function () {
     if (cannonBallA && cannonBallB) {
       if (cannonBallA.position.x > world.bounds.max.x || cannonBallA.position.x < world.bounds.min.x) {
         resetBallA();
-        alertPOneMiss(window.gameInfo);
+        alertBot.alertPOneMiss(window.gameInfo);
       }
       if (cannonBallB.position.x > world.bounds.max.x || cannonBallB.position.x < world.bounds.min.x) {
         resetBallB();
-        alertPTwoMiss(window.gameInfo);
+        alertBot.alertPTwoMiss(window.gameInfo);
       }
     }
   });
