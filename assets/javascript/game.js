@@ -207,7 +207,6 @@ $(document).ready(function () {
           isStatic: true,
           isSensor: true,
           render: {
-            fillStyle: playerOneColor,
             sprite: {
               texture: './assets/images/cannonball.png'
             }
@@ -218,6 +217,15 @@ $(document).ready(function () {
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "ground")) {
         audio.missSound.play();//This will play the miss sound when p2 misses.
+        World.add(world, Bodies.circle(cannonBallB.position.x, cannonBallB.position.y, 16, {
+          isStatic: true,
+          isSensor: true,
+          render: {
+            sprite: {
+              texture: './assets/images/cannonball.png'
+            }
+          }
+        }));
         resetBallB();
         alertPTwoMiss(window.gameInfo);
       }
