@@ -1,17 +1,27 @@
 function alertPOneMiss(gameInfo) {
+  var turnP = $("<p>");
   if (gameInfo.player === "playerOne") {
+    turnP.text("Player Two's Turn")
     $(".info").text("You missed!")
   } else {
+    turnP.text("Your Turn")
     $(".info").text("Player One missed!")
+    $(".fireButton").show();
   }
+  $(".info").append(turnP);
 }
 
 function alertPTwoMiss(gameInfo) {
+  var turnP = $("<p>");
   if (gameInfo.player === "playerTwo") {
+    turnP.text("Player One's Turn")
     $(".info").text("You missed!")
   } else {
     $(".info").text("Player Two missed!")
+    turnP.text("Your Turn")
+    $(".fireButton").show();
   }
+  $(".info").append(turnP);
 }
 
 function alertPOneWin(gameInfo) {
