@@ -192,12 +192,10 @@ $(document).ready(function () {
         resetBallA();
         alertPOneWin(window.gameInfo);
         audio.winSound.play();//This will play the winning sound when p1 wins.
-        console.log("1 win");
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "cannonA") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "cannonA")) {
         //TODO trigger explosion
         resetBallB();
-        console.log("2 win");
         audio.winSound.play();//This will play the winning sound when p2 wins.
         alertPTwoWin(window.gameInfo);
       }
@@ -234,10 +232,14 @@ $(document).ready(function () {
 
   Events.on(engine, 'afterTick', function () {
     if (cannonBallA && cannonBallB) {
-      if (cannonBallA.position.x > world.bounds.max.x || cannonBallA.position.x < world.bounds.min.x)
+      if (cannonBallA.position.x > world.bounds.max.x || cannonBallA.position.x < world.bounds.min.x) {
         resetBallA();
-      if (cannonBallB.position.x > world.bounds.max.x || cannonBallB.position.x < world.bounds.min.x)
+        alertPOneMiss(window.gameInfo);
+      }
+      if (cannonBallB.position.x > world.bounds.max.x || cannonBallB.position.x < world.bounds.min.x) {
         resetBallB();
+        alertPTwoMiss(window.gameInfo);
+      }
     }
   });
 
@@ -317,14 +319,12 @@ function launchCannonBall(angle, power) {
   var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   if (gameInfo.player === "playerOne") {
-    console.log("playerOne fired");
     console.log("from here: " , gameInfo.wind);
     if (gameInfo.wind) {
       engine.world.gravity.x = newGravity;
     }
     Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
   } else {
-    console.log("playerTwo fired");
     if (gameInfo.wind) {
       engine.world.gravity.x = newGravity;
     }
@@ -337,14 +337,12 @@ function launchOpponentCannonBall(angle, power) {
   var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   if (gameInfo.opponent === "playerOne") {
-    console.log("playerOne fired");
     cannonBallA.isStatic = false;
     if (gameInfo.wind) {
       engine.world.gravity.x = newGravity;
     }
     Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
   } else {
-    console.log("playerTwo fired");
     cannonBallB.isStatic = false;
     if (gameInfo.wind) {
       engine.world.gravity.x = newGravity;
