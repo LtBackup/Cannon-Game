@@ -6,7 +6,7 @@ window.gameInfo = {
 };
 
 function getWindOptions(gameInfo) {
-  var gameRef = database.ref("games/" + gameInfo.gameId + "/playerOne/windInfo");
+  var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne/windInfo");
   gameRef.once("value").then(function (snapshot) {
     console.log(snapshot.val().wind);
     if (snapshot.val().wind) {
@@ -39,7 +39,7 @@ function joinGame(newGameId, db) {
 }
 
 function playerTwoJoinsGame(gameInfo) {
-  database.ref('games/' + gameInfo.gameId + "/" + gameInfo.opponent).update({
+  firebaseBot.database.ref('games/' + gameInfo.gameId + "/" + gameInfo.opponent).update({
     gameStart: true
   });
   $(".fireButton").addClass("invisible");
@@ -56,7 +56,7 @@ function startGame() {
     opponent: "playerTwo",
     wind: false
   };
-  createNewGame(newGameId);
+  firebaseBot.createNewGame(newGameId);
   $(".overlay").addClass("hidden");
   $(".info").text("Welcome Player 1. Your new game id is " + window.gameInfo.gameId);
   placeCannons(window.gameInfo)
@@ -68,7 +68,7 @@ function startGame() {
 function waitForPlayerTwo(gameInfo) {
   $(".fireButton").addClass("invisible");
   $(".gamemsgs").text("Waiting for Player Two.")
-  var gameStartRef = database.ref('games/' + gameInfo.gameId + '/' + gameInfo.player + '/gameStart');
+  var gameStartRef = firebaseBot.database.ref('games/' + gameInfo.gameId + '/' + gameInfo.player + '/gameStart');
   gameStartRef.on("value", function(snapshot) {
     if (snapshot.val()) {
       $(".fireButton").removeClass("invisible");
@@ -108,16 +108,16 @@ function fireCannon(gameInfo) {
     powerInput = Number($("#pRange2").val());
   }
   launchCannonBall(angleInput, powerInput);
-  updateAnglePower(gameId, currentPlayer, angleInput, powerInput);
-  incrementShotsFired(gameId, currentPlayer);
+  firebaseBot.updateAnglePower(gameId, currentPlayer, angleInput, powerInput);
+  firebaseBot.incrementShotsFired(gameId, currentPlayer);
 }
 
 function addOpponentListeners(gameInfo) {
   var opponent = gameInfo.opponent;
   var gameId = gameInfo.gameId;
-  var opponentAngleRef = database.ref("games/" + gameId + "/" + opponent + "/angle");
-  var opponentPowerRef = database.ref("games/" + gameId + "/" + opponent + "/power");
-  var opponentShotsRef = database.ref("games/" + gameId + "/" + opponent + "/shotsFired");
+  var opponentAngleRef = firebaseBot.database.ref("games/" + gameId + "/" + opponent + "/angle");
+  var opponentPowerRef = firebaseBot.database.ref("games/" + gameId + "/" + opponent + "/power");
+  var opponentShotsRef = firebaseBot.database.ref("games/" + gameId + "/" + opponent + "/shotsFired");
   opponentShotsRef.on("value", function(shotsSnap) {
     if(shotsSnap.val()){
       opponentAngleRef.once("value").then(function (angleSnap) {
@@ -142,10 +142,10 @@ function placeCannons(gameInfo) {
   if (gameInfo.player === "playerOne") {
     playerOnePosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.02);
     playerTwoPosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.70);
-    updatePositions(gameInfo);
+    firebaseBot.updatePositions(gameInfo);
     createObjects(playerOnePosition, playerTwoPosition);
   } else {
-    var gameRef = database.ref("games/" + gameInfo.gameId + "/" + gameInfo.opponent);
+    var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/" + gameInfo.opponent);
     gameRef.once("value").then(function (snapshot) {
       playerOnePosition = snapshot.val().playerOnePos;
       playerTwoPosition = snapshot.val().playerTwoPos;

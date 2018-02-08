@@ -129,7 +129,7 @@ $(document).ready(function () {
 
     // TODO: Implement logic to warn user that his wind selection was ignored
     var newGameId = Number($("#game-id-field").val());
-    joinGame(newGameId, database);
+    joinGame(newGameId, firebaseBot.database);
     clickButton();
   });
 
