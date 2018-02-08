@@ -42,7 +42,7 @@ h1{
     cursor: default;
 }
 
-.info {
+.info, .gamemsgs {
     text-align: center;
     font-size: 16px;
     text-transform: uppercase;
@@ -148,12 +148,13 @@ h1{
     right:0;
     z-index: 10;
     width: 1140px;
-    height: 762px;
+    height: 100%;
     margin: 0 auto;
     margin-bottom: 20px;
     margin-left: 30px;
     border-radius: 10px;
-    background-color: rgba(0,0,0,0.8);
+    background: linear-gradient(rgb(1, 114, 190) 15%, rgb(2, 117, 163) 30%, rgb(0, 32, 73) 80%);
+    opacity: 0.9;
 }
 
 .opened:before {

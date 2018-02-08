@@ -30,7 +30,7 @@ function createObjects(playerOnePostion, playerTwoPosition) {
     },
     render: {
       fillStyle: 'transparent',
-      visible: true
+      visible: false
     }
   });
 
@@ -57,7 +57,7 @@ function createObjects(playerOnePostion, playerTwoPosition) {
     },
     render: {
       fillStyle: 'transparent',
-      visible: true
+      visible: false
     }
   });
 
@@ -107,7 +107,7 @@ function createObjects(playerOnePostion, playerTwoPosition) {
     },
     render: {
       fillStyle: 'transparent',
-      visible: true
+      visible: false
     }
   });
 
