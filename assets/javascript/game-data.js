@@ -74,7 +74,7 @@ function fireCannon(gameInfo) {
   var gameId = gameInfo.gameId;
   var angleInput;
   var powerInput;
-  $(".fireButton").hide();
+  $(".fireButton").addClass("invisible");
   if (gameInfo.player === "playerOne") {
     angleInput = Number($("#aRange").val());
     powerInput = Number($("#pRange").val());

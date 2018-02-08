@@ -6,7 +6,7 @@ function alertPOneMiss(gameInfo) {
   } else {
     turnP.text("Your Turn")
     $(".info").text("Player One missed!")
-    $(".fireButton").show();
+    $(".fireButton").removeClass("invisible");
   }
   $(".info").append(turnP);
 }
@@ -19,7 +19,7 @@ function alertPTwoMiss(gameInfo) {
   } else {
     $(".info").text("Player Two missed!")
     turnP.text("Your Turn")
-    $(".fireButton").show();
+    $(".fireButton").removeClass("invisible");
   }
   $(".info").append(turnP);
 }
