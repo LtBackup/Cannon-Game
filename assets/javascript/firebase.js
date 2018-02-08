@@ -23,7 +23,8 @@ function createNewGame(gameId) {
         wind: false,
         direction: "",
         speed: 0
-      }
+      },
+      gameStart: false
     },
     playerTwo: {
       angle: 0,

@@ -29,12 +29,23 @@ function joinGame(newGameId, db) {
       $(".overlay").addClass("hidden");
       getWindOptions(window.gameInfo);
       placeCannons(window.gameInfo);
-      addOpponentListeners(window.gameInfo);
       hideOppControls(window.gameInfo);
+      playerTwoJoinsGame(window.gameInfo);
+      addOpponentListeners(window.gameInfo);
     } else {
       alert("Please enter a valid id or start a new game");
     };
   });
+}
+
+function playerTwoJoinsGame(gameInfo) {
+  database.ref('games/' + gameInfo.gameId + "/" + gameInfo.opponent).update({
+    gameStart: true
+  });
+  $(".fireButton").addClass("invisible");
+  $(".gamemsgs").text("Player One's Turn")
+  $(".info").text("Welcome Player 2. You have joined Game #" + window.gameInfo.gameId);
+  /* addOpponentListeners(window.gameInfo); */
 }
 
 function startGame() {
@@ -50,7 +61,21 @@ function startGame() {
   $(".info").text("Welcome Player 1. Your new game id is " + window.gameInfo.gameId);
   placeCannons(window.gameInfo)
   hideOppControls(window.gameInfo);
+  waitForPlayerTwo(window.gameInfo);
   addOpponentListeners(window.gameInfo);
+}
+
+function waitForPlayerTwo(gameInfo) {
+  $(".fireButton").addClass("invisible");
+  $(".gamemsgs").text("Waiting for Player Two.")
+  var gameStartRef = database.ref('games/' + gameInfo.gameId + '/' + gameInfo.player + '/gameStart');
+  gameStartRef.on("value", function(snapshot) {
+    if (snapshot.val()) {
+      $(".fireButton").removeClass("invisible");
+      $(".gamemsgs").text("Player Two has joined the Game. Please take your turn.")
+    }
+    /* addOpponentListeners(window.gameInfo); */
+  })
 }
 
 function hideOppControls(gameInfo) {
@@ -95,7 +120,6 @@ function addOpponentListeners(gameInfo) {
   var opponentShotsRef = database.ref("games/" + gameId + "/" + opponent + "/shotsFired");
   opponentShotsRef.on("value", function(shotsSnap) {
     if(shotsSnap.val()){
-      // checks for opponent angle input
       opponentAngleRef.once("value").then(function (angleSnap) {
         var opponentAngle = 0;
         var opponentPower = 0;
@@ -105,7 +129,6 @@ function addOpponentListeners(gameInfo) {
         } else {
           Matter.Body.setAngle(cannonB, toRadians(opponentAngle));
         }
-        // checks for opponent power input
         opponentPowerRef.once("value").then(function (powerSnap) {
           opponentPower = powerSnap.val();
           launchOpponentCannonBall(opponentAngle, opponentPower);
