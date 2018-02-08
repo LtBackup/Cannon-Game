@@ -31,7 +31,7 @@ function joinGame(newGameId, db) {
       placeCannons(window.gameInfo);
       hideOppControls(window.gameInfo);
       playerTwoJoinsGame(window.gameInfo);
-      /* addOpponentListeners(window.gameInfo); */
+      addOpponentListeners(window.gameInfo);
     } else {
       alert("Please enter a valid id or start a new game");
     };
@@ -45,7 +45,7 @@ function playerTwoJoinsGame(gameInfo) {
   $(".fireButton").addClass("invisible");
   $(".gamemsgs").text("Player One's Turn")
   $(".info").text("Welcome Player 2. You have joined Game #" + window.gameInfo.gameId);
-  addOpponentListeners(window.gameInfo);
+  /* addOpponentListeners(window.gameInfo); */
 }
 
 function startGame() {
@@ -62,7 +62,7 @@ function startGame() {
   placeCannons(window.gameInfo)
   hideOppControls(window.gameInfo);
   waitForPlayerTwo(window.gameInfo);
-  /* addOpponentListeners(window.gameInfo); */
+  addOpponentListeners(window.gameInfo);
 }
 
 function waitForPlayerTwo(gameInfo) {
@@ -74,7 +74,7 @@ function waitForPlayerTwo(gameInfo) {
       $(".fireButton").removeClass("invisible");
       $(".gamemsgs").text("Player Two has joined the Game. Please take your turn.")
     }
-    addOpponentListeners(window.gameInfo);
+    /* addOpponentListeners(window.gameInfo); */
   })
 }
 
