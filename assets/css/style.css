@@ -82,6 +82,8 @@ h1{
     bottom: 90px;
     left: 60px;
     transition: position .4s linear;
+    -webkit-filter: drop-shadow( -5px -5px 5px #000 );
+    filter: drop-shadow( -5px -5px 5px #000 );
 }
 
 .cannonball {
@@ -278,6 +280,11 @@ h1{
     font-size: 13px;
     margin-left:-15px;
     margin-top: 10px;
+}
+
+#option {
+    padding: 0;
+    margin: 0 0 -10px;
 }
 
 #cv {
