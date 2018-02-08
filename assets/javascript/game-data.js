@@ -29,12 +29,23 @@ function joinGame(newGameId, db) {
       $(".overlay").addClass("hidden");
       getWindOptions(window.gameInfo);
       placeCannons(window.gameInfo);
-      addOpponentListeners(window.gameInfo);
       hideOppControls(window.gameInfo);
+      playerTwoJoinsGame(window.gameInfo);
+      /* addOpponentListeners(window.gameInfo); */
     } else {
       alert("Please enter a valid id or start a new game");
     };
   });
+}
+
+function playerTwoJoinsGame(gameInfo) {
+  database.ref('games/' + gameInfo.gameId + "/" + gameInfo.opponent).update({
+    gameStart: true
+  });
+  $(".fireButton").addClass("invisible");
+  $(".gamemsgs").text("Player One's Turn")
+  $(".info").text("Welcome Player 2. You have joined Game #" + window.gameInfo.gameId);
+  addOpponentListeners(window.gameInfo);
 }
 
 function startGame() {
