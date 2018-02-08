@@ -52,13 +52,42 @@ var ground;
 $(document).ready(function () {
   $(".overlay").addClass("opened");
 
-  //Set sound effects as an object (Needs to be an object to use with jQuery_________
+  //Sound for Game________________________________________________________________
+  //Set sound effects as an object (Needs to be an object to use with jQuery.
   var audio = {
     cannonSound: new Audio("assets/sounds/cannonShot.mp3"),
     winSound: new Audio("assets/sounds/explosion.mp3"),
-    missSound: new Audio("assets/sounds/thump.mp3")
+    missSound: new Audio("assets/sounds/thump.mp3"),
+    hoverSound: new Audio("assets/sounds/hover.mp3"),
+    clickSound: new Audio("assets/sounds/click.mp3")
   };
-  //______________________________________________
+
+  //Run opening background music
+  var musicVolume = document.getElementById("volume");
+  var bgSound = new Audio("assets/sounds/bgMusic.mp3");
+  bgSound.play();
+  bgSound.loop = true;
+  var soundLevel = (musicVolume.value / 100);
+  bgSound.volume = soundLevel;//Sets initial volue of the background music
+
+  //This will adjust the volume of the background music
+  musicVolume.oninput = function () {
+    soundLevel = (this.value / 100);
+    console.log("soundLevel: ", soundLevel);
+    bgSound.volume = soundLevel;//Updates background music volume
+  }
+
+  //Play hover sound effects for game main menu.
+  $("#start-game").mouseenter(function() {
+		audio.hoverSound.play();
+  });
+  $("#join-game").mouseenter(function() {
+		audio.hoverSound.play();
+  });
+  $("#highscore").mouseenter(function() {
+		audio.hoverSound.play();
+  });
+  //______________________________________________________________________________
 
   /* //create the canvas dimensions */
   /* var canvas = document.createElement("canvas"); */
