@@ -153,10 +153,10 @@ $(document).ready(function () {
   $(".mainRow").append(canvas);
 
   // make the world bounds a little bigger than the render bounds
-  world.bounds.min.x = -300;
-  world.bounds.min.y = -300;
-  world.bounds.max.x = render.options.width + 300;
-  world.bounds.max.y = render.options.height + 300;
+  world.bounds.min.x = -600;
+  world.bounds.min.y = -600;
+  world.bounds.max.x = render.options.width + 600;
+  world.bounds.max.y = render.options.height + 600;
 
   // run the engine
   Engine.run(engine);
