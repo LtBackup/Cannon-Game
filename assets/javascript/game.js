@@ -102,32 +102,17 @@ $(document).ready(function () {
   });
   //______________________________________________________________________________
 
-  /* //create the canvas dimensions */
-  /* var canvas = document.createElement("canvas"); */
-  /* var context = canvas.getContext("2d"); */
-  /* canvas.className = "hidden"; */
-  /* var element = document.getElementsByClassName("mainRow"); */
-
-  // adds click listener on start new game buttons in modal
   $("#start-game").on("click", function () {
-    // conditional re: wind option
-    // if wind = true, make ajax call then start game
-    // if wind = false, just start game
-    if($("#windcheckbox").is(":checked")) {
-      setWindFlag(true);
-      console.log("checked");
-
-      // defined in wind.js
-      // selects a random direction and sets the background based on the direction of wind
-      getWindSpeed();
-    }
-
-    // hide prerendered canvas and display the matter.js canvas
     $(".canvas").addClass("hidden");
     canvas.classList.remove("hidden");
     canvas.classList.add("canvas");
     startGame();
     clickButton();
+    if($("#windcheckbox").is(":checked")) {
+      setWindFlag(true);
+      console.log("checked");
+      setWindOptions(window.gameInfo);
+    }
   });
 
   // adds click listener on join game button in modal
