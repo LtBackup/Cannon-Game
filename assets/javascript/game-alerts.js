@@ -1,11 +1,13 @@
 function alertPOneMiss(gameInfo) {
   var turnP = $("<p>");
   if (gameInfo.player === "playerOne") {
-    turnP.text("Player Two's Turn")
-    $(".gamemsgs").text("You missed!")
+    $(".gamemsgs").text("");
+    var miss = $("<span id='red'>");
+    miss.text("You missed! ");
+    turnP.append(miss);
+    turnP.append("Player 2's Turn");
   } else {
-    turnP.text("Your Turn")
-    $(".gamemsgs").text("Player One missed!")
+    $(".gamemsgs").text("Player 1 missed! Your Turn");
     $(".fireButton").removeClass("invisible");
   }
   $(".gamemsgs").append(turnP);
@@ -14,11 +16,14 @@ function alertPOneMiss(gameInfo) {
 function alertPTwoMiss(gameInfo) {
   var turnP = $("<p>");
   if (gameInfo.player === "playerTwo") {
-    turnP.text("Player One's Turn")
-    $(".gamemsgs").text("You missed!")
+    $(".gamemsgs").text("");
+    var miss = $("<span id='red'>");
+    miss.text("You missed! ");
+    turnP.append(miss);
+    turnP.append("Player 1's Turn");
   } else {
-    $(".gamemsgs").text("Player Two missed!")
-    turnP.text("Your Turn")
+    $(".gamemsgs").text("Player 2 missed! Your Turn");
+    // turnP.text("Your Turn")
     $(".fireButton").removeClass("invisible");
   }
   $(".gamemsgs").append(turnP);
@@ -57,7 +62,7 @@ function placeReloadButton() {
   alertDiv.append(alertP);
   alertDiv.append(playAgainBtn);
   $("#control-box").append(alertDiv);
-  $("#play-again-btn").on("click", function() {
+  $("#play-again-btn").on("click", function () {
     location.reload();
   });
   $(".gamemsgs").empty();

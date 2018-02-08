@@ -43,7 +43,7 @@ function playerTwoJoinsGame(gameInfo) {
     gameStart: true
   });
   $(".fireButton").addClass("invisible");
-  $(".gamemsgs").text("Player One's Turn")
+  $(".gamemsgs").text("Player 1's Turn")
   $(".info").text("Welcome Player 2. You have joined Game #" + window.gameInfo.gameId);
   /* addOpponentListeners(window.gameInfo); */
 }
@@ -67,12 +67,12 @@ function startGame() {
 
 function waitForPlayerTwo(gameInfo) {
   $(".fireButton").addClass("invisible");
-  $(".gamemsgs").text("Waiting for Player Two.")
+  $(".gamemsgs").text("Waiting for Player 2.")
   var gameStartRef = database.ref('games/' + gameInfo.gameId + '/' + gameInfo.player + '/gameStart');
   gameStartRef.on("value", function(snapshot) {
     if (snapshot.val()) {
       $(".fireButton").removeClass("invisible");
-      $(".gamemsgs").text("Player Two has joined the Game. Please take your turn.")
+      $(".gamemsgs").text("Player 2 has joined the Game. Please take your turn.")
     }
     /* addOpponentListeners(window.gameInfo); */
   })
