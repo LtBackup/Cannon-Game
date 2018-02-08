@@ -94,23 +94,23 @@ function getWind() {
   return gameInfo.wind;
 }
 
-function fireCannon(gameInfo) {
-  var currentPlayer = gameInfo.player;
-  var gameId = gameInfo.gameId;
-  var angleInput;
-  var powerInput;
-  $(".fireButton").addClass("invisible");
-  if (gameInfo.player === "playerOne") {
-    angleInput = Number($("#aRange").val());
-    powerInput = Number($("#pRange").val());
-  } else {
-    angleInput = Number($("#aRange2").val());
-    powerInput = Number($("#pRange2").val());
-  }
-  launchCannonBall(angleInput, powerInput);
-  firebaseBot.updateAnglePower(gameId, currentPlayer, angleInput, powerInput);
-  firebaseBot.incrementShotsFired(gameId, currentPlayer);
-}
+/* function fireCannon(gameInfo) { */
+/*   var currentPlayer = gameInfo.player; */
+/*   var gameId = gameInfo.gameId; */
+/*   var angleInput; */
+/*   var powerInput; */
+/*   $(".fireButton").addClass("invisible"); */
+/*   if (gameInfo.player === "playerOne") { */
+/*     angleInput = Number($("#aRange").val()); */
+/*     powerInput = Number($("#pRange").val()); */
+/*   } else { */
+/*     angleInput = Number($("#aRange2").val()); */
+/*     powerInput = Number($("#pRange2").val()); */
+/*   } */
+/*   cannonballBot.launchCannonBall(angleInput, powerInput); */
+/*   firebaseBot.updateAnglePower(gameId, currentPlayer, angleInput, powerInput); */
+/*   firebaseBot.incrementShotsFired(gameId, currentPlayer); */
+/* } */
 
 function addOpponentListeners(gameInfo) {
   var opponent = gameInfo.opponent;
@@ -125,13 +125,13 @@ function addOpponentListeners(gameInfo) {
         var opponentPower = 0;
         opponentAngle = angleSnap.val();
         if (opponent === "playerOne") {
-          Matter.Body.setAngle(cannonA, toRadians(opponentAngle) * -1);
+          Matter.Body.setAngle(cannonA, cannonballBot.toRadians(opponentAngle) * -1);
         } else {
-          Matter.Body.setAngle(cannonB, toRadians(opponentAngle));
+          Matter.Body.setAngle(cannonB, cannonballBot.toRadians(opponentAngle));
         }
         opponentPowerRef.once("value").then(function (powerSnap) {
           opponentPower = powerSnap.val();
-          launchOpponentCannonBall(opponentAngle, opponentPower);
+          cannonballBot.launchOpponentCannonBall(opponentAngle, opponentPower);
         });
       });
     }

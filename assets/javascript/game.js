@@ -139,7 +139,7 @@ $(document).ready(function () {
   });
 
   $(".fireButton").on("click", function () {
-    fireCannon(window.gameInfo);
+    cannonballBot.fireCannon(window.gameInfo);
     if (gameInfo.player === "playerOne") {
       cannonBallA.isStatic = false;
     }
@@ -189,13 +189,13 @@ $(document).ready(function () {
       //checks for impact with enemy cannons and ground
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "cannonB") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "cannonB")) {
         //TODO trigger explosion
-        resetBallA();
+        cannonballBot.resetBallA();
         alertBot.alertPOneWin(window.gameInfo);
         audio.winSound.play();//This will play the winning sound when p1 wins.
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "cannonA") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "cannonA")) {
         //TODO trigger explosion
-        resetBallB();
+        cannonballBot.resetBallB();
         audio.winSound.play();//This will play the winning sound when p2 wins.
         alertBot.alertPTwoWin(window.gameInfo);
       }
@@ -210,7 +210,7 @@ $(document).ready(function () {
             }
           }
         }));
-        resetBallA();
+        cannonballBot.resetBallA();
         alertBot.alertPOneMiss(window.gameInfo);
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "ground")) {
@@ -224,7 +224,7 @@ $(document).ready(function () {
             }
           }
         }));
-        resetBallB();
+        cannonballBot.resetBallB();
         alertBot.alertPTwoMiss(window.gameInfo);
       }
     }
@@ -233,11 +233,11 @@ $(document).ready(function () {
   Events.on(engine, 'afterTick', function () {
     if (cannonBallA && cannonBallB) {
       if (cannonBallA.position.x > world.bounds.max.x || cannonBallA.position.x < world.bounds.min.x) {
-        resetBallA();
+        cannonballBot.resetBallA();
         alertBot.alertPOneMiss(window.gameInfo);
       }
       if (cannonBallB.position.x > world.bounds.max.x || cannonBallB.position.x < world.bounds.min.x) {
-        resetBallB();
+        cannonballBot.resetBallB();
         alertBot.alertPTwoMiss(window.gameInfo);
       }
     }
@@ -261,7 +261,7 @@ $(document).ready(function () {
   aRange.oninput = function () {
     angle = this.value;
     a_output.innerHTML = angle;
-    Matter.Body.setAngle(cannonA, toRadians(angle) * -1);
+    Matter.Body.setAngle(cannonA, cannonballBot.toRadians(angle) * -1);
   }
   //__________________________________________________
 
@@ -282,7 +282,7 @@ $(document).ready(function () {
   aRange2.oninput = function () {
     angle2 = this.value;
     a_output2.innerHTML = angle2;
-    Matter.Body.setAngle(cannonB, toRadians(angle2));
+    Matter.Body.setAngle(cannonB, cannonballBot.toRadians(angle2));
   }
 });
 // END document.ready()
@@ -292,62 +292,62 @@ $(document).ready(function () {
 // }
 
 // TODO: enclose following code in module
-function toRadians(angle) {
-  return angle * (Math.PI / 180);
-}
+/* function toRadians(angle) { */
+/*   return angle * (Math.PI / 180); */
+/* } */
 
-function toDegrees(angle) {
-  return angle * (180 / Math.PI);
-}
+/* function toDegrees(angle) { */
+/*   return angle * (180 / Math.PI); */
+/* } */
 
-function resetBallA() {
-  Body.setVelocity(cannonBallA, { x: 0, y: 0 });
-  Body.setAngularVelocity(cannonBallA, 0);
-  engine.world.gravity.x = 0;
-  Body.setPosition(cannonBallA, cannonBallAOrigin);
-}
+/* function resetBallA() { */
+/*   Body.setVelocity(cannonBallA, { x: 0, y: 0 }); */
+/*   Body.setAngularVelocity(cannonBallA, 0); */
+/*   engine.world.gravity.x = 0; */
+/*   Body.setPosition(cannonBallA, cannonBallAOrigin); */
+/* } */
 
-function resetBallB() {
-  Body.setVelocity(cannonBallB, { x: 0, y: 0 });
-  Body.setAngularVelocity(cannonBallB, 0);
-  engine.world.gravity.x = 0;
-  Body.setPosition(cannonBallB, cannonBallBOrigin);
-}
+/* function resetBallB() { */
+/*   Body.setVelocity(cannonBallB, { x: 0, y: 0 }); */
+/*   Body.setAngularVelocity(cannonBallB, 0); */
+/*   engine.world.gravity.x = 0; */
+/*   Body.setPosition(cannonBallB, cannonBallBOrigin); */
+/* } */
 
-function launchCannonBall(angle, power) {
-  var dampener = .003;
-  var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
-  var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
-  if (gameInfo.player === "playerOne") {
-    console.log("from here: " , gameInfo.wind);
-    if (gameInfo.wind) {
-      engine.world.gravity.x = newGravity;
-    }
-    Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
-  } else {
-    if (gameInfo.wind) {
-      engine.world.gravity.x = newGravity;
-    }
-    Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
-  }
-}
+/* function launchCannonBall(angle, power) { */
+/*   var dampener = .003; */
+/*   var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener)); */
+/*   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener)); */
+/*   if (gameInfo.player === "playerOne") { */
+/*     console.log("from here: " , gameInfo.wind); */
+/*     if (gameInfo.wind) { */
+/*       engine.world.gravity.x = newGravity; */
+/*     } */
+/*     Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector); */
+/*   } else { */
+/*     if (gameInfo.wind) { */
+/*       engine.world.gravity.x = newGravity; */
+/*     } */
+/*     Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2); */
+/*   } */
+/* } */
 
-function launchOpponentCannonBall(angle, power) {
-  var dampener = .003;
-  var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
-  var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
-  if (gameInfo.opponent === "playerOne") {
-    cannonBallA.isStatic = false;
-    if (gameInfo.wind) {
-      engine.world.gravity.x = newGravity;
-    }
-    Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
-  } else {
-    cannonBallB.isStatic = false;
-    if (gameInfo.wind) {
-      engine.world.gravity.x = newGravity;
-    }
-    Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
-  }
-}
+/* function launchOpponentCannonBall(angle, power) { */
+/*   var dampener = .003; */
+/*   var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener)); */
+/*   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener)); */
+/*   if (gameInfo.opponent === "playerOne") { */
+/*     cannonBallA.isStatic = false; */
+/*     if (gameInfo.wind) { */
+/*       engine.world.gravity.x = newGravity; */
+/*     } */
+/*     Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector); */
+/*   } else { */
+/*     cannonBallB.isStatic = false; */
+/*     if (gameInfo.wind) { */
+/*       engine.world.gravity.x = newGravity; */
+/*     } */
+/*     Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2); */
+/*   } */
+/* } */
 
