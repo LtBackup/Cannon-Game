@@ -24,7 +24,8 @@ function createNewGame(gameId) {
         direction: "",
         speed: 0
       },
-      gameStart: false
+      gameStart: false,
+      wall: false
     },
     playerTwo: {
       angle: 0,
@@ -87,8 +88,14 @@ function updateWindInfo(gameInfo) {
       wind: gameInfo.wind,
       direction: direction,
       speed: windSpeed, 
-    });
-  } else {
+    });  
+  }
+}  
 
+function updateWallInfo(gameInfo) {
+  if (gameInfo.wall) {
+    database.ref('games/' + gameInfo.gameId + "/playerOne").update({
+      wall: true
+    });  
   }
 }  
