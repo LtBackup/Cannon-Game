@@ -34,7 +34,7 @@ Add additional notes about how to deploy this on a live system
 
 * **Jim Pratt** - [GitHub](https://github.com/ltBackup)
 * **Mina Slater** - [GitHub](https://github.com/minaslater)
-* **Natraj** - [GitHub](https://github.com/natraj-s)
+* **Natraj Subramanian** - [GitHub](https://github.com/natraj-s)
 * **Efosa Ogiesoba** - [GitHub](https://github.com/eogiesoba)
 
 
