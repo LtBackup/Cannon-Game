@@ -5,6 +5,19 @@ window.gameInfo = {
   wind: false
 };
 
+function getWindOptions(gameInfo) {
+  var gameRef = database.ref("games/" + gameInfo.gameId + "/playerOne/windInfo");
+  gameRef.once("value").then(function (snapshot) {
+    console.log(snapshot.val().wind);
+    if (snapshot.val().wind) {
+      gameInfo.wind = true; 
+      direction = snapshot.val().direction;
+      windSpeed = snapshot.val().speed;
+      setGravityAndBg();
+    }
+  });
+}
+
 function joinGame(newGameId, db) {
   db.ref("games/" + newGameId).once("value").then(function (snap) {
     if (snap.val()) {
@@ -14,7 +27,8 @@ function joinGame(newGameId, db) {
         opponent: "playerOne",
       };
       $(".overlay").addClass("hidden");
-      placeCannons(window.gameInfo)
+      getWindOptions(window.gameInfo);
+      placeCannons(window.gameInfo);
       addOpponentListeners(window.gameInfo);
       hideOppControls(window.gameInfo);
     } else {
@@ -48,7 +62,7 @@ function hideOppControls(gameInfo) {
 }
 
 function setWindFlag (value) {
-  gameInfo.wind = value;
+  window.gameInfo.wind = value;
 }
 
 function getWind() {
@@ -115,3 +129,11 @@ function placeCannons(gameInfo) {
     });
   }
 }
+
+//only call if wind is true
+function setWindOptions(gameInfo) {
+    direction = dirs[Math.floor(Math.random() * dirs.length)];
+    getWindSpeed();
+}
+
+
