@@ -288,7 +288,6 @@ h1{
 /*Efosa css for slidebar animation below----------------------------------------*/
 .slideBar {
     -webkit-appearance: none;
-    width: 600px;
     height: 10px;
     border-radius: 10px;
     border: solid 1px white;
@@ -307,7 +306,6 @@ h1{
 }
 .slideBar2 {
     -webkit-appearance: none;
-    width: 600px;
     height: 10px;
     border-radius: 10px;
     border: solid 1px white;
@@ -331,7 +329,7 @@ h1{
 .controls {
     background: rgba(11, 23, 53, 0.688);
     padding: 0px 15px 15px;
-    margin: 0px 10px 10px;
+    margin: 0px 15px 10px;
     border-radius: 10px;
 }
 .playerTitle{
@@ -362,3 +360,43 @@ h3 {
 .invisible {
   visibility: hidden;
 }
+/*  Music Player CSS below ------------------------------------*/
+.musicPlayer {
+    position: relative;
+    font-size: 22px;
+    color: white;
+    margin-top: 28px;
+    width: 150px;
+}
+.volumeBar {
+    -webkit-appearance: none;
+    width: 82px !important;
+    height: 3px;
+    margin-left: 28px;
+    border-radius: 1.5px;
+    background: white;
+    opacity: 1;
+    display: inline-block;
+}
+.volumeBar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background: #ffffff;
+    cursor: pointer;
+}
+.fa-volume-down{
+    position: absolute;
+    left: 25px;
+    top: -10px;
+    display: block;
+}
+.fa-volume-up{
+    position: absolute;
+    right: 0px;
+    top: -10px;
+    display: block;
+}
+
+

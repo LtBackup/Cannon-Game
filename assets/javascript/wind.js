@@ -9,26 +9,25 @@ function getWindSpeed() {
         method: "GET"
     }).then(function (response) {
         windSpeed = response.wind.speed;
-        newGravity = windSpeed;
-        // decides direction of wind
-        direction = dirs[Math.floor(Math.random() * dirs.length)];
-
-        // IF WESTWIND
-        // convert number to a negative number and set the appropriate background
-        if (direction === "west") {
-            if (newGravity !== 0) {
-                newGravity = -Math.abs(newGravity);
-            }
-            canvasbg = "./assets/images/canvasbgwestwind.jpg";
-            render.options.background = canvasbg;
-        }
-        // IF EASTWIND
-        // set the appropriate background
-        else {
-            canvasbg = "./assets/images/canvasbgeastwind.jpg";
-            render.options.background = canvasbg;
-        }
-        setWindFlag(true);
+        newGravity = windSpeed/5;
+        setGravityAndBg();
+        updateWindInfo(window.gameInfo);
         console.log("the wind direction is: " + direction);
+        console.log(newGravity);
     });
 }
+
+function setGravityAndBg() {
+  newGravity = windSpeed/5;
+  if (direction === "west") {
+      if (newGravity !== 0) {
+          newGravity = -Math.abs(newGravity);
+      }
+      canvasbg = "./assets/images/canvasbgwestwind.jpg";
+      render.options.background = canvasbg;
+  } else {
+      canvasbg = "./assets/images/canvasbgeastwind.jpg";
+      render.options.background = canvasbg;
+  }
+}
+

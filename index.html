@@ -15,6 +15,7 @@
   <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://use.fontawesome.com/7502865e8c.js"></script>
   <!-- Physics engine thanks to matter.js -->
   <script src="assets/javascript/matter/build/matter.js"></script>
   <script src="assets/javascript/firebase.js"></script>
@@ -30,8 +31,16 @@
     <div class="container mainContent">
       <section class="row">
         <article class="content">
-          <h1 class="title-header">CANNONMAN</h1>
-          <!-- <hr class="title-header-hr"/> -->
+          <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+                  <h1 class="title-header">CANNONMAN</h1>
+              </div>
+              <div class="col-md-2 musicPlayer">
+                  <i class="fa fa-volume-down"></i>
+                  <input type="range" min="0" max="100" value="27" class="volumeBar" id="volume">
+                  <i class="fa fa-volume-up"></i>
+              </div>
+          </div>
           <div class="row">
             <div class="info"></div>
           </div>
@@ -66,12 +75,9 @@
                           </div>
                         </button>
                       </p>
-                      <p>
+                      <!-- <p>
                         <button class="btn btn-default highscore" id="highscore" type="button">HIGH SCORES</button>
-                      </p>
-                      <p>
-                        <button class="btn btn-default highscore" id="highscore" type="button">HIGH SCORES</button>
-                      </p>
+                      </p> -->
                     </div>
                   </div>
                 </div>

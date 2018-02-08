@@ -52,39 +52,73 @@ var ground;
 $(document).ready(function () {
   $(".overlay").addClass("opened");
 
-  //Set sound effects as an object (Needs to be an object to use with jQuery_________
+  //Sound for Game________________________________________________________________
+  //Set sound effects as an object (Needs to be an object to use with jQuery.
   var audio = {
     cannonSound: new Audio("assets/sounds/cannonShot.mp3"),
     winSound: new Audio("assets/sounds/explosion.mp3"),
-    missSound: new Audio("assets/sounds/thump.mp3")
+    missSound: new Audio("assets/sounds/thump.mp3"),
+    hoverSound: new Audio("assets/sounds/hover.mp3"),
+    clickSound: new Audio("assets/sounds/click.mp3"),
+    bgSound : new Audio("assets/sounds/bgMusic.mp3")
   };
-  //______________________________________________
 
-  /* //create the canvas dimensions */
-  /* var canvas = document.createElement("canvas"); */
-  /* var context = canvas.getContext("2d"); */
-  /* canvas.className = "hidden"; */
-  /* var element = document.getElementsByClassName("mainRow"); */
+  //This will adjust the volume for all the sounds in the game
+  var musicVolume = document.getElementById("volume");
+  var soundLevel = 0.3 + (musicVolume.value * 0.7);
+  var bgSoundLevel = (musicVolume.value / 100 * 0.25);
+  musicVolume.oninput = function () {
+    soundLevel = (this.value / 100);
+    bgSoundLevel = (this.value / 100 * 0.25);
+    audio.cannonSound.volume = soundLevel;//Updates background music volume
+    audio.winSound.volume = soundLevel;//Updates background music volume
+    audio.missSound.volume = soundLevel;//Updates background music volume
+    audio.hoverSound.volume = soundLevel;//Updates background music volume
+    audio.clickSound.volume = soundLevel;//Updates background music volume
+    audio.bgSound.volume = bgSoundLevel;//Updates background music volume
+  }
+  //Run opening background music
+  var bgMusic = audio.bgSound;
+  bgMusic.play();
+  bgMusic.loop = true;
+  bgMusic.volume = bgSoundLevel;//Sets initial volue of the background music
 
-  // adds click listener on start new game buttons in modal
+  //This will create main menu click and hover sounds
+  function clickButton(){
+    audio.clickSound.currentTime = 0;//Resets sound to start from beginning
+    audio.clickSound.play();//Play sound when menu button is clicked.
+  }
+  function hoverButton(){
+    audio.hoverSound.currentTime = 0;//Resets sound to start from beginning
+    audio.hoverSound.play();//Play sound when menu button is hovered over.
+  }
+
+  //Play hover sound effects for game main menu.
+  $("#start-game").mouseenter(function() {
+        hoverButton();
+  });
+  $("#join-game").mouseenter(function() {
+        hoverButton();
+  });
+  $("#settings").mouseenter(function() {
+        hoverButton();
+  });
+  $(".highscore").mouseenter(function() {
+        hoverButton();
+  });
+  //______________________________________________________________________________
+
   $("#start-game").on("click", function () {
-    // conditional re: wind option
-    // if wind = true, make ajax call then start game
-    // if wind = false, just start game
-    if($("#windcheckbox").is(":checked")) {
-      setWindFlag(true);
-      console.log("checked");
-
-      // defined in wind.js
-      // selects a random direction and sets the background based on the direction of wind
-      getWindSpeed();
-    }
-
-    // hide prerendered canvas and display the matter.js canvas
     $(".canvas").addClass("hidden");
     canvas.classList.remove("hidden");
     canvas.classList.add("canvas");
     startGame();
+    clickButton();
+    if($("#windcheckbox").is(":checked")) {
+      setWindFlag(true);
+      console.log("checked");
+      setWindOptions(window.gameInfo);
+    }
   });
 
   // adds click listener on join game button in modal
@@ -96,6 +130,7 @@ $(document).ready(function () {
     // TODO: Implement logic to warn user that his wind selection was ignored
     var newGameId = Number($("#game-id-field").val());
     joinGame(newGameId, database);
+    clickButton();
   });
 
    // adds click listener on settings button in modal
@@ -111,16 +146,17 @@ $(document).ready(function () {
     else {
       cannonBallB.isStatic = false;
     }
+    audio.cannonSound.currentTime = 0;
     audio.cannonSound.play();
   });
 
   $(".mainRow").append(canvas);
 
   // make the world bounds a little bigger than the render bounds
-  world.bounds.min.x = -300;
-  world.bounds.min.y = -300;
-  world.bounds.max.x = render.options.width + 300;
-  world.bounds.max.y = render.options.height + 300;
+  world.bounds.min.x = -600;
+  world.bounds.min.y = -600;
+  world.bounds.max.x = render.options.width + 600;
+  world.bounds.max.y = render.options.height + 600;
 
   // run the engine
   Engine.run(engine);
@@ -308,3 +344,4 @@ function launchOpponentCannonBall(angle, power) {
     Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
   }
 }
+
