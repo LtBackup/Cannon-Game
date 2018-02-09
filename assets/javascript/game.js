@@ -50,20 +50,20 @@ var groundHeight = (render.options.height * .3) / 2;
 var groundPosition = render.options.height - groundHeight;
 var ground;
 
+//Set sound effects as an object (Needs to be an object to use with jQuery.
+var audio = {
+  cannonSound: new Audio("assets/sounds/cannonShot.mp3"),
+  winSound: new Audio("assets/sounds/explosion.mp3"),
+  missSound: new Audio("assets/sounds/thump.mp3"),
+  hoverSound: new Audio("assets/sounds/hover.mp3"),
+  clickSound: new Audio("assets/sounds/click.mp3"),
+  bgSound : new Audio("assets/sounds/bgMusic.mp3")
+};
+
 $(document).ready(function () {
   $(".overlay").addClass("opened");
 
   //Sound for Game________________________________________________________________
-  //Set sound effects as an object (Needs to be an object to use with jQuery.
-  var audio = {
-    cannonSound: new Audio("assets/sounds/cannonShot.mp3"),
-    winSound: new Audio("assets/sounds/explosion.mp3"),
-    missSound: new Audio("assets/sounds/thump.mp3"),
-    hoverSound: new Audio("assets/sounds/hover.mp3"),
-    clickSound: new Audio("assets/sounds/click.mp3"),
-    bgSound : new Audio("assets/sounds/bgMusic.mp3")
-  };
-
   //This will adjust the volume for all the sounds in the game
   var musicVolume = document.getElementById("volume");
   var soundLevel = 0.3 + (musicVolume.value * 0.7);
@@ -158,8 +158,9 @@ $(document).ready(function () {
     else {
       cannonBallB.isStatic = false;
     }
-    audio.cannonSound.currentTime = 0;
-    audio.cannonSound.play();
+    // audio.cannonSound.currentTime = 0;
+    // audio.cannonSound.load();
+    // audio.cannonSound.play();
   });
 
   $(".mainRow").append(canvas);
@@ -212,7 +213,9 @@ $(document).ready(function () {
         alertPTwoWin(window.gameInfo);
       }
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "ground")) {
+        audio.missSound.load();
         audio.missSound.play();//This will play the miss sound when p1 misses.
+        console.log("P1 MISS");
         World.add(world, Bodies.circle(cannonBallA.position.x, cannonBallA.position.y, 16, {
           isStatic: true,
           isSensor: true,
@@ -226,7 +229,9 @@ $(document).ready(function () {
         alertPOneMiss(window.gameInfo);
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "ground")) {
+        audio.missSound.load();
         audio.missSound.play();//This will play the miss sound when p2 misses.
+        console.log("P2 MISS");
         World.add(world, Bodies.circle(cannonBallB.position.x, cannonBallB.position.y, 16, {
           isStatic: true,
           isSensor: true,
@@ -245,13 +250,15 @@ $(document).ready(function () {
   Events.on(engine, 'afterTick', function () {
     if (cannonBallA && cannonBallB) {
       if (cannonBallA.position.x > world.bounds.max.x || cannonBallA.position.x < world.bounds.min.x) {
+        audio.missSound.load();
         audio.missSound.play();
-        resetBallA();
+	resetBallA();
         alertPOneMiss(window.gameInfo);
       }
       if (cannonBallB.position.x > world.bounds.max.x || cannonBallB.position.x < world.bounds.min.x) {
+        audio.missSound.load();
         audio.missSound.play();
-        resetBallB();
+	resetBallB();
         alertPTwoMiss(window.gameInfo);
       }
     }
@@ -329,6 +336,8 @@ function resetBallB() {
 }
 
 function launchCannonBall(angle, power) {
+  audio.cannonSound.load();
+  audio.cannonSound.play();
   var dampener = .003;
   var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
@@ -347,6 +356,8 @@ function launchCannonBall(angle, power) {
 }
 
 function launchOpponentCannonBall(angle, power) {
+  audio.cannonSound.load();
+  audio.cannonSound.play();
   var dampener = .003;
   var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
@@ -364,4 +375,5 @@ function launchOpponentCannonBall(angle, power) {
     Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
   }
 }
+
 
