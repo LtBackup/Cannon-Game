@@ -5,7 +5,7 @@ Cannon Man is a fun and exciting 2 player shooting game inspired by the classic 
 ### Screenshot
 
 <p align="center">
-  <img src="assets/imagesCannonMan_ScreenShot.png" alt="Screenshot"/>
+  <img src="assets/images/CannonMan_ScreenShot.png" alt="Screenshot"/>
 </p>
 
 ## Getting Started
