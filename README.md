@@ -1,18 +1,38 @@
 # Cannon-Game
 
-One Paragraph of project description goes here
+Cannon Man is a fun and exciting 2 player shooting game inspired by the classic Flash game Bowman. The object of the game is to be the first one to shoot down your opponents cannon and you win. This game was built as a school project to further increase experience with jQuery, bootstrap, Matter.js, Firebase, and Jasmine. [Play the official game here!](https://ltbackup.github.io/Cannon-Game/)
+
+### Screenshot
+
+<p align="center">
+  <img src="assets/images/CannonMan_ScreenShot.png" alt="Screenshot"/>
+</p>
 
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-### Prerequisites
+1. Within GitHub, navigate to the main page of the repository.
 
-What things you need to install the software and how to install them
+2. Click the Clone or download button.
 
-```
-Give examples
-```
+3. Copy the clone URL for the repository.
+
+4. Open Terminal or CMD Prompt(Windows).
+
+5. Change your current working directory to the location where you'd like the cloned directory be stored.
+
+6. Type git clone, and then paste the URL you copied in Step 3.
+
+7. git clone https://github.com/LtBackup/Cannon-Game.git
+
+8. Press Enter and a new local cloned repository will be created. 
+
+### Browser support
+
+| Chrome | 
+| --- | 
+| 24+ | 
 
 ## Running the tests
 
@@ -40,7 +60,7 @@ Add additional notes about how to deploy this on a live system
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+Matter.js is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
 

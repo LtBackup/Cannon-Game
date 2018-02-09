@@ -33,6 +33,14 @@ h1{
                 0px 8px 7px #001135;
 }
 
+#red {
+    color: rgb(155, 23, 23);
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 800;
+    text-shadow: 1px 1px 10px #000;
+}
+
 /* TITLE AND BELOW TITLE DIV CSS */
 .title-header {
     font-family: 'Press Start 2P', cursive;
@@ -74,6 +82,8 @@ h1{
     bottom: 90px;
     left: 60px;
     transition: position .4s linear;
+    -webkit-filter: drop-shadow( -5px -5px 5px #000 );
+    filter: drop-shadow( -5px -5px 5px #000 );
 }
 
 .cannonball {
@@ -153,7 +163,7 @@ h1{
     margin-bottom: 20px;
     margin-left: 30px;
     border-radius: 10px;
-    background: linear-gradient(rgb(1, 114, 190) 15%, rgb(2, 117, 163) 30%, rgb(0, 32, 73) 80%);
+    background: linear-gradient(rgb(1, 114, 190) 15%, rgb(2, 117, 163) 30%, rgb(1, 10, 22) 80%);
     opacity: 0.9;
 }
 
@@ -270,6 +280,11 @@ h1{
     font-size: 13px;
     margin-left:-15px;
     margin-top: 10px;
+}
+
+#option {
+    padding: 0;
+    margin: 0 0 -10px;
 }
 
 #cv {

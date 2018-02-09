@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>C A N N O N M A N</title>
+  <title>CANNONMAN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -21,10 +21,10 @@
   <script src="assets/javascript/firebase.js"></script>
   <script src="assets/javascript/game-alerts.js"></script>
   <script src="assets/javascript/cannonball.js"></script>
+  <script src="assets/javascript/cannon-positions.js"></script>
   <script src="assets/javascript/game-data.js"></script>
   <script src="assets/javascript/wind.js"></script>
   <script src="assets/javascript/game.js"></script>
-  <script src="assets/javascript/cannon-positions.js"></script>
 </head>
 
 <body>
@@ -63,8 +63,9 @@
                         </span>
                       </p>
                       <p>
-                        <button class="btn btn-default settings" id="settings" type="button">SETTINGS
+                        <button class="btn btn-default settings" id="settings" type="button">OPTIONS
                           <div class="checkbox hidden">
+                            <p id="option">
                             <span>
                               <label>
                                 ENABLE WIND?
@@ -73,6 +74,17 @@
                                   <input type="checkbox" value="" id="windcheckbox">
                               </label>
                             </span>
+                          </p>
+                          <p id="option">
+                            <span>
+                              <label>
+                                ENABLE WALL?
+                              </label>
+                              <label>
+                                  <input type="checkbox" value="" id="wallcheckbox">
+                              </label>
+                            </span>
+                          </p>
                           </div>
                         </button>
                       </p>

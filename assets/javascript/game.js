@@ -1,4 +1,5 @@
 var cannonBallA,
+  wall,
   Body,
   Engine = Matter.Engine,
   Render = Matter.Render,
@@ -49,20 +50,20 @@ var groundHeight = (render.options.height * .3) / 2;
 var groundPosition = render.options.height - groundHeight;
 var ground;
 
+//Set sound effects as an object (Needs to be an object to use with jQuery.
+var audio = {
+  cannonSound: new Audio("assets/sounds/cannonShot.mp3"),
+  winSound: new Audio("assets/sounds/explosion.mp3"),
+  missSound: new Audio("assets/sounds/thump.mp3"),
+  hoverSound: new Audio("assets/sounds/hover.mp3"),
+  clickSound: new Audio("assets/sounds/click.mp3"),
+  bgSound : new Audio("assets/sounds/bgMusic.mp3")
+};
+
 $(document).ready(function () {
   $(".overlay").addClass("opened");
 
   //Sound for Game________________________________________________________________
-  //Set sound effects as an object (Needs to be an object to use with jQuery.
-  var audio = {
-    cannonSound: new Audio("assets/sounds/cannonShot.mp3"),
-    winSound: new Audio("assets/sounds/explosion.mp3"),
-    missSound: new Audio("assets/sounds/thump.mp3"),
-    hoverSound: new Audio("assets/sounds/hover.mp3"),
-    clickSound: new Audio("assets/sounds/click.mp3"),
-    bgSound : new Audio("assets/sounds/bgMusic.mp3")
-  };
-
   //This will adjust the volume for all the sounds in the game
   var musicVolume = document.getElementById("volume");
   var soundLevel = 0.3 + (musicVolume.value * 0.7);
@@ -116,8 +117,12 @@ $(document).ready(function () {
     clickButton();
     if($("#windcheckbox").is(":checked")) {
       setWindFlag(true);
-      console.log("checked");
       setWindOptions(window.gameInfo);
+    }
+    if($("#wallcheckbox").is(":checked")) {
+      setWallFlag(true);
+      World.add(engine.world, wall);
+      firebaseBot.updateWallInfo(window.gameInfo);
     }
   });
 
@@ -146,8 +151,9 @@ $(document).ready(function () {
     else {
       cannonBallB.isStatic = false;
     }
-    audio.cannonSound.currentTime = 0;
-    audio.cannonSound.play();
+    // audio.cannonSound.currentTime = 0;
+    // audio.cannonSound.load();
+    // audio.cannonSound.play();
   });
 
   $(".mainRow").append(canvas);
@@ -200,6 +206,7 @@ $(document).ready(function () {
         alertBot.alertPTwoWin(window.gameInfo);
       }
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "ground")) {
+        audio.missSound.load();
         audio.missSound.play();//This will play the miss sound when p1 misses.
         World.add(world, Bodies.circle(cannonBallA.position.x, cannonBallA.position.y, 16, {
           isStatic: true,
@@ -214,6 +221,7 @@ $(document).ready(function () {
         alertBot.alertPOneMiss(window.gameInfo);
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "ground")) {
+        audio.missSound.load();
         audio.missSound.play();//This will play the miss sound when p2 misses.
         World.add(world, Bodies.circle(cannonBallB.position.x, cannonBallB.position.y, 16, {
           isStatic: true,
@@ -233,11 +241,15 @@ $(document).ready(function () {
   Events.on(engine, 'afterTick', function () {
     if (cannonBallA && cannonBallB) {
       if (cannonBallA.position.x > world.bounds.max.x || cannonBallA.position.x < world.bounds.min.x) {
-        cannonballBot.resetBallA();
+        audio.missSound.load();
+        audio.missSound.play();
+	      cannonballBot.resetBallA();
         alertBot.alertPOneMiss(window.gameInfo);
       }
       if (cannonBallB.position.x > world.bounds.max.x || cannonBallB.position.x < world.bounds.min.x) {
-        cannonballBot.resetBallB();
+        audio.missSound.load();
+        audio.missSound.play();
+	      cannonballBot.resetBallB();
         alertBot.alertPTwoMiss(window.gameInfo);
       }
     }
@@ -285,69 +297,3 @@ $(document).ready(function () {
     Matter.Body.setAngle(cannonB, cannonballBot.toRadians(angle2));
   }
 });
-// END document.ready()
-
-// function renderCanvas() {
-
-// }
-
-// TODO: enclose following code in module
-/* function toRadians(angle) { */
-/*   return angle * (Math.PI / 180); */
-/* } */
-
-/* function toDegrees(angle) { */
-/*   return angle * (180 / Math.PI); */
-/* } */
-
-/* function resetBallA() { */
-/*   Body.setVelocity(cannonBallA, { x: 0, y: 0 }); */
-/*   Body.setAngularVelocity(cannonBallA, 0); */
-/*   engine.world.gravity.x = 0; */
-/*   Body.setPosition(cannonBallA, cannonBallAOrigin); */
-/* } */
-
-/* function resetBallB() { */
-/*   Body.setVelocity(cannonBallB, { x: 0, y: 0 }); */
-/*   Body.setAngularVelocity(cannonBallB, 0); */
-/*   engine.world.gravity.x = 0; */
-/*   Body.setPosition(cannonBallB, cannonBallBOrigin); */
-/* } */
-
-/* function launchCannonBall(angle, power) { */
-/*   var dampener = .003; */
-/*   var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener)); */
-/*   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener)); */
-/*   if (gameInfo.player === "playerOne") { */
-/*     console.log("from here: " , gameInfo.wind); */
-/*     if (gameInfo.wind) { */
-/*       engine.world.gravity.x = newGravity; */
-/*     } */
-/*     Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector); */
-/*   } else { */
-/*     if (gameInfo.wind) { */
-/*       engine.world.gravity.x = newGravity; */
-/*     } */
-/*     Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2); */
-/*   } */
-/* } */
-
-/* function launchOpponentCannonBall(angle, power) { */
-/*   var dampener = .003; */
-/*   var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener)); */
-/*   var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener)); */
-/*   if (gameInfo.opponent === "playerOne") { */
-/*     cannonBallA.isStatic = false; */
-/*     if (gameInfo.wind) { */
-/*       engine.world.gravity.x = newGravity; */
-/*     } */
-/*     Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector); */
-/*   } else { */
-/*     cannonBallB.isStatic = false; */
-/*     if (gameInfo.wind) { */
-/*       engine.world.gravity.x = newGravity; */
-/*     } */
-/*     Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2); */
-/*   } */
-/* } */
-

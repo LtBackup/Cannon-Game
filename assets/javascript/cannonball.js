@@ -44,7 +44,6 @@ var cannonballBot = (function() {
     var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
     var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
     if (gameInfo.player === "playerOne") {
-      console.log("from here: " , gameInfo.wind);
       if (gameInfo.wind) {
         engine.world.gravity.x = newGravity;
       }
@@ -78,7 +77,6 @@ var cannonballBot = (function() {
 
   var publicAPI = {
     toRadians: toRadians,
-
     resetBallA: resetBallA,
     resetBallB: resetBallB,
     fireCannon: fireCannon,

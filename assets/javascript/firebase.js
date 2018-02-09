@@ -1,5 +1,4 @@
 var firebaseBot = (function() {
-  console.log("fireBot");
   var firebaseConfig = {
     apiKey: "AIzaSyD5Ev0o5EoYJiOBuHUVePoe22x-Nssfqd0",
     authDomain: "cannon-game.firebaseapp.com",
@@ -25,7 +24,8 @@ var firebaseBot = (function() {
           direction: "",
           speed: 0
         },
-        gameStart: false
+        gameStart: false,
+        wall: false
       },
       playerTwo: {
         angle: 0,
@@ -92,6 +92,13 @@ var firebaseBot = (function() {
     }
   }  
 
+  function updateWallInfo(gameInfo) {
+    if (gameInfo.wall) {
+      database.ref('games/' + gameInfo.gameId + "/playerOne").update({
+        wall: true
+      });  
+    }
+  }  
   var publicAPI = {
     database: database,
     updateWindInfo: updateWindInfo,
@@ -99,7 +106,8 @@ var firebaseBot = (function() {
     resetGame: resetGame,
     createNewGame: createNewGame,
     incrementShotsFired: incrementShotsFired,
-    updateAnglePower: updateAnglePower
+    updateAnglePower: updateAnglePower,
+    updateWallInfo: updateWallInfo,
   };
 
   return publicAPI;

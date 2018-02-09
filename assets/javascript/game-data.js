@@ -2,18 +2,29 @@ window.gameInfo = {
   player: "playerOne",
   gameId: 1,
   opponent: "playerTwo",
-  wind: false
+  wind: false,
+  wall: false
 };
 
+// MINA - relocate to fbBot
 function getWindOptions(gameInfo) {
   var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne/windInfo");
   gameRef.once("value").then(function (snapshot) {
-    console.log(snapshot.val().wind);
     if (snapshot.val().wind) {
       gameInfo.wind = true; 
       direction = snapshot.val().direction;
       windSpeed = snapshot.val().speed;
       setGravityAndBg();
+    }
+  });
+}
+
+function getWallOption(gameInfo) {
+  var wallRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne/wall");
+  wallRef.once("value").then(function(snap) {
+    if (snap.val()) {
+      setWallFlag(true);
+      World.add(engine.world, wall);
     }
   });
 }
@@ -25,6 +36,8 @@ function joinGame(newGameId, db) {
         player: "playerTwo",
         gameId: newGameId,
         opponent: "playerOne",
+        wind: false,
+        wall: false
       };
       $(".overlay").addClass("hidden");
       getWindOptions(window.gameInfo);
@@ -43,7 +56,7 @@ function playerTwoJoinsGame(gameInfo) {
     gameStart: true
   });
   $(".fireButton").addClass("invisible");
-  $(".gamemsgs").text("Player One's Turn")
+  $(".gamemsgs").text("Player 1's Turn")
   $(".info").text("Welcome Player 2. You have joined Game #" + window.gameInfo.gameId);
   /* addOpponentListeners(window.gameInfo); */
 }
@@ -67,12 +80,12 @@ function startGame() {
 
 function waitForPlayerTwo(gameInfo) {
   $(".fireButton").addClass("invisible");
-  $(".gamemsgs").text("Waiting for Player Two.")
+  $(".gamemsgs").text("Waiting for Player 2.");
   var gameStartRef = firebaseBot.database.ref('games/' + gameInfo.gameId + '/' + gameInfo.player + '/gameStart');
   gameStartRef.on("value", function(snapshot) {
     if (snapshot.val()) {
       $(".fireButton").removeClass("invisible");
-      $(".gamemsgs").text("Player Two has joined the Game. Please take your turn.")
+      $(".gamemsgs").text("Player 2 has joined the Game. Please take your turn.")
     }
     /* addOpponentListeners(window.gameInfo); */
   })
@@ -94,23 +107,13 @@ function getWind() {
   return gameInfo.wind;
 }
 
-/* function fireCannon(gameInfo) { */
-/*   var currentPlayer = gameInfo.player; */
-/*   var gameId = gameInfo.gameId; */
-/*   var angleInput; */
-/*   var powerInput; */
-/*   $(".fireButton").addClass("invisible"); */
-/*   if (gameInfo.player === "playerOne") { */
-/*     angleInput = Number($("#aRange").val()); */
-/*     powerInput = Number($("#pRange").val()); */
-/*   } else { */
-/*     angleInput = Number($("#aRange2").val()); */
-/*     powerInput = Number($("#pRange2").val()); */
-/*   } */
-/*   cannonballBot.launchCannonBall(angleInput, powerInput); */
-/*   firebaseBot.updateAnglePower(gameId, currentPlayer, angleInput, powerInput); */
-/*   firebaseBot.incrementShotsFired(gameId, currentPlayer); */
-/* } */
+function setWallFlag (value) {
+  window.gameInfo.wall = value;
+}
+
+function getWall() {
+  return gameInfo.wall;
+}
 
 function addOpponentListeners(gameInfo) {
   var opponent = gameInfo.opponent;
@@ -150,14 +153,12 @@ function placeCannons(gameInfo) {
       playerOnePosition = snapshot.val().playerOnePos;
       playerTwoPosition = snapshot.val().playerTwoPos;
       createObjects(playerOnePosition, playerTwoPosition);
+      getWallOption(window.gameInfo);
     });
   }
 }
 
-//only call if wind is true
 function setWindOptions(gameInfo) {
     direction = dirs[Math.floor(Math.random() * dirs.length)];
     getWindSpeed();
 }
-
-
