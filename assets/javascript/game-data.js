@@ -8,9 +8,8 @@ window.gameInfo = {
 
 // MINA - relocate to fbBot
 function getWindOptions(gameInfo) {
-  var gameRef = database.ref("games/" + gameInfo.gameId + "/playerOne/windInfo");
+  var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne/windInfo");
   gameRef.once("value").then(function (snapshot) {
-    console.log(snapshot.val().wind);
     if (snapshot.val().wind) {
       gameInfo.wind = true; 
       direction = snapshot.val().direction;
@@ -20,14 +19,9 @@ function getWindOptions(gameInfo) {
   });
 }
 
-function addWall() {
-  World.add(engine.world, wall);
-}
-
 function getWallOption(gameInfo) {
-  var wallRef = database.ref("games/" + gameInfo.gameId + "/playerOne/wall");
+  var wallRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne/wall");
   wallRef.once("value").then(function(snap) {
-    console.log(snap.val());
     if (snap.val()) {
       setWallFlag(true);
       World.add(engine.world, wall);
@@ -48,7 +42,6 @@ function joinGame(newGameId, db) {
       $(".overlay").addClass("hidden");
       getWindOptions(window.gameInfo);
       placeCannons(window.gameInfo);
-      /* getWallOption(window.gameInfo); */
       hideOppControls(window.gameInfo);
       playerTwoJoinsGame(window.gameInfo);
       addOpponentListeners(window.gameInfo);
@@ -59,7 +52,7 @@ function joinGame(newGameId, db) {
 }
 
 function playerTwoJoinsGame(gameInfo) {
-  database.ref('games/' + gameInfo.gameId + "/" + gameInfo.opponent).update({
+  firebaseBot.database.ref('games/' + gameInfo.gameId + "/" + gameInfo.opponent).update({
     gameStart: true
   });
   $(".fireButton").addClass("invisible");
@@ -76,7 +69,7 @@ function startGame() {
     opponent: "playerTwo",
     wind: false
   };
-  createNewGame(newGameId);
+  firebaseBot.createNewGame(newGameId);
   $(".overlay").addClass("hidden");
   $(".info").text("Welcome Player 1. Your new game id is " + window.gameInfo.gameId);
   placeCannons(window.gameInfo)
@@ -87,8 +80,8 @@ function startGame() {
 
 function waitForPlayerTwo(gameInfo) {
   $(".fireButton").addClass("invisible");
-  $(".gamemsgs").text("Waiting for Player 2.")
-  var gameStartRef = database.ref('games/' + gameInfo.gameId + '/' + gameInfo.player + '/gameStart');
+  $(".gamemsgs").text("Waiting for Player 2.");
+  var gameStartRef = firebaseBot.database.ref('games/' + gameInfo.gameId + '/' + gameInfo.player + '/gameStart');
   gameStartRef.on("value", function(snapshot) {
     if (snapshot.val()) {
       $(".fireButton").removeClass("invisible");
@@ -115,37 +108,19 @@ function getWind() {
 }
 
 function setWallFlag (value) {
-  window.gameInfo.wall = true;
+  window.gameInfo.wall = value;
 }
 
 function getWall() {
   return gameInfo.wall;
 }
 
-function fireCannon(gameInfo) {
-  var currentPlayer = gameInfo.player;
-  var gameId = gameInfo.gameId;
-  var angleInput;
-  var powerInput;
-  $(".fireButton").addClass("invisible");
-  if (gameInfo.player === "playerOne") {
-    angleInput = Number($("#aRange").val());
-    powerInput = Number($("#pRange").val());
-  } else {
-    angleInput = Number($("#aRange2").val());
-    powerInput = Number($("#pRange2").val());
-  }
-  launchCannonBall(angleInput, powerInput);
-  updateAnglePower(gameId, currentPlayer, angleInput, powerInput);
-  incrementShotsFired(gameId, currentPlayer);
-}
-
 function addOpponentListeners(gameInfo) {
   var opponent = gameInfo.opponent;
   var gameId = gameInfo.gameId;
-  var opponentAngleRef = database.ref("games/" + gameId + "/" + opponent + "/angle");
-  var opponentPowerRef = database.ref("games/" + gameId + "/" + opponent + "/power");
-  var opponentShotsRef = database.ref("games/" + gameId + "/" + opponent + "/shotsFired");
+  var opponentAngleRef = firebaseBot.database.ref("games/" + gameId + "/" + opponent + "/angle");
+  var opponentPowerRef = firebaseBot.database.ref("games/" + gameId + "/" + opponent + "/power");
+  var opponentShotsRef = firebaseBot.database.ref("games/" + gameId + "/" + opponent + "/shotsFired");
   opponentShotsRef.on("value", function(shotsSnap) {
     if(shotsSnap.val()){
       opponentAngleRef.once("value").then(function (angleSnap) {
@@ -153,13 +128,13 @@ function addOpponentListeners(gameInfo) {
         var opponentPower = 0;
         opponentAngle = angleSnap.val();
         if (opponent === "playerOne") {
-          Matter.Body.setAngle(cannonA, toRadians(opponentAngle) * -1);
+          Matter.Body.setAngle(cannonA, cannonballBot.toRadians(opponentAngle) * -1);
         } else {
-          Matter.Body.setAngle(cannonB, toRadians(opponentAngle));
+          Matter.Body.setAngle(cannonB, cannonballBot.toRadians(opponentAngle));
         }
         opponentPowerRef.once("value").then(function (powerSnap) {
           opponentPower = powerSnap.val();
-          launchOpponentCannonBall(opponentAngle, opponentPower);
+          cannonballBot.launchOpponentCannonBall(opponentAngle, opponentPower);
         });
       });
     }
@@ -170,10 +145,10 @@ function placeCannons(gameInfo) {
   if (gameInfo.player === "playerOne") {
     playerOnePosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.02);
     playerTwoPosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.70);
-    updatePositions(gameInfo);
+    firebaseBot.updatePositions(gameInfo);
     createObjects(playerOnePosition, playerTwoPosition);
   } else {
-    var gameRef = database.ref("games/" + gameInfo.gameId + "/" + gameInfo.opponent);
+    var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/" + gameInfo.opponent);
     gameRef.once("value").then(function (snapshot) {
       playerOnePosition = snapshot.val().playerOnePos;
       playerTwoPosition = snapshot.val().playerTwoPos;
@@ -183,10 +158,7 @@ function placeCannons(gameInfo) {
   }
 }
 
-//only call if wind is true
 function setWindOptions(gameInfo) {
     direction = dirs[Math.floor(Math.random() * dirs.length)];
     getWindSpeed();
 }
-
-

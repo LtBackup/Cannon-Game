@@ -97,7 +97,6 @@ function createObjects(playerOnePostion, playerTwoPosition) {
   });
   cannonBallBOrigin = { x: cannonBallB.position.x, y: cannonBallB.position.y };
 
-  console.log("I am wall")
   wall = Bodies.rectangle(cannonB.position.x - (cannonB.position.x - cannonA.position.x) / 2, groundPosition - ((render.options.height / 4) / 2), 50, render.options.height / 4, {
     isStatic: true,
     label: "wall",
