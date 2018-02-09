@@ -22,8 +22,6 @@ var cannonballBot = (function() {
   }
 
   function fireCannon(gameInfo) {
-    audio.cannonSound.load();
-    audio.cannonSound.play();
     var currentPlayer = gameInfo.player;
     var gameId = gameInfo.gameId;
     var angleInput;
@@ -61,6 +59,8 @@ var cannonballBot = (function() {
   }
 
   function launchOpponentCannonBall(angle, power) {
+    audio.cannonSound.load();
+    audio.cannonSound.play();
     var dampener = .003;
     var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
     var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
