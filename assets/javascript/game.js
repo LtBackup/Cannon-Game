@@ -245,10 +245,12 @@ $(document).ready(function () {
   Events.on(engine, 'afterTick', function () {
     if (cannonBallA && cannonBallB) {
       if (cannonBallA.position.x > world.bounds.max.x || cannonBallA.position.x < world.bounds.min.x) {
+        audio.missSound.play();
         resetBallA();
         alertPOneMiss(window.gameInfo);
       }
       if (cannonBallB.position.x > world.bounds.max.x || cannonBallB.position.x < world.bounds.min.x) {
+        audio.missSound.play();
         resetBallB();
         alertPTwoMiss(window.gameInfo);
       }
