@@ -66,11 +66,25 @@ var firebaseBot = (function() {
         playerOnePos: 0,
         playerTwoPos: 0,
       });
+      playerOnePosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.02);
+      playerTwoPosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.70);
+      firebaseBot.updatePositions(gameInfo);
+      createObjects(playerOnePosition, playerTwoPosition);
+      if(gameInfo.wall){
+        World.add(engine.world, wall);
+      }
     } else {
       database.ref('games/' + gameInfo.gameId + "/" + gameInfo.player).update({
         angle: 0,
         power: 0,
         shotsFired: 0,
+      });
+      var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/" + gameInfo.opponent);
+      gameRef.once("value").then(function (snapshot) {
+        playerOnePosition = snapshot.val().playerOnePos;
+        playerTwoPosition = snapshot.val().playerTwoPos;
+        createObjects(playerOnePosition, playerTwoPosition);
+        getWallOption(window.gameInfo);
       });
     }
   }

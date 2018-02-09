@@ -36,7 +36,6 @@ var alertBot = (function() {
     } else {
       $(".player-alerts").text("You LOSE...")
     }
-    firebaseBot.resetGame(gameInfo);
   }
 
   function alertPTwoWin(gameInfo) {
@@ -46,7 +45,6 @@ var alertBot = (function() {
     } else {
       $(".player-alerts").text("You LOSE...")
     }
-    firebaseBot.resetGame(gameInfo);
   }
 
   function placeReloadButton() {
@@ -63,7 +61,7 @@ var alertBot = (function() {
     alertDiv.append(playAgainBtn);
     $("#control-box").append(alertDiv);
     $("#play-again-btn").on("click", function() {
-      location.reload();
+      firebaseBot.resetGame(window.gameInfo);
     });
     $(".gamemsgs").empty();
   }
