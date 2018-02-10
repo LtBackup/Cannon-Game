@@ -24,7 +24,7 @@ var direction = "";
 var canvasbg = "./assets/images/canvasbg.jpg";
 var dirs = ["east", "west"];
 
-//create the canvas dimensions
+//create the canvas with properties
 var canvas = document.createElement("canvas");
 var context = canvas.getContext("2d");
 canvas.className = "hidden";
@@ -44,6 +44,7 @@ var render = Render.create({
   }
 });
 
+//placement variables for game objects
 var playerOnePosition = 0;
 var playerTwoPosition = 0;
 var groundHeight = (render.options.height * .3) / 2;
@@ -159,10 +160,10 @@ $(document).ready(function () {
   $(".mainRow").append(canvas);
 
   // make the world bounds a little bigger than the render bounds
-  world.bounds.min.x = -600;
-  world.bounds.min.y = -600;
-  world.bounds.max.x = render.options.width + 600;
-  world.bounds.max.y = render.options.height + 600;
+  world.bounds.min.x = -1000;
+  world.bounds.min.y = -1000;
+  world.bounds.max.x = render.options.width + 1000;
+  world.bounds.max.y = render.options.height + 1000;
 
   // run the engine
   Engine.run(engine);
@@ -175,8 +176,17 @@ $(document).ready(function () {
   runner.delta = 1000 / 60;
   Runner.run(runner, engine);
 
-  // Checks to see if the active collision involves the cannonball and stops it from spinning if so
   
+/**
+* when a collision occurs, this function checks the pairs of colliding objects and acts based on what the cannonball is colliding with.
+  Any Object: stops velocity and rotational velocity to avoid rolling and the ball moving when it is reset.
+  Cannon: resets the cannonball and triggers winning/losing conditions based on the cannon.
+  Ground: resets the cannonball and leaves a marker at the location of impact.
+* @param {obj} engine - the game engine to check for collisions.
+* @param {string} event - the name of the specific event occurring in the engine.
+* @param {function} - anonymous function that runs the logic that compares the returned collision event pairs.
+* @return {undefined}
+*/
   Events.on(engine, "collisionActive", function (event) {
     var pairs = event.pairs;
     for (var i = 0; i < pairs.length; i++) {
@@ -190,7 +200,7 @@ $(document).ready(function () {
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "launchPlatform") || (pair.bodyA.label === "launchPlatform" && pair.bodyB.label === "cannonBallB")) {
         cannonBallB.isStatic = true;
         Body.setVelocity(cannonBallB, { x: 0, y: 0 });
-        Body.setAngularVelocity(cannonBallB, 0)
+        Body.setAngularVelocity(cannonBallB, 0);
       }
       //checks for impact with enemy cannons and ground
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "cannonB") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "cannonB")) {
@@ -238,6 +248,12 @@ $(document).ready(function () {
     }
   });
 
+/**
+* Checks the game after every engine tick to see if the cannonball has exceeded the world bounds. Resets it if so.
+* @param {obj} engine - the game engine to use for position checks
+* @param {string} event - the name of the specific event - the end of an engine tick
+* @return {undefined}
+*/
   Events.on(engine, 'afterTick', function () {
     if (cannonBallA && cannonBallB) {
       if (cannonBallA.position.x > world.bounds.max.x || cannonBallA.position.x < world.bounds.min.x) {
