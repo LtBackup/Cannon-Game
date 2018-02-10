@@ -50,7 +50,7 @@ var groundHeight = (render.options.height * .3) / 2;
 var groundPosition = render.options.height - groundHeight;
 var ground;
 
-//Set sound effects as an object (Needs to be an object to use with jQuery.
+/** Declares all the sound effects in the game as an object. (Needs to be an object to use with jQuery). */
 var audio = {
   cannonSound: new Audio("assets/sounds/cannonShot.mp3"),
   winSound: new Audio("assets/sounds/explosion.mp3"),
@@ -78,7 +78,7 @@ $(document).ready(function () {
     audio.clickSound.volume = soundLevel;//Updates background music volume
     audio.bgSound.volume = bgSoundLevel;//Updates background music volume
   }
-  //Run opening background music
+  /** Will run opening background music */
   var bgMusic = audio.bgSound;
   bgMusic.play();
   bgMusic.loop = true;
