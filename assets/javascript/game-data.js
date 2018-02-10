@@ -143,15 +143,15 @@ function addOpponentListeners(gameInfo) {
 
 function placeCannons(gameInfo) {
   if (gameInfo.player === "playerOne") {
-    playerOnePosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.02);
-    playerTwoPosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.70);
-    firebaseBot.updatePositions(gameInfo);
+    var playerOnePosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.02);
+    var playerTwoPosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.70);
+    firebaseBot.updatePositions(gameInfo, playerOnePosition, playerTwoPosition);
     createObjects(playerOnePosition, playerTwoPosition);
   } else {
     var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/" + gameInfo.opponent);
     gameRef.once("value").then(function (snapshot) {
-      playerOnePosition = snapshot.val().playerOnePos;
-      playerTwoPosition = snapshot.val().playerTwoPos;
+      var playerOnePosition = snapshot.val().playerOnePos;
+      var playerTwoPosition = snapshot.val().playerTwoPos;
       createObjects(playerOnePosition, playerTwoPosition);
       getWallOption(window.gameInfo);
     });

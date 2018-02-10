@@ -66,10 +66,9 @@ var firebaseBot = (function() {
         playerOnePos: 0,
         playerTwoPos: 0,
       });
-      playerOnePosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.02);
-      playerTwoPosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.70);
-      firebaseBot.updatePositions(gameInfo);
-      createObjects(playerOnePosition, playerTwoPosition);
+      World.remove(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]);
+      removeWall(gameInfo);
+      placeCannons(gameInfo);
       if(gameInfo.wall){
         World.add(engine.world, wall);
       }
@@ -79,20 +78,22 @@ var firebaseBot = (function() {
         power: 0,
         shotsFired: 0,
       });
-      var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/" + gameInfo.opponent);
-      gameRef.once("value").then(function (snapshot) {
-        playerOnePosition = snapshot.val().playerOnePos;
-        playerTwoPosition = snapshot.val().playerTwoPos;
-        createObjects(playerOnePosition, playerTwoPosition);
-        getWallOption(window.gameInfo);
-      });
+      World.remove(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]);
+      removeWall(gameInfo);
+      placeCannons(gameInfo);
     }
   }
 
-  function updatePositions(gameInfo) {
+  function removeWall(gameInfo) {
+    if (gameInfo.wall) {
+      World.remove(engine.world, wall);
+    }
+  }
+
+  function updatePositions(gameInfo, positionOne, positionTwo) {
     database.ref('games/' + gameInfo.gameId + "/" + gameInfo.player).update({
-      playerOnePos: playerOnePosition,
-      playerTwoPos: playerTwoPosition,
+      playerOnePos: positionOne,
+      playerTwoPos: positionTwo,
     });
   }  
 
