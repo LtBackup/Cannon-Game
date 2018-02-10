@@ -30,4 +30,19 @@ function setGravityAndBg() {
       render.options.background = canvasbg;
   }
 }
+ 
+  function setWindFlag (value) {
+    window.gameInfo.wind = value;
+  }
 
+  function getWind() {
+    return gameInfo.wind;
+  }
+
+  function setWallFlag (value) {
+    window.gameInfo.wall = value;
+  }
+
+  function getWall() {
+    return gameInfo.wall;
+  }

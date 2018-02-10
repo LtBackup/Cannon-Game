@@ -30,6 +30,7 @@ var alertBot = (function() {
   }
 
   function alertPOneWin(gameInfo) {
+    firebaseBot.resetGameData(gameInfo);
     placeReloadButton();
     if (gameInfo.player === "playerOne") {
       $(".player-alerts").text("You WIN!")
@@ -39,6 +40,7 @@ var alertBot = (function() {
   }
 
   function alertPTwoWin(gameInfo) {
+    firebaseBot.resetGameData(gameInfo);
     placeReloadButton();
     if (gameInfo.player === "playerTwo") {
       $(".player-alerts").text("You WIN!")
@@ -62,7 +64,7 @@ var alertBot = (function() {
     alertDiv.append(playAgainBtn);
     $("#end-game__alerts").append(alertDiv);
     $("#play-again-btn").on("click", function() {
-      firebaseBot.resetGame(window.gameInfo);
+      gameBot.resetGame(window.gameInfo);
       $("#end-game__alerts").empty();
       $("#player-one-controls").show();
       $("#player-two-controls").show();
