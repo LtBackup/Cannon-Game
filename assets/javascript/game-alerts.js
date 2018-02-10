@@ -30,27 +30,28 @@ var alertBot = (function() {
   }
 
   function alertPOneWin(gameInfo) {
+    firebaseBot.resetGameData(gameInfo);
     placeReloadButton();
     if (gameInfo.player === "playerOne") {
       $(".player-alerts").text("You WIN!")
     } else {
       $(".player-alerts").text("You LOSE...")
     }
-    firebaseBot.resetGame(gameInfo);
   }
 
   function alertPTwoWin(gameInfo) {
+    firebaseBot.resetGameData(gameInfo);
     placeReloadButton();
     if (gameInfo.player === "playerTwo") {
       $(".player-alerts").text("You WIN!")
     } else {
       $(".player-alerts").text("You LOSE...")
     }
-    firebaseBot.resetGame(gameInfo);
   }
 
   function placeReloadButton() {
-    $("#control-box").empty();
+    $("#player-one-controls").hide();
+    $("#player-two-controls").hide();
     var alertDiv = $("<div>");
     alertDiv.addClass("col-md-4 col-md-offset-4 alert-box");
     var alertP = $("<p>");
@@ -61,18 +62,21 @@ var alertBot = (function() {
     playAgainBtn.text("PLAY AGAIN");
     alertDiv.append(alertP);
     alertDiv.append(playAgainBtn);
-    $("#control-box").append(alertDiv);
+    $("#end-game__alerts").append(alertDiv);
     $("#play-again-btn").on("click", function() {
-      location.reload();
+      gameBot.resetGame(window.gameInfo);
+      $("#end-game__alerts").empty();
+      $("#player-one-controls").show();
+      $("#player-two-controls").show();
     });
     $(".gamemsgs").empty();
   }
 
   var publicAPI = {
-    alertPOneMiss: alertPOneMiss,
-    alertPTwoMiss: alertPTwoMiss,
-    alertPOneWin: alertPOneWin,
-    alertPTwoWin: alertPTwoWin
+    alertPOneMiss,
+    alertPTwoMiss,
+    alertPOneWin,
+    alertPTwoWin
   }
 
   return publicAPI;

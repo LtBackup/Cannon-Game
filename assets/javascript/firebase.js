@@ -57,7 +57,29 @@ var firebaseBot = (function() {
     gameRef.update(newValue);
   }
 
-  function resetGame(gameInfo) {
+  function getWindOptions(gameInfo) {
+    var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne/windInfo");
+    gameRef.once("value").then(function (snapshot) {
+      if (snapshot.val().wind) {
+        gameInfo.wind = true; 
+        direction = snapshot.val().direction;
+        windSpeed = snapshot.val().speed;
+        setGravityAndBg();
+      }
+    });
+  }
+
+  function getWallOptions(gameInfo) {
+    var wallRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne/wall");
+    wallRef.once("value").then(function(snap) {
+      if (snap.val()) {
+        setWallFlag(true);
+        World.add(engine.world, wall);
+      }
+    });
+  }
+
+  function resetGameData(gameInfo) {
     if (gameInfo.player === "playerOne") {
       database.ref('games/' + gameInfo.gameId + "/" + gameInfo.player).update({
         angle: 0,
@@ -65,20 +87,38 @@ var firebaseBot = (function() {
         shotsFired: 0,
         playerOnePos: 0,
         playerTwoPos: 0,
+        gameStart: false,
       });
+      /* World.remove(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]); */
+      /* removeWall(gameInfo); */
+      /* placeCannons(gameInfo); */
+      /* if(gameInfo.wall){ */
+      /*   World.add(engine.world, wall); */
+      /* } */
+      /* waitForPlayerTwo(gameInfo); */
     } else {
       database.ref('games/' + gameInfo.gameId + "/" + gameInfo.player).update({
         angle: 0,
         power: 0,
         shotsFired: 0,
       });
+      /* World.remove(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]); */
+      /* removeWall(gameInfo); */
+      /* placeCannons(gameInfo); */
+      /* playerTwoJoinsGame(gameInfo); */
     }
   }
 
-  function updatePositions(gameInfo) {
+  /* function removeWall(gameInfo) { */
+  /*   if (gameInfo.wall) { */
+  /*     World.remove(engine.world, wall); */
+  /*   } */
+  /* } */
+
+  function updatePositions(gameInfo, positionOne, positionTwo) {
     database.ref('games/' + gameInfo.gameId + "/" + gameInfo.player).update({
-      playerOnePos: playerOnePosition,
-      playerTwoPos: playerTwoPosition,
+      playerOnePos: positionOne,
+      playerTwoPos: positionTwo,
     });
   }  
 
@@ -99,15 +139,18 @@ var firebaseBot = (function() {
       });  
     }
   }  
+
   var publicAPI = {
-    database: database,
-    updateWindInfo: updateWindInfo,
-    updatePositions: updatePositions,
-    resetGame: resetGame,
-    createNewGame: createNewGame,
-    incrementShotsFired: incrementShotsFired,
-    updateAnglePower: updateAnglePower,
-    updateWallInfo: updateWallInfo,
+    database,
+    updateWindInfo,
+    updatePositions,
+    resetGameData,
+    createNewGame,
+    incrementShotsFired,
+    updateAnglePower,
+    updateWallInfo,
+    getWindOptions,
+    getWallOptions,
   };
 
   return publicAPI;
