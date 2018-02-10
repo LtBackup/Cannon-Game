@@ -50,7 +50,7 @@ var groundHeight = (render.options.height * .3) / 2;
 var groundPosition = render.options.height - groundHeight;
 var ground;
 
-//Set sound effects as an object (Needs to be an object to use with jQuery.
+/** Declare all game sound effects as an object (Needs to be an object to use with jQuery. */
 var audio = {
   cannonSound: new Audio("assets/sounds/cannonShot.mp3"),
   winSound: new Audio("assets/sounds/explosion.mp3"),
@@ -63,38 +63,45 @@ var audio = {
 $(document).ready(function () {
   $(".overlay").addClass("opened");
 
-  //Sound for Game________________________________________________________________
-  //This will adjust the volume for all the sounds in the game
+  /** Sound Volume Controls */
   var musicVolume = document.getElementById("volume");
   var soundLevel = 0.3 + (musicVolume.value * 0.7);
   var bgSoundLevel = (musicVolume.value / 100 * 0.25);
+
+  /**
+   * This function will take in values from a slider input and adjust the volume of all sounds.
+   * @param {number} value - Value taken from the input slider ranging from 0 to 100.
+   * @returns {number} Number between 0 and 1 will be returned for all sounds.
+   */
   musicVolume.oninput = function () {
     soundLevel = (this.value / 100);
     bgSoundLevel = (this.value / 100 * 0.25);
-    audio.cannonSound.volume = soundLevel;//Updates background music volume
-    audio.winSound.volume = soundLevel;//Updates background music volume
-    audio.missSound.volume = soundLevel;//Updates background music volume
-    audio.hoverSound.volume = soundLevel;//Updates background music volume
-    audio.clickSound.volume = soundLevel;//Updates background music volume
-    audio.bgSound.volume = bgSoundLevel;//Updates background music volume
+    audio.cannonSound.volume = soundLevel;
+    audio.winSound.volume = soundLevel;
+    audio.missSound.volume = soundLevel;
+    audio.hoverSound.volume = soundLevel;
+    audio.clickSound.volume = soundLevel;
+    audio.bgSound.volume = bgSoundLevel;
   }
-  //Run opening background music
+  /** Sound Volume Controls */
   var bgMusic = audio.bgSound;
   bgMusic.play();
   bgMusic.loop = true;
   bgMusic.volume = bgSoundLevel;//Sets initial volue of the background music
 
-  //This will create main menu click and hover sounds
+  /** This function will reset the click sound to 0secs and then replays the sound. */
   function clickButton(){
-    audio.clickSound.currentTime = 0;//Resets sound to start from beginning
-    audio.clickSound.play();//Play sound when menu button is clicked.
+    audio.clickSound.currentTime = 0;
+    audio.clickSound.play();
   }
+
+  /** This function will reset the click sound to 0secs and then replays the sound. */
   function hoverButton(){
     audio.hoverSound.currentTime = 0;//Resets sound to start from beginning
     audio.hoverSound.play();//Play sound when menu button is hovered over.
   }
 
-  //Play hover sound effects for game main menu.
+  /** These functions will play hover sounds effects when the cursor hover over the HTML element with the IDs below.*/
   $("#start-game").mouseenter(function() {
         hoverButton();
   });
@@ -109,6 +116,12 @@ $(document).ready(function () {
   });
   //______________________________________________________________________________
 
+  /** 
+   * This function will run when HTML element with ID of #start-game is clicked. 
+   * Function will hide the canvas shadow, and add a new canvas for the game.
+   * Function will then run startGame() and clickButton() functions. 
+   * Function will also check if wind, or wall option has been checked and include them in the game.
+   */
   $("#start-game").on("click", function () {
     $(".canvas").addClass("hidden");
     canvas.classList.remove("hidden");
@@ -126,7 +139,7 @@ $(document).ready(function () {
     }
   });
 
-  // adds click listener on join game button in modal
+  /** Adds click listener on join game button in modal */ 
   $("#join-game").on("click", function () {
     $(".canvas").addClass("hidden");
     canvas.classList.remove("hidden");
@@ -137,11 +150,15 @@ $(document).ready(function () {
     clickButton();
   });
 
-   // adds click listener on settings button in modal
+  /** Adds click listener on settings button in modal */ 
   $("#settings").on("click", function() {
     $(".checkbox").removeClass("hidden");
   });
 
+  /** 
+   * This function will run when run when HTML element with class of fireButton is clicked. 
+   * Function will run fireCannon() function and change the kinematics of player 1's or player 2's cannonball.
+   */
   $(".fireButton").on("click", function () {
     cannonballBot.fireCannon(window.gameInfo);
     if (gameInfo.player === "playerOne") {
@@ -150,9 +167,6 @@ $(document).ready(function () {
     else {
       cannonBallB.isStatic = false;
     }
-    // audio.cannonSound.currentTime = 0;
-    // audio.cannonSound.load();
-    // audio.cannonSound.play();
   });
 
   $(".mainRow").append(canvas);
@@ -207,6 +221,7 @@ $(document).ready(function () {
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "ground")) {
         audio.missSound.load();
         audio.missSound.play();//This will play the miss sound when p1 misses.
+        console.log("P1 MISS");
         World.add(world, Bodies.circle(cannonBallA.position.x, cannonBallA.position.y, 16, {
           isStatic: true,
           isSensor: true,
@@ -222,6 +237,7 @@ $(document).ready(function () {
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "ground")) {
         audio.missSound.load();
         audio.missSound.play();//This will play the miss sound when p2 misses.
+        console.log("P2 MISS");
         World.add(world, Bodies.circle(cannonBallB.position.x, cannonBallB.position.y, 16, {
           isStatic: true,
           isSensor: true,
@@ -256,7 +272,9 @@ $(document).ready(function () {
 
   
 
-  //-Player 1 controls________________________________
+  /** 
+   * This block of code with retrieve power and angle values from player 1 controls
+   */
   var angle; var power;
   var pRange = document.getElementById("pRange");
   var aRange = document.getElementById("aRange");
@@ -265,19 +283,32 @@ $(document).ready(function () {
   p_output.innerHTML = pRange.value;
   a_output.innerHTML = aRange.value;
 
+  /** 
+   * This function takes in power values and updates the HTML page to display player 1's current power value.
+   * @param {number} value - Values from 1 to 100.
+   * @return {number} power - Number from 1 to 100.
+   */
   pRange.oninput = function () {
     power = this.value;
     p_output.innerHTML = power;
   }
+
+  /** 
+   * This function takes in angle values and updates the HTML page to display player 1's current angle value.
+   * Function will also animate/update player 1 cannon's angular position on the webpage using matter.js method. 
+   * @param {number} value - Number from 0 to 90.
+   * @return {number} Angle in degrees from 0 to 90. 
+   */
   aRange.oninput = function () {
     angle = this.value;
     a_output.innerHTML = angle;
     Matter.Body.setAngle(cannonA, cannonballBot.toRadians(angle) * -1);
   }
-  //__________________________________________________
+  /** -------------------------------------------------------------------------*/
 
-
-  //-Player 2 controls________________________________
+  /** 
+   * This block of code with retrieve power and angle values from player 2 controls
+   */
   var angle2; var power2;
   var pRange2 = document.getElementById("pRange2");
   var aRange2 = document.getElementById("aRange2");
@@ -286,10 +317,22 @@ $(document).ready(function () {
   p_output2.innerHTML = pRange2.value;
   a_output2.innerHTML = aRange2.value;
 
+  /** 
+   * This function takes in power values and updates the HTML page to display player 2's current power value.
+   * @param {number} value - Values from 1 to 100.
+   * @return {number} power - Number from 1 to 100.
+   */
   pRange2.oninput = function () {
     power2 = this.value;
     p_output2.innerHTML = power2;
   }
+
+  /** 
+   * This function takes in angle values and updates the HTML page to display player 2's current angle value.
+   * Function will also animate/update player 2 cannon's angular position on the webpage using matter.js method. 
+   * @param {number} value - Number from 0 to 90.
+   * @return {number} Angle in degrees from 0 to 90. 
+   */
   aRange2.oninput = function () {
     angle2 = this.value;
     a_output2.innerHTML = angle2;
