@@ -65,6 +65,7 @@ var firebaseBot = (function() {
         shotsFired: 0,
         playerOnePos: 0,
         playerTwoPos: 0,
+        gameStart: false,
       });
       World.remove(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]);
       removeWall(gameInfo);
@@ -72,6 +73,7 @@ var firebaseBot = (function() {
       if(gameInfo.wall){
         World.add(engine.world, wall);
       }
+      waitForPlayerTwo(gameInfo);
     } else {
       database.ref('games/' + gameInfo.gameId + "/" + gameInfo.player).update({
         angle: 0,
@@ -81,6 +83,7 @@ var firebaseBot = (function() {
       World.remove(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]);
       removeWall(gameInfo);
       placeCannons(gameInfo);
+      playerTwoJoinsGame(gameInfo);
     }
   }
 

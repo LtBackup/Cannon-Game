@@ -58,7 +58,6 @@ function playerTwoJoinsGame(gameInfo) {
   $(".fireButton").addClass("invisible");
   $(".gamemsgs").text("Player 1's Turn")
   $(".info").text("Welcome Player 2. You have joined Game #" + window.gameInfo.gameId);
-  /* addOpponentListeners(window.gameInfo); */
 }
 
 function startGame() {
@@ -67,7 +66,8 @@ function startGame() {
     player: "playerOne",
     gameId: newGameId,
     opponent: "playerTwo",
-    wind: false
+    wall: false,
+    wind: false,
   };
   firebaseBot.createNewGame(newGameId);
   $(".overlay").addClass("hidden");
@@ -87,7 +87,6 @@ function waitForPlayerTwo(gameInfo) {
       $(".fireButton").removeClass("invisible");
       $(".gamemsgs").text("Player 2 has joined the Game. Please take your turn.")
     }
-    /* addOpponentListeners(window.gameInfo); */
   })
 }
 
