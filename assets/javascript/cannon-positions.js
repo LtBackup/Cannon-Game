@@ -137,6 +137,7 @@ function createObjects(playerOnePosition, playerTwoPosition) {
       visible: false
     }
   });
+
 //adds all created objects to our world to interact with them
-  World.add(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]);
+  World.add(engine.world, [cannonBallA, cannonBallB, cannonA, cannonB, launchPlatformA, launchPlatformB, ground]);
 }
