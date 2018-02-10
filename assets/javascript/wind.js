@@ -11,7 +11,7 @@ function getWindSpeed() {
         windSpeed = response.wind.speed;
         newGravity = windSpeed * .15;
         setGravityAndBg();
-        updateWindInfo(window.gameInfo);
+        firebaseBot.updateWindInfo(window.gameInfo);
         console.log("the wind direction is: " + direction);
         console.log(newGravity);
     });
@@ -30,4 +30,19 @@ function setGravityAndBg() {
       render.options.background = canvasbg;
   }
 }
+ 
+  function setWindFlag (value) {
+    window.gameInfo.wind = value;
+  }
 
+  function getWind() {
+    return gameInfo.wind;
+  }
+
+  function setWallFlag (value) {
+    window.gameInfo.wall = value;
+  }
+
+  function getWall() {
+    return gameInfo.wall;
+  }

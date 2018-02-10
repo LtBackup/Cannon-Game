@@ -44,8 +44,8 @@ var render = Render.create({
   }
 });
 
-var playerOnePosition = 0;
-var playerTwoPosition = 0;
+/* var playerOnePosition = 0; */
+/* var playerTwoPosition = 0; */
 var groundHeight = (render.options.height * .3) / 2;
 var groundPosition = render.options.height - groundHeight;
 var ground;
@@ -113,21 +113,17 @@ $(document).ready(function () {
     $(".canvas").addClass("hidden");
     canvas.classList.remove("hidden");
     canvas.classList.add("canvas");
-    startGame();
+    gameBot.startGame();
     clickButton();
     if($("#windcheckbox").is(":checked")) {
       setWindFlag(true);
-      console.log("checked");
-      setWindOptions(window.gameInfo);
+      gameBot.setWindOptions(window.gameInfo);
     }
     if($("#wallcheckbox").is(":checked")) {
       setWallFlag(true);
       World.add(engine.world, wall);
-      updateWallInfo(window.gameInfo);
+      firebaseBot.updateWallInfo(window.gameInfo);
     }
-
-    console.log(cannonA);
-    console.log(wall);
   });
 
   // adds click listener on join game button in modal
@@ -135,13 +131,9 @@ $(document).ready(function () {
     $(".canvas").addClass("hidden");
     canvas.classList.remove("hidden");
     canvas.classList.add("canvas");
-
     // TODO: Implement logic to warn user that his wind selection was ignored
     var newGameId = Number($("#game-id-field").val());
-    joinGame(newGameId, database);
-    /* if($("#wallcheckbox").is(":checked")) { */
-    /*   World.add(engine.world, wall); */
-    /* } */
+    gameBot.joinGame(newGameId, firebaseBot.database);
     clickButton();
   });
 
@@ -151,7 +143,7 @@ $(document).ready(function () {
   });
 
   $(".fireButton").on("click", function () {
-    fireCannon(window.gameInfo);
+    cannonballBot.fireCannon(window.gameInfo);
     if (gameInfo.player === "playerOne") {
       cannonBallA.isStatic = false;
     }
@@ -202,20 +194,19 @@ $(document).ready(function () {
       //checks for impact with enemy cannons and ground
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "cannonB") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "cannonB")) {
         //TODO trigger explosion
-        resetBallA();
-        alertPOneWin(window.gameInfo);
+        cannonballBot.resetBallA();
+        alertBot.alertPOneWin(window.gameInfo);
         audio.winSound.play();//This will play the winning sound when p1 wins.
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "cannonA") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "cannonA")) {
         //TODO trigger explosion
-        resetBallB();
+        cannonballBot.resetBallB();
         audio.winSound.play();//This will play the winning sound when p2 wins.
-        alertPTwoWin(window.gameInfo);
+        alertBot.alertPTwoWin(window.gameInfo);
       }
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "ground")) {
         audio.missSound.load();
         audio.missSound.play();//This will play the miss sound when p1 misses.
-        console.log("P1 MISS");
         World.add(world, Bodies.circle(cannonBallA.position.x, cannonBallA.position.y, 16, {
           isStatic: true,
           isSensor: true,
@@ -225,13 +216,12 @@ $(document).ready(function () {
             }
           }
         }));
-        resetBallA();
-        alertPOneMiss(window.gameInfo);
+        cannonballBot.resetBallA();
+        alertBot.alertPOneMiss(window.gameInfo);
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "ground")) {
         audio.missSound.load();
         audio.missSound.play();//This will play the miss sound when p2 misses.
-        console.log("P2 MISS");
         World.add(world, Bodies.circle(cannonBallB.position.x, cannonBallB.position.y, 16, {
           isStatic: true,
           isSensor: true,
@@ -241,8 +231,8 @@ $(document).ready(function () {
             }
           }
         }));
-        resetBallB();
-        alertPTwoMiss(window.gameInfo);
+        cannonballBot.resetBallB();
+        alertBot.alertPTwoMiss(window.gameInfo);
       }
     }
   });
@@ -252,14 +242,14 @@ $(document).ready(function () {
       if (cannonBallA.position.x > world.bounds.max.x || cannonBallA.position.x < world.bounds.min.x) {
         audio.missSound.load();
         audio.missSound.play();
-	resetBallA();
-        alertPOneMiss(window.gameInfo);
+	      cannonballBot.resetBallA();
+        alertBot.alertPOneMiss(window.gameInfo);
       }
       if (cannonBallB.position.x > world.bounds.max.x || cannonBallB.position.x < world.bounds.min.x) {
         audio.missSound.load();
         audio.missSound.play();
-	resetBallB();
-        alertPTwoMiss(window.gameInfo);
+	      cannonballBot.resetBallB();
+        alertBot.alertPTwoMiss(window.gameInfo);
       }
     }
   });
@@ -282,7 +272,7 @@ $(document).ready(function () {
   aRange.oninput = function () {
     angle = this.value;
     a_output.innerHTML = angle;
-    Matter.Body.setAngle(cannonA, toRadians(angle) * -1);
+    Matter.Body.setAngle(cannonA, cannonballBot.toRadians(angle) * -1);
   }
   //__________________________________________________
 
@@ -303,77 +293,6 @@ $(document).ready(function () {
   aRange2.oninput = function () {
     angle2 = this.value;
     a_output2.innerHTML = angle2;
-    Matter.Body.setAngle(cannonB, toRadians(angle2));
+    Matter.Body.setAngle(cannonB, cannonballBot.toRadians(angle2));
   }
 });
-// END document.ready()
-
-// function renderCanvas() {
-
-// }
-
-// TODO: enclose following code in module
-function toRadians(angle) {
-  return angle * (Math.PI / 180);
-}
-
-function toDegrees(angle) {
-  return angle * (180 / Math.PI);
-}
-
-function resetBallA() {
-  Body.setVelocity(cannonBallA, { x: 0, y: 0 });
-  Body.setAngularVelocity(cannonBallA, 0);
-  engine.world.gravity.x = 0;
-  Body.setPosition(cannonBallA, cannonBallAOrigin);
-}
-
-function resetBallB() {
-  Body.setVelocity(cannonBallB, { x: 0, y: 0 });
-  Body.setAngularVelocity(cannonBallB, 0);
-  engine.world.gravity.x = 0;
-  Body.setPosition(cannonBallB, cannonBallBOrigin);
-}
-
-function launchCannonBall(angle, power) {
-  audio.cannonSound.load();
-  audio.cannonSound.play();
-  var dampener = .003;
-  var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
-  var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
-  if (gameInfo.player === "playerOne") {
-    console.log("from here: " , gameInfo.wind);
-    if (gameInfo.wind) {
-      engine.world.gravity.x = newGravity;
-    }
-    Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
-  } else {
-    if (gameInfo.wind) {
-      engine.world.gravity.x = newGravity;
-    }
-    Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
-  }
-}
-
-function launchOpponentCannonBall(angle, power) {
-  audio.cannonSound.load();
-  audio.cannonSound.play();
-  var dampener = .003;
-  var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
-  var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
-  if (gameInfo.opponent === "playerOne") {
-    cannonBallA.isStatic = false;
-    if (gameInfo.wind) {
-      engine.world.gravity.x = newGravity;
-    }
-    Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
-  } else {
-    cannonBallB.isStatic = false;
-    if (gameInfo.wind) {
-      engine.world.gravity.x = newGravity;
-    }
-    Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
-  }
-}
-
-
