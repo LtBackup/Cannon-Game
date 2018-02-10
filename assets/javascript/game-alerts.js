@@ -71,10 +71,10 @@ var alertBot = (function() {
   }
 
   var publicAPI = {
-    alertPOneMiss: alertPOneMiss,
-    alertPTwoMiss: alertPTwoMiss,
-    alertPOneWin: alertPOneWin,
-    alertPTwoWin: alertPTwoWin
+    alertPOneMiss,
+    alertPTwoMiss,
+    alertPOneWin,
+    alertPTwoWin
   }
 
   return publicAPI;

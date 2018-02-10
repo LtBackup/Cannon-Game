@@ -6,29 +6,6 @@ window.gameInfo = {
   wall: false
 };
 
-// MINA - relocate to fbBot
-function getWindOptions(gameInfo) {
-  var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne/windInfo");
-  gameRef.once("value").then(function (snapshot) {
-    if (snapshot.val().wind) {
-      gameInfo.wind = true; 
-      direction = snapshot.val().direction;
-      windSpeed = snapshot.val().speed;
-      setGravityAndBg();
-    }
-  });
-}
-
-function getWallOption(gameInfo) {
-  var wallRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne/wall");
-  wallRef.once("value").then(function(snap) {
-    if (snap.val()) {
-      setWallFlag(true);
-      World.add(engine.world, wall);
-    }
-  });
-}
-
 function joinGame(newGameId, db) {
   db.ref("games/" + newGameId).once("value").then(function (snap) {
     if (snap.val()) {
@@ -40,7 +17,7 @@ function joinGame(newGameId, db) {
         wall: false
       };
       $(".overlay").addClass("hidden");
-      getWindOptions(window.gameInfo);
+      firebaseBot.getWindOptions(window.gameInfo);
       placeCannons(window.gameInfo);
       hideOppControls(window.gameInfo);
       playerTwoJoinsGame(window.gameInfo);
@@ -152,7 +129,7 @@ function placeCannons(gameInfo) {
       var playerOnePosition = snapshot.val().playerOnePos;
       var playerTwoPosition = snapshot.val().playerTwoPos;
       createObjects(playerOnePosition, playerTwoPosition);
-      getWallOption(window.gameInfo);
+      firebaseBot.getWallOptions(window.gameInfo);
     });
   }
 }

@@ -44,8 +44,8 @@ var render = Render.create({
   }
 });
 
-var playerOnePosition = 0;
-var playerTwoPosition = 0;
+/* var playerOnePosition = 0; */
+/* var playerTwoPosition = 0; */
 var groundHeight = (render.options.height * .3) / 2;
 var groundPosition = render.options.height - groundHeight;
 var ground;
@@ -131,7 +131,6 @@ $(document).ready(function () {
     $(".canvas").addClass("hidden");
     canvas.classList.remove("hidden");
     canvas.classList.add("canvas");
-
     // TODO: Implement logic to warn user that his wind selection was ignored
     var newGameId = Number($("#game-id-field").val());
     joinGame(newGameId, firebaseBot.database);
