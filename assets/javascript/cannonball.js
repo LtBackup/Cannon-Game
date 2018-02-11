@@ -24,6 +24,7 @@ var cannonballBot = (function() {
   function fireCannon(gameInfo) {
     var currentPlayer = gameInfo.player;
     var gameId = gameInfo.gameId;
+    // if you're just var-ing and not setting to anythi
     var angleInput;
     var powerInput;
     $(".fireButton").addClass("invisible");
