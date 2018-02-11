@@ -124,6 +124,18 @@ var gameBot = (function() {
       getWindSpeed();
   }
 
+  function waitForPlayerOne(gameInfo) {
+    $("#play-again-btn").addClass("invisible");
+    var gameStartRef = firebaseBot.database.ref('games/' + gameInfo.gameId + '/playerOne/playAgain');
+    gameStartRef.on("value", function(snapshot) {
+      if (snapshot.val()) {
+        $("#play-again-btn").removeClass("invisible");
+        $(".player-alerts").empty();
+        $(".gamemsgs").text("Player 1 has restarted the game. Would you like to join them?");
+      }
+    });
+  }
+
   function resetGame(gameInfo) {
     if (gameInfo.player === "playerOne") {
       World.remove(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]);
@@ -133,6 +145,7 @@ var gameBot = (function() {
         World.add(engine.world, wall);
       }
       waitForPlayerTwo(gameInfo);
+      firebaseBot.restartGame(gameInfo);
     } else {
       World.remove(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]);
       removeWall(gameInfo);
@@ -152,6 +165,7 @@ var gameBot = (function() {
     joinGame,
     startGame,
     setWindOptions,
+    waitForPlayerOne,
   }
 
   return publicAPI;

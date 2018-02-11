@@ -221,7 +221,6 @@ $(document).ready(function () {
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "ground")) {
         audio.missSound.load();
         audio.missSound.play();//This will play the miss sound when p1 misses.
-        console.log("P1 MISS");
         World.add(world, Bodies.circle(cannonBallA.position.x, cannonBallA.position.y, 16, {
           isStatic: true,
           isSensor: true,
@@ -237,7 +236,6 @@ $(document).ready(function () {
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "ground")) {
         audio.missSound.load();
         audio.missSound.play();//This will play the miss sound when p2 misses.
-        console.log("P2 MISS");
         World.add(world, Bodies.circle(cannonBallB.position.x, cannonBallB.position.y, 16, {
           isStatic: true,
           isSensor: true,
