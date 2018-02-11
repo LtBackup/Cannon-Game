@@ -3,7 +3,9 @@ window.gameInfo = {
   gameId: 1,
   opponent: "playerTwo",
   wind: false,
-  wall: false
+  wall: false,
+  lowgravity: false,
+  highgravity: false
 };
 
 var gameBot = (function() {
@@ -46,6 +48,8 @@ var gameBot = (function() {
       opponent: "playerTwo",
       wall: false,
       wind: false,
+      lowgravity: false,
+      highgravity: false
     };
     firebaseBot.createNewGame(newGameId);
     $(".overlay").addClass("hidden");
