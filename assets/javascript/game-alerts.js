@@ -1,5 +1,5 @@
 var alertBot = (function() {
-  function alertPOneMiss(gameInfo) {
+  function playerOneMiss(gameInfo) {
     var turnP = $("<p>");
     if (gameInfo.player === "playerOne") {
       $(".gamemsgs").text("");
@@ -14,7 +14,7 @@ var alertBot = (function() {
     }
   }
 
-  function alertPTwoMiss(gameInfo) {
+  function playerTwoMiss(gameInfo) {
     var turnP = $("<p>");
     if (gameInfo.player === "playerTwo") {
       $(".gamemsgs").text("");
@@ -29,7 +29,7 @@ var alertBot = (function() {
     $(".gamemsgs").append(turnP);
   }
 
-  function alertPOneWin(gameInfo) {
+  function playerOneWin(gameInfo) {
     firebaseBot.resetGameData(gameInfo);
     placeReloadButton();
     if (gameInfo.player === "playerOne") {
@@ -40,7 +40,7 @@ var alertBot = (function() {
     }
   }
 
-  function alertPTwoWin(gameInfo) {
+  function playerTwoWin(gameInfo) {
     firebaseBot.resetGameData(gameInfo);
     placeReloadButton();
     if (gameInfo.player === "playerTwo") {
