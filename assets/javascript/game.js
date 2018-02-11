@@ -209,14 +209,14 @@ $(document).ready(function () {
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "cannonB") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "cannonB")) {
         //TODO trigger explosion
         cannonballBot.resetBallA();
-        alertBot.alertPOneWin(window.gameInfo);
+        alertBot.playerOneWin(window.gameInfo);
         audio.winSound.play();//This will play the winning sound when p1 wins.
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "cannonA") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "cannonA")) {
         //TODO trigger explosion
         cannonballBot.resetBallB();
         audio.winSound.play();//This will play the winning sound when p2 wins.
-        alertBot.alertPTwoWin(window.gameInfo);
+        alertBot.playerTwoWin(window.gameInfo);
       }
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "ground")) {
         audio.missSound.load();
@@ -231,7 +231,7 @@ $(document).ready(function () {
           }
         }));
         cannonballBot.resetBallA();
-        alertBot.alertPOneMiss(window.gameInfo);
+        alertBot.playerOneMiss(window.gameInfo);
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "ground") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "ground")) {
         audio.missSound.load();
@@ -246,7 +246,7 @@ $(document).ready(function () {
           }
         }));
         cannonballBot.resetBallB();
-        alertBot.alertPTwoMiss(window.gameInfo);
+        alertBot.playerTwoMiss(window.gameInfo);
       }
     }
   });
@@ -257,13 +257,13 @@ $(document).ready(function () {
         audio.missSound.load();
         audio.missSound.play();
 	      cannonballBot.resetBallA();
-        alertBot.alertPOneMiss(window.gameInfo);
+        alertBot.playerOneMiss(window.gameInfo);
       }
       if (cannonBallB.position.x > world.bounds.max.x || cannonBallB.position.x < world.bounds.min.x) {
         audio.missSound.load();
         audio.missSound.play();
 	      cannonballBot.resetBallB();
-        alertBot.alertPTwoMiss(window.gameInfo);
+        alertBot.playerTwoMiss(window.gameInfo);
       }
     }
   });
