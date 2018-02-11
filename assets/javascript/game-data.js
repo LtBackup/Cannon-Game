@@ -7,6 +7,13 @@ window.gameInfo = {
 };
 
 var gameBot = (function() {
+  /**
+   * joinGame
+   * joins existing game with a game ID and pulls all relevant game information from DB. the callback function for the join-game button
+   * @param {number} newGameId - the ID of game to join
+   * @param {object} db - the instance of the database
+   * @returns {undefined}
+   */
   function joinGame(newGameId, db) {
     db.ref("games/" + newGameId).once("value").then(function (snap) {
       if (snap.val()) {
@@ -29,6 +36,14 @@ var gameBot = (function() {
     });
   }
 
+  /**
+   * playerTwoJoinsGame
+   * updates gameStart property in the game database to true and sets DOM
+   * accordingly
+   * @param {object} gameInfo - the object that holds the current state of the
+   * game
+   * @returns {undefined}
+   */
   function playerTwoJoinsGame(gameInfo) {
     firebaseBot.database.ref('games/' + gameInfo.gameId + "/" + gameInfo.opponent).update({
       gameStart: true
@@ -38,6 +53,12 @@ var gameBot = (function() {
     $(".info").text("Welcome Player 2. You have joined Game #" + window.gameInfo.gameId);
   }
 
+  /**
+   * startGame
+   * starts a new instance of the game in the database. the callback funtion for
+   * start-game button
+   * @returns {undefined}
+   */
   function startGame() {
     var newGameId = Math.floor(Date.now() / 1000);
     window.gameInfo = {
@@ -56,6 +77,13 @@ var gameBot = (function() {
     addOpponentListeners(window.gameInfo);
   }
 
+  /**
+   * waitForPlayerTwo
+   * sets listener on value change to the gameStart property to update DOM when
+   * player two joins the game
+   * @param {object} gameInfo - the object that holds the state of the game
+   * @returns {undefined}
+   */
   function waitForPlayerTwo(gameInfo) {
     $(".fireButton").addClass("invisible");
     $(".gamemsgs").text("Waiting for Player 2.");
@@ -68,6 +96,13 @@ var gameBot = (function() {
     })
   }
 
+  /**
+   * hideOppControls
+   * updates the DOM to only show player controls and hids the opponent sliders
+   * locally
+   * @param {object} gameInfo - the object that holds the state of the game
+   * @returns {undefined}
+   */
   function hideOppControls(gameInfo) {
     if(gameInfo.player === "playerOne") {
       $("#player-two-controls").addClass("invisible");
@@ -76,6 +111,13 @@ var gameBot = (function() {
     }
   }
 
+  /**
+   * addOpponentListeners
+   * sets listeners for value changes on opponent inputs to animate opponent's
+   * cannon locally
+   * @param {object} gameInfo - the object that holds the state of the game
+   * @returns {undefined}
+   */
   function addOpponentListeners(gameInfo) {
     var opponent = gameInfo.opponent;
     var gameId = gameInfo.gameId;
@@ -102,6 +144,12 @@ var gameBot = (function() {
     });
   }
 
+  /**
+   * placeCannons
+   * places the cannons randomly when game is started or joined
+   * @param {object} gameInfo - the object that holds the state of the game
+   * @returns {undefined}
+   */
   function placeCannons(gameInfo) {
     if (gameInfo.player === "playerOne") {
       var playerOnePosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.02);
@@ -119,11 +167,25 @@ var gameBot = (function() {
     }
   }
 
+  /**
+   * setWindOptions
+   * sets random directions of the wind and gets wind speed from open weather
+   * API
+   * @param {object} gameInfo - the object that holds the state of the game
+   * @returns {undefined}
+   */
   function setWindOptions(gameInfo) {
       direction = dirs[Math.floor(Math.random() * dirs.length)];
       getWindSpeed();
   }
 
+  /**
+   * waitForPlayerOne
+   * sets listeners for value changes on playAgain to sync restart of game with
+   * existing game id after win/loss and updates DOM
+   * @param {object} gameInfo - the object that holds the state of the game
+   * @returns {undefined}
+   */
   function waitForPlayerOne(gameInfo) {
     $("#play-again-btn").addClass("invisible");
     var gameStartRef = firebaseBot.database.ref('games/' + gameInfo.gameId + '/playerOne/playAgain');
@@ -136,11 +198,16 @@ var gameBot = (function() {
     });
   }
 
+  /**
+   * resetGame
+   * clears world of bodies and resets them randomly when restarting a game with
+   * existing ID. Call back function for play-again button
+   * @param {object} gameInfo - the object that holds the state of the game
+   * @returns {undefined}
+   */
   function resetGame(gameInfo) {
     if (gameInfo.player === "playerOne") {
-      // World.remove(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]);
       World.clear(engine.world);
-      removeWall(gameInfo);
       placeCannons(gameInfo);
       if(gameInfo.wall){
         World.add(engine.world, wall);
@@ -148,18 +215,10 @@ var gameBot = (function() {
       waitForPlayerTwo(gameInfo);
       firebaseBot.restartGame(gameInfo);
     } else {
-      // World.remove(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]);
       World.clear(engine.world);
-      removeWall(gameInfo);
       placeCannons(gameInfo);
       playerTwoJoinsGame(gameInfo);
       firebaseBot.changePlayAgain(gameInfo);
-    }
-  }
-
-  function removeWall(gameInfo) {
-    if (gameInfo.wall) {
-      World.remove(engine.world, wall);
     }
   }
 
