@@ -69,7 +69,7 @@ var cannonballBot = (function() {
 
   /**
    * launchCannonBall
-   * calculates launch vector based on the play's angle/power inputs and shoots the cannonball
+   * calculates launch vector based on the player's angle/power inputs and shoots the cannonball
    * @param {number} angle - the angle at which to launch the cannonball
    * @param {number} power - the power at which to launch the cannonball
    * @returns {undefined}
