@@ -414,5 +414,11 @@ h3 {
     top: -10px;
     display: block;
 }
+.version {
+    font-size: 15px;
+    color: white;
+    padding: 18px 0px 0px 48px;
+    font-weight: bold;
+}
 
 
