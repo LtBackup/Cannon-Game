@@ -84,12 +84,39 @@ $(document).ready(function () {
     audio.hoverSound.volume = soundLevel;
     audio.clickSound.volume = soundLevel;
     audio.bgSound.volume = bgSoundLevel;
+    $(".fa-volume-down").toggleClass("fa-volume-off");
   }
   /** Sound Volume Controls */
   var bgMusic = audio.bgSound;
   bgMusic.play();
   bgMusic.loop = true;
   bgMusic.volume = bgSoundLevel;//Sets initial volue of the background music
+
+  // Added by Natraj
+  // Click to mute
+  $(".fa-volume-off").click(function() {
+    soundLevel = 0;
+    bgSoundLevel = 0;
+    audio.cannonSound.volume = soundLevel;
+    audio.winSound.volume = soundLevel;
+    audio.missSound.volume = soundLevel;
+    audio.hoverSound.volume = soundLevel;
+    audio.clickSound.volume = soundLevel;
+    audio.bgSound.volume = bgSoundLevel;
+    $("#volume").val("0");
+  });
+
+  $(".fa-volume-up").click(function() {
+    soundLevel = 1;
+    bgSoundLevel = (100 / 100 * 0.25);
+    audio.cannonSound.volume = soundLevel;
+    audio.winSound.volume = soundLevel;
+    audio.missSound.volume = soundLevel;
+    audio.hoverSound.volume = soundLevel;
+    audio.clickSound.volume = soundLevel;
+    audio.bgSound.volume = bgSoundLevel;
+    $("#volume").val("100");
+  });
 
   /** This function will reset the click sound to 0secs and then replays the sound. */
   function clickButton() {
