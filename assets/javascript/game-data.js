@@ -151,6 +151,7 @@ var gameBot = (function() {
       removeWall(gameInfo);
       placeCannons(gameInfo);
       playerTwoJoinsGame(gameInfo);
+      firebaseBot.changePlayAgain(gameInfo);
     }
   }
 
