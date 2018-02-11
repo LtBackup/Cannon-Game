@@ -6,7 +6,7 @@ window.gameInfo = {
   wall: false
 };
 
-var gameBot = (function() {
+var gameBot = (function () {
   function joinGame(newGameId, db) {
     db.ref("games/" + newGameId).once("value").then(function (snap) {
       if (snap.val()) {
@@ -60,7 +60,7 @@ var gameBot = (function() {
     $(".fireButton").addClass("invisible");
     $(".gamemsgs").text("Waiting for Player 2.");
     var gameStartRef = firebaseBot.database.ref('games/' + gameInfo.gameId + '/' + gameInfo.player + '/gameStart');
-    gameStartRef.on("value", function(snapshot) {
+    gameStartRef.on("value", function (snapshot) {
       if (snapshot.val()) {
         $(".fireButton").removeClass("invisible");
         $(".gamemsgs").text("Player 2 has joined the Game. Please take your turn.")
@@ -69,7 +69,7 @@ var gameBot = (function() {
   }
 
   function hideOppControls(gameInfo) {
-    if(gameInfo.player === "playerOne") {
+    if (gameInfo.player === "playerOne") {
       $("#player-two-controls").addClass("invisible");
     } else {
       $("#player-one-controls").addClass("invisible");
@@ -82,8 +82,8 @@ var gameBot = (function() {
     var opponentAngleRef = firebaseBot.database.ref("games/" + gameId + "/" + opponent + "/angle");
     var opponentPowerRef = firebaseBot.database.ref("games/" + gameId + "/" + opponent + "/power");
     var opponentShotsRef = firebaseBot.database.ref("games/" + gameId + "/" + opponent + "/shotsFired");
-    opponentShotsRef.on("value", function(shotsSnap) {
-      if(shotsSnap.val()){
+    opponentShotsRef.on("value", function (shotsSnap) {
+      if (shotsSnap.val()) {
         opponentAngleRef.once("value").then(function (angleSnap) {
           var opponentAngle = 0;
           var opponentPower = 0;
@@ -104,15 +104,34 @@ var gameBot = (function() {
 
   function placeCannons(gameInfo) {
     if (gameInfo.player === "playerOne") {
-      var playerOnePosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.02);
-      var playerTwoPosition = Math.floor(Math.random()*(render.options.width *.28) + render.options.width *.70);
+      var playerOnePosition = Math.floor(Math.random() * (render.options.width * .28) + render.options.width * .02);
+      var playerTwoPosition = Math.floor(Math.random() * (render.options.width * .28) + render.options.width * .70);
       firebaseBot.updatePositions(gameInfo, playerOnePosition, playerTwoPosition);
+      $("#p-out").text("50");
+      $("#pRange").val("50");
+      $("#p-out2").text("50");
+      $("#pRange2").val("50");
+
+      $("#a-out").text("0");
+      $("#aRange").val("0");
+      $("#a-out2").text("0");
+      $("#aRange2").val("0");
+
       createObjects(playerOnePosition, playerTwoPosition);
     } else {
       var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/" + gameInfo.opponent);
       gameRef.once("value").then(function (snapshot) {
         var playerOnePosition = snapshot.val().playerOnePos;
         var playerTwoPosition = snapshot.val().playerTwoPos;
+        $("#p-out").text("50");
+        $("#pRange").val("50");
+        $("#p-out2").text("50");
+        $("#pRange2").val("50");
+
+        $("#a-out").text("0");
+        $("#aRange").val("0");
+        $("#a-out2").text("0");
+        $("#aRange2").val("0");
         createObjects(playerOnePosition, playerTwoPosition);
         firebaseBot.getWallOptions(window.gameInfo);
       });
@@ -120,14 +139,14 @@ var gameBot = (function() {
   }
 
   function setWindOptions(gameInfo) {
-      direction = dirs[Math.floor(Math.random() * dirs.length)];
-      getWindSpeed();
+    direction = dirs[Math.floor(Math.random() * dirs.length)];
+    getWindSpeed();
   }
 
   function waitForPlayerOne(gameInfo) {
     $("#play-again-btn").addClass("invisible");
     var gameStartRef = firebaseBot.database.ref('games/' + gameInfo.gameId + '/playerOne/playAgain');
-    gameStartRef.on("value", function(snapshot) {
+    gameStartRef.on("value", function (snapshot) {
       if (snapshot.val()) {
         $("#play-again-btn").removeClass("invisible");
         $(".player-alerts").empty();
@@ -142,7 +161,7 @@ var gameBot = (function() {
       World.clear(engine.world);
       removeWall(gameInfo);
       placeCannons(gameInfo);
-      if(gameInfo.wall){
+      if (gameInfo.wall) {
         World.add(engine.world, wall);
       }
       waitForPlayerTwo(gameInfo);
