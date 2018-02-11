@@ -31,18 +31,18 @@ function setGravityAndBg() {
   }
 }
  
-  function setWindFlag (value) {
-    window.gameInfo.wind = value;
-  }
+function setWindFlag (value) {
+  window.gameInfo.wind = value;
+}
 
-  function getWind() {
-    return gameInfo.wind;
-  }
+function getWind() {
+  return gameInfo.wind;
+}
 
-  function setWallFlag (value) {
-    window.gameInfo.wall = value;
-  }
+function setWallFlag (value) {
+  window.gameInfo.wall = value;
+}
 
-  function getWall() {
-    return gameInfo.wall;
-  }
+function getWall() {
+  return gameInfo.wall;
+}

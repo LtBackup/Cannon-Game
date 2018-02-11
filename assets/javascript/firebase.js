@@ -89,31 +89,14 @@ var firebaseBot = (function() {
         playerTwoPos: 0,
         gameStart: false,
       });
-      /* World.remove(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]); */
-      /* removeWall(gameInfo); */
-      /* placeCannons(gameInfo); */
-      /* if(gameInfo.wall){ */
-      /*   World.add(engine.world, wall); */
-      /* } */
-      /* waitForPlayerTwo(gameInfo); */
     } else {
       database.ref('games/' + gameInfo.gameId + "/" + gameInfo.player).update({
         angle: 0,
         power: 0,
         shotsFired: 0,
       });
-      /* World.remove(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]); */
-      /* removeWall(gameInfo); */
-      /* placeCannons(gameInfo); */
-      /* playerTwoJoinsGame(gameInfo); */
     }
   }
-
-  /* function removeWall(gameInfo) { */
-  /*   if (gameInfo.wall) { */
-  /*     World.remove(engine.world, wall); */
-  /*   } */
-  /* } */
 
   function updatePositions(gameInfo, positionOne, positionTwo) {
     database.ref('games/' + gameInfo.gameId + "/" + gameInfo.player).update({
