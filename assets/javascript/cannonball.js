@@ -1,12 +1,29 @@
 var cannonballBot = (function() {
+  /**
+   * toRadians
+   * converts an angle in degrees to radians
+   * @param {number} angle - the angle to convert to radians
+   * @returns {number} - the angle in radians
+   */
   function toRadians(angle) {
     return angle * (Math.PI / 180);
   }
 
+  /**
+   * toDegrees
+   * converts an angle in randians to degreens
+   * @param {number} angle - the angle to convert to degrees
+   * @returns {number} - the angle in degrees
+   */
   function toDegrees(angle) {
     return angle * (180 / Math.PI);
   }
 
+  /**
+   * resetBallA
+   * returns the position of cannonballA to its original location
+   * @returns {undefined}
+   */
   function resetBallA() {
     Body.setVelocity(cannonBallA, { x: 0, y: 0 });
     Body.setAngularVelocity(cannonBallA, 0);
@@ -14,6 +31,11 @@ var cannonballBot = (function() {
     Body.setPosition(cannonBallA, cannonBallAOrigin);
   }
 
+  /**
+   * resetBallB
+   * returns the position of cannonballB to its original location
+   * @returns {undefined}
+   */
   function resetBallB() {
     Body.setVelocity(cannonBallB, { x: 0, y: 0 });
     Body.setAngularVelocity(cannonBallB, 0);
@@ -21,6 +43,12 @@ var cannonballBot = (function() {
     Body.setPosition(cannonBallB, cannonBallBOrigin);
   }
 
+  /**
+   * fireCannon
+   * takes player input for angle and power and shoots the player's cannon accordingly
+   * @param {object} gameInfo - object that holds the state of the game
+   * @returns {undefined}
+   */
   function fireCannon(gameInfo) {
     var currentPlayer = gameInfo.player;
     var gameId = gameInfo.gameId;
@@ -39,6 +67,13 @@ var cannonballBot = (function() {
     firebaseBot.incrementShotsFired(gameId, currentPlayer);
   }
 
+  /**
+   * launchCannonBall
+   * calculates launch vector based on the player's angle/power inputs and shoots the cannonball
+   * @param {number} angle - the angle at which to launch the cannonball
+   * @param {number} power - the power at which to launch the cannonball
+   * @returns {undefined}
+   */
   function launchCannonBall(angle, power) {
     audio.cannonSound.load();
     audio.cannonSound.play();
@@ -58,6 +93,13 @@ var cannonballBot = (function() {
     }
   }
 
+  /**
+   * launchOpponentCannonBall
+   * calculates launch vector based on opponent's angle/power inputs and shoots the cannonball
+   * @param {number} angle - the angle at which to launch the cannonball
+   * @param {number} power - the power at which to launch the cannonball
+   * @returns {undefined}
+   */
   function launchOpponentCannonBall(angle, power) {
     audio.cannonSound.load();
     audio.cannonSound.play();
