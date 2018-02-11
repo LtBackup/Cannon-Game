@@ -76,22 +76,6 @@ var gameBot = (function() {
     }
   }
 
-  /* function setWindFlag (value) { */
-  /*   window.gameInfo.wind = value; */
-  /* } */
-
-  /* function getWind() { */
-  /*   return gameInfo.wind; */
-  /* } */
-
-  /* function setWallFlag (value) { */
-  /*   window.gameInfo.wall = value; */
-  /* } */
-
-  /* function getWall() { */
-  /*   return gameInfo.wall; */
-  /* } */
-
   function addOpponentListeners(gameInfo) {
     var opponent = gameInfo.opponent;
     var gameId = gameInfo.gameId;
@@ -140,16 +124,20 @@ var gameBot = (function() {
       getWindSpeed();
   }
 
+  function waitForPlayerOne(gameInfo) {
+    $("#play-again-btn").addClass("invisible");
+    var gameStartRef = firebaseBot.database.ref('games/' + gameInfo.gameId + '/playerOne/playAgain');
+    gameStartRef.on("value", function(snapshot) {
+      if (snapshot.val()) {
+        $("#play-again-btn").removeClass("invisible");
+        $(".player-alerts").empty();
+        $(".gamemsgs").text("Player 1 has restarted the game. Would you like to join them?");
+      }
+    });
+  }
+
   function resetGame(gameInfo) {
     if (gameInfo.player === "playerOne") {
-      /* database.ref('games/' + gameInfo.gameId + "/" + gameInfo.player).update({ */
-      /*   angle: 0, */
-      /*   power: 0, */
-      /*   shotsFired: 0, */
-      /*   playerOnePos: 0, */
-      /*   playerTwoPos: 0, */
-      /*   gameStart: false, */
-      /* }); */
       World.remove(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]);
       removeWall(gameInfo);
       placeCannons(gameInfo);
@@ -157,12 +145,8 @@ var gameBot = (function() {
         World.add(engine.world, wall);
       }
       waitForPlayerTwo(gameInfo);
+      firebaseBot.restartGame(gameInfo);
     } else {
-      /* database.ref('games/' + gameInfo.gameId + "/" + gameInfo.player).update({ */
-      /*   angle: 0, */
-      /*   power: 0, */
-      /*   shotsFired: 0, */
-      /* }); */
       World.remove(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]);
       removeWall(gameInfo);
       placeCannons(gameInfo);
@@ -181,6 +165,7 @@ var gameBot = (function() {
     joinGame,
     startGame,
     setWindOptions,
+    waitForPlayerOne,
   }
 
   return publicAPI;

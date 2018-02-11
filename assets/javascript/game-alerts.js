@@ -36,6 +36,7 @@ var alertBot = (function() {
       $(".player-alerts").text("You WIN!")
     } else {
       $(".player-alerts").text("You LOSE...")
+      gameBot.waitForPlayerOne(gameInfo);
     }
   }
 
@@ -44,6 +45,7 @@ var alertBot = (function() {
     placeReloadButton();
     if (gameInfo.player === "playerTwo") {
       $(".player-alerts").text("You WIN!")
+      gameBot.waitForPlayerOne(gameInfo);
     } else {
       $(".player-alerts").text("You LOSE...")
     }
