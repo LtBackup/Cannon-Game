@@ -138,7 +138,8 @@ var gameBot = (function() {
 
   function resetGame(gameInfo) {
     if (gameInfo.player === "playerOne") {
-      World.remove(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]);
+      // World.remove(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]);
+      World.clear(engine.world);
       removeWall(gameInfo);
       placeCannons(gameInfo);
       if(gameInfo.wall){
@@ -147,7 +148,8 @@ var gameBot = (function() {
       waitForPlayerTwo(gameInfo);
       firebaseBot.restartGame(gameInfo);
     } else {
-      World.remove(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]);
+      // World.remove(engine.world, [cannonA, cannonB, launchPlatformA, launchPlatformB, cannonBallA, cannonBallB, ground]);
+      World.clear(engine.world);
       removeWall(gameInfo);
       placeCannons(gameInfo);
       playerTwoJoinsGame(gameInfo);
