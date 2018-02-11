@@ -106,6 +106,12 @@ var firebaseBot = (function() {
     });
   }
 
+  function changePlayAgain(gameInfo) {
+    database.ref("games/" + gameInfo.gameId + "/" + "playerOne").update({
+      playAgain: false,
+    });
+  }
+
   function updatePositions(gameInfo, positionOne, positionTwo) {
     database.ref('games/' + gameInfo.gameId + "/" + gameInfo.player).update({
       playerOnePos: positionOne,
@@ -143,6 +149,7 @@ var firebaseBot = (function() {
     getWindOptions,
     getWallOptions,
     restartGame,
+    changePlayAgain,
   };
 
   return publicAPI;

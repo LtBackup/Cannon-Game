@@ -75,10 +75,10 @@ var alertBot = (function() {
   }
 
   var publicAPI = {
-    alertPOneMiss,
-    alertPTwoMiss,
-    alertPOneWin,
-    alertPTwoWin
+    playerOneMiss,
+    playerTwoMiss,
+    playerOneWin,
+    playerTwoWin
   }
 
   return publicAPI;
