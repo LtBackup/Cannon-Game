@@ -25,7 +25,8 @@ var firebaseBot = (function() {
           speed: 0
         },
         gameStart: false,
-        wall: false
+        wall: false,
+        playAgain: false,
       },
       playerTwo: {
         angle: 0,
@@ -57,7 +58,29 @@ var firebaseBot = (function() {
     gameRef.update(newValue);
   }
 
-  function resetGame(gameInfo) {
+  function getWindOptions(gameInfo) {
+    var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne/windInfo");
+    gameRef.once("value").then(function (snapshot) {
+      if (snapshot.val().wind) {
+        gameInfo.wind = true; 
+        direction = snapshot.val().direction;
+        windSpeed = snapshot.val().speed;
+        setGravityAndBg();
+      }
+    });
+  }
+
+  function getWallOptions(gameInfo) {
+    var wallRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne/wall");
+    wallRef.once("value").then(function(snap) {
+      if (snap.val()) {
+        setWallFlag(true);
+        World.add(engine.world, wall);
+      }
+    });
+  }
+
+  function resetGameData(gameInfo) {
     if (gameInfo.player === "playerOne") {
       database.ref('games/' + gameInfo.gameId + "/" + gameInfo.player).update({
         angle: 0,
@@ -65,6 +88,8 @@ var firebaseBot = (function() {
         shotsFired: 0,
         playerOnePos: 0,
         playerTwoPos: 0,
+        gameStart: false,
+        playAgain: false,
       });
     } else {
       database.ref('games/' + gameInfo.gameId + "/" + gameInfo.player).update({
@@ -75,10 +100,22 @@ var firebaseBot = (function() {
     }
   }
 
-  function updatePositions(gameInfo) {
+  function restartGame(gameInfo) {
+    database.ref("games/" + gameInfo.gameId + "/" + "playerOne").update({
+      playAgain: true,
+    });
+  }
+
+  function changePlayAgain(gameInfo) {
+    database.ref("games/" + gameInfo.gameId + "/" + "playerOne").update({
+      playAgain: false,
+    });
+  }
+
+  function updatePositions(gameInfo, positionOne, positionTwo) {
     database.ref('games/' + gameInfo.gameId + "/" + gameInfo.player).update({
-      playerOnePos: playerOnePosition,
-      playerTwoPos: playerTwoPosition,
+      playerOnePos: positionOne,
+      playerTwoPos: positionTwo,
     });
   }  
 
@@ -99,15 +136,20 @@ var firebaseBot = (function() {
       });  
     }
   }  
+
   var publicAPI = {
-    database: database,
-    updateWindInfo: updateWindInfo,
-    updatePositions: updatePositions,
-    resetGame: resetGame,
-    createNewGame: createNewGame,
-    incrementShotsFired: incrementShotsFired,
-    updateAnglePower: updateAnglePower,
-    updateWallInfo: updateWallInfo,
+    database,
+    updateWindInfo,
+    updatePositions,
+    resetGameData,
+    createNewGame,
+    incrementShotsFired,
+    updateAnglePower,
+    updateWallInfo,
+    getWindOptions,
+    getWallOptions,
+    restartGame,
+    changePlayAgain,
   };
 
   return publicAPI;
