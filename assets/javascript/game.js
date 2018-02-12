@@ -154,9 +154,10 @@ $(document).ready(function () {
    * Function will also check if wind, or wall option has been checked and include them in the game.
    */
   $("#start-game").on("click", function () {
-    $(".canvas").addClass("hidden");
-    canvas.classList.remove("hidden");
-    canvas.classList.add("canvas");
+    gameBot.hideStartMenu();
+    // $(".canvas").addClass("hidden");
+    // canvas.classList.remove("hidden");
+    // canvas.classList.add("canvas");
     gameBot.startGame();
     clickButton();
     if ($("#windcheckbox").is(":checked")) {
@@ -172,10 +173,6 @@ $(document).ready(function () {
 
   /** Adds click listener on join game button in modal */
   $("#join-game").on("click", function () {
-    $(".canvas").addClass("hidden");
-    canvas.classList.remove("hidden");
-    canvas.classList.add("canvas");
-    // TODO: Implement logic to warn user that his wind selection was ignored
     var newGameId = Number($("#game-id-field").val());
     gameBot.joinGame(newGameId, firebaseBot.database);
     clickButton();
