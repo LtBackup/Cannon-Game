@@ -1,4 +1,4 @@
-# Cannon-Game
+# Cannon Man
 
 Cannon Man is a fun and exciting 2 player shooting game inspired by the classic Flash game Bowman. The object of the game is to be the first one to shoot down your opponents cannon and you win. This game was built as a school project to further increase experience with jQuery, bootstrap, Matter.js, Firebase, and Jasmine. [Play the official game here!](https://ltbackup.github.io/Cannon-Game/)
 
@@ -58,11 +58,29 @@ Add additional notes about how to deploy this on a live system
 
 ## Authors
 
-* **Jim Pratt** - [GitHub](https://github.com/ltBackup)
+* **Jim Pratt** - [GitHub](https://github.com/LtBackup)
 * **Mina Slater** - [GitHub](https://github.com/minaslater)
 * **Natraj Subramanian** - [GitHub](https://github.com/natraj-s)
 * **Efosa Ogiesoba** - [GitHub](https://github.com/eogiesoba)
 
+##Development
+
+As with any game, we started with just our ideas. Our Flowcharts and initial visions are below:
+
+Whole game flow:
+<p align="center">
+  <img src="planning/flowcharts/WholeFlow.png" alt="Cannon Man Flow Chart"/>
+</p>
+
+The battlefield and UI:
+<p align="center">
+  <img src="planning/wireframes/BasicUI.png" alt="Cannon Man UI Sketch"/>
+</p>
+
+Our launch trajectory math:
+<p align="center">
+  <img src="planning/wireframes/Trig.png" alt="Cannon Man Trigonometry"/>
+</p>
 
 ## License
 
