@@ -24,14 +24,18 @@ var gameBot = (function() {
           wind: false,
           wall: false
         };
-        $(".overlay").addClass("hidden");
+        hideStartMenu();
+        // $(".canvas").addClass("hidden");
+        // canvas.classList.remove("hidden");
+        // canvas.classList.add("canvas");
+        // $(".overlay").addClass("hidden");
         firebaseBot.getWindOptions(window.gameInfo);
         placeCannons(window.gameInfo);
         hideOppControls(window.gameInfo);
         playerTwoJoinsGame(window.gameInfo);
         addOpponentListeners(window.gameInfo);
       } else {
-        alert("Please enter a valid id or start a new game");
+        $("#invalid-id").removeClass("invisible");
       };
     });
   }
@@ -69,7 +73,6 @@ var gameBot = (function() {
       wind: false,
     };
     firebaseBot.createNewGame(newGameId);
-    $(".overlay").addClass("hidden");
     $(".info").text("Welcome Player 1. Your new game id is " + window.gameInfo.gameId);
     placeCannons(window.gameInfo)
     hideOppControls(window.gameInfo);
@@ -77,6 +80,17 @@ var gameBot = (function() {
     addOpponentListeners(window.gameInfo);
   }
 
+  /**
+   * hideStartMenu
+   * hides the startup menu and displays the battlefield
+   * @returns {undefined}
+   */
+  function hideStartMenu() {
+    $(".canvas").addClass("hidden");
+    canvas.classList.remove("hidden");
+    canvas.classList.add("canvas");
+    $(".overlay").addClass("hidden");
+  }
   /**
    * waitForPlayerTwo
    * sets listener on value change to the gameStart property to update DOM when
@@ -247,6 +261,7 @@ var gameBot = (function() {
     startGame,
     setWindOptions,
     waitForPlayerOne,
+    hideStartMenu,
   }
 
   return publicAPI;
