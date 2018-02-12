@@ -69,17 +69,17 @@ As with any game, we started with just our ideas. Our Flowcharts and initial vis
 
 Whole game flow:
 <p align="center">
-  <img src="planning/flowcharts/WholeFlow.png" alt="Cannon Man Flow Chart"/>
+  <img src="Planning/FlowCharts/WholeFlow.png" alt="Cannon Man Flow Chart"/>
 </p>
 
 The battlefield and UI:
 <p align="center">
-  <img src="planning/wireframes/BasicUI.png" alt="Cannon Man UI Sketch"/>
+  <img src="Planning/Wireframes/BasicUI.png" alt="Cannon Man UI Sketch"/>
 </p>
 
 Our launch trajectory math:
 <p align="center">
-  <img src="planning/wireframes/Trig.png" alt="Cannon Man Trigonometry"/>
+  <img src="Planning/Wireframes/Trig.png" alt="Cannon Man Trigonometry"/>
 </p>
 
 ## License
