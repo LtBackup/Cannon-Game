@@ -67,7 +67,7 @@ $(document).ready(function () {
 
   /** Sound Volume Controls */
   var musicVolume = document.getElementById("volume");
-  var soundLevel = 0.3 + (musicVolume.value * 0.7);
+  var soundLevel = (musicVolume.value / 100);
   var bgSoundLevel = (musicVolume.value / 100 * 0.25);
 
   /**
@@ -120,12 +120,14 @@ $(document).ready(function () {
 
   /** This function will reset the click sound to 0secs and then replays the sound. */
   function clickButton() {
+    audio.clickSound.volume = soundLevel;
     audio.clickSound.currentTime = 0;
     audio.clickSound.play();
   }
 
   /** This function will reset the click sound to 0secs and then replays the sound. */
   function hoverButton() {
+    audio.hoverSound.volume = soundLevel;
     audio.hoverSound.currentTime = 0;//Resets sound to start from beginning
     audio.hoverSound.play();//Play sound when menu button is hovered over.
   }
