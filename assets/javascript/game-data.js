@@ -231,10 +231,14 @@ var gameBot = (function() {
       if (gameInfo.wall) {
         World.add(engine.world, wall);
       }
+      if (gameInfo.wind) {
+        setWindOptions(gameInfo); 
+      }
       waitForPlayerTwo(gameInfo);
       firebaseBot.restartGame(gameInfo);
     } else {
       World.clear(engine.world);
+      firebaseBot.getWindOptions(window.gameInfo);
       placeCannons(gameInfo);
       playerTwoJoinsGame(gameInfo);
       firebaseBot.changePlayAgain(gameInfo);

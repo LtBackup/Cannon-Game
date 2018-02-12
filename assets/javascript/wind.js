@@ -12,8 +12,6 @@ function getWindSpeed() {
         newGravity = windSpeed * .15;
         setGravityAndBg();
         firebaseBot.updateWindInfo(window.gameInfo);
-        console.log("the wind direction is: " + direction);
-        console.log(newGravity);
     });
 }
 
