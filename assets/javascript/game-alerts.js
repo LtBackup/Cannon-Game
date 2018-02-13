@@ -1,4 +1,11 @@
 var alertBot = (function() {
+  /**
+   * playerOneMiss
+   * updates DOM to display alerts when player one misses and it's player two's
+   * turn
+   * @param {object} gameInfo - the object that holds the state of the game
+   * @returns {undefined}
+   */
   function playerOneMiss(gameInfo) {
     var turnP = $("<p>");
     if (gameInfo.player === "playerOne") {
@@ -14,6 +21,13 @@ var alertBot = (function() {
     }
   }
 
+  /**
+   * playerTwoMiss
+   * updates DOM to display alerts when player two misses and it's player one's
+   * turn
+   * @param {object} gameInfo - the object that holds the state of the game
+   * @returns {undefined}
+   */
   function playerTwoMiss(gameInfo) {
     var turnP = $("<p>");
     if (gameInfo.player === "playerTwo") {
@@ -29,6 +43,12 @@ var alertBot = (function() {
     $(".gamemsgs").append(turnP);
   }
 
+  /**
+   * playerOneWin
+   * updates DOM to display alerts when player one wins
+   * @param {object} gameInfo - the object that holds the state of the game
+   * @returns {undefined}
+   */
   function playerOneWin(gameInfo) {
     firebaseBot.resetGameData(gameInfo);
     placeReloadButton();
@@ -40,6 +60,12 @@ var alertBot = (function() {
     }
   }
 
+  /**
+   * playerTwoWin
+   * updates DOM to display alerts when player two wins
+   * @param {object} gameInfo - the object that holds the state of the game
+   * @returns {undefined}
+   */
   function playerTwoWin(gameInfo) {
     firebaseBot.resetGameData(gameInfo);
     placeReloadButton();
@@ -51,6 +77,11 @@ var alertBot = (function() {
     }
   }
 
+  /**
+   * placeReloadButton
+   * updates the DOM to display play-again button when someone wins
+   * @returns {undefined}
+   */
   function placeReloadButton() {
     $("#player-one-controls").hide();
     $("#player-two-controls").hide();

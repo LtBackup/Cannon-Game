@@ -67,7 +67,7 @@ $(document).ready(function () {
 
   /** Sound Volume Controls */
   var musicVolume = document.getElementById("volume");
-  var soundLevel = 0.3 + (musicVolume.value * 0.7);
+  var soundLevel = (musicVolume.value / 100);
   var bgSoundLevel = (musicVolume.value / 100 * 0.25);
 
   /**
@@ -84,6 +84,7 @@ $(document).ready(function () {
     audio.hoverSound.volume = soundLevel;
     audio.clickSound.volume = soundLevel;
     audio.bgSound.volume = bgSoundLevel;
+    $(".fa-volume-down").toggleClass("fa-volume-off");
   }
   /** Sound Volume Controls */
   var bgMusic = audio.bgSound;
@@ -91,14 +92,42 @@ $(document).ready(function () {
   bgMusic.loop = true;
   bgMusic.volume = bgSoundLevel;//Sets initial volue of the background music
 
+  // Added by Natraj
+  // Click to mute
+  $(".fa-volume-off").click(function() {
+    soundLevel = 0;
+    bgSoundLevel = 0;
+    audio.cannonSound.volume = soundLevel;
+    audio.winSound.volume = soundLevel;
+    audio.missSound.volume = soundLevel;
+    audio.hoverSound.volume = soundLevel;
+    audio.clickSound.volume = soundLevel;
+    audio.bgSound.volume = bgSoundLevel;
+    $("#volume").val("0");
+  });
+
+  $(".fa-volume-up").click(function() {
+    soundLevel = 1;
+    bgSoundLevel = (100 / 100 * 0.25);
+    audio.cannonSound.volume = soundLevel;
+    audio.winSound.volume = soundLevel;
+    audio.missSound.volume = soundLevel;
+    audio.hoverSound.volume = soundLevel;
+    audio.clickSound.volume = soundLevel;
+    audio.bgSound.volume = bgSoundLevel;
+    $("#volume").val("100");
+  });
+
   /** This function will reset the click sound to 0secs and then replays the sound. */
   function clickButton() {
+    audio.clickSound.volume = soundLevel;
     audio.clickSound.currentTime = 0;
     audio.clickSound.play();
   }
 
   /** This function will reset the click sound to 0secs and then replays the sound. */
   function hoverButton() {
+    audio.hoverSound.volume = soundLevel;
     audio.hoverSound.currentTime = 0;//Resets sound to start from beginning
     audio.hoverSound.play();//Play sound when menu button is hovered over.
   }
@@ -125,9 +154,10 @@ $(document).ready(function () {
    * Function will also check if wind, or wall option has been checked and include them in the game.
    */
   $("#start-game").on("click", function () {
-    $(".canvas").addClass("hidden");
-    canvas.classList.remove("hidden");
-    canvas.classList.add("canvas");
+    gameBot.hideStartMenu();
+    // $(".canvas").addClass("hidden");
+    // canvas.classList.remove("hidden");
+    // canvas.classList.add("canvas");
     gameBot.startGame();
     clickButton();
     if ($("#windcheckbox").is(":checked")) {
@@ -143,10 +173,6 @@ $(document).ready(function () {
 
   /** Adds click listener on join game button in modal */
   $("#join-game").on("click", function () {
-    $(".canvas").addClass("hidden");
-    canvas.classList.remove("hidden");
-    canvas.classList.add("canvas");
-    // TODO: Implement logic to warn user that his wind selection was ignored
     var newGameId = Number($("#game-id-field").val());
     gameBot.joinGame(newGameId, firebaseBot.database);
     clickButton();

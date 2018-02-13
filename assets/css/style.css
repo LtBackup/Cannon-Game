@@ -413,17 +413,19 @@ h3 {
     background: #ffffff;
     cursor: pointer;
 }
-.fa-volume-down{
+.fa-volume-off{
     position: absolute;
     left: 25px;
     top: -10px;
     display: block;
+    cursor: pointer;
 }
 .fa-volume-up{
     position: absolute;
     right: 0px;
     top: -10px;
     display: block;
+    cursor: pointer;
 }
 .version {
     font-size: 15px;

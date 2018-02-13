@@ -40,8 +40,8 @@
               <h1 class="title-header">CANNONMAN</h1>
             </div>
             <div class="col-md-2 musicPlayer">
-              <i class="fa fa-volume-down"></i>
-              <input type="range" min="0" max="100" value="0" class="volumeBar" id="volume">
+              <i class="fa fa-volume-off"></i>
+              <input type="range" min="0" max="100" value="27" class="volumeBar" id="volume">
               <i class="fa fa-volume-up"></i>
             </div>
           </div>
@@ -57,6 +57,7 @@
                       <p>
                         <button class="btn btn-default start-game" id="start-game" type="button">START NEW GAME</button>
                       </p>
+                      <div id="invalid-id" class="invisible">Please enter a valid ID</div>
                       <p class="input-group join-game-group">
                         <span class="input-group-addon game-id-field-span">
                           <input class="form-control game-id-field" id="game-id-field" type="number" placeholder="Enter Game Id" aria-label="GameId">
