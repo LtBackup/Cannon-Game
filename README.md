@@ -74,7 +74,7 @@ Whole game flow:
 
 The battlefield and UI:
 <p align="center">
-  <img src="Planning/Wireframes/BasicUI.png" alt="Cannon Man UI Sketch"/>
+  <img src="planning/wireframes/BasicUI.png" alt="Cannon Man UI Sketch"/>
 </p>
 
 Our launch trajectory math:
