@@ -71,17 +71,17 @@
                           <div class="checkbox hidden container">
                             <p id="option" class="row">
                               <span>
-                                <label class="col-md-6">
+                                <label id="windlabel" class="col-md-6">
                                   ENABLE WIND?
                                 </label>
                                 <label class="col-md-6">
-                                  <input type="checkbox" value="" id="windcheckbox">
+                                  <input type="checkbox" value="" id="windcheckbox" onclick="disableForWind()">
                                 </label>
                               </span>
                             </p>
                             <p id="option" class="row">
                               <span>
-                                <label class="col-md-6">
+                                <label id="walllabel" class="col-md-6">
                                   ENABLE WALL?
                                 </label>
                                 <label class="col-md-6">
@@ -91,21 +91,21 @@
                             </p>
                             <p id="option" class="row">
                               <span>
-                                <label id="optionlabel" class="col-md-6">
+                                <label id="lglabel" class="col-md-6">
                                   LOW GRAVITY MODE?
                                 </label>
                                 <label id="optioncheckbox" class="col-md-6">
-                                  <input type="checkbox" value="" id="lowgravitycheckbox">
+                                  <input type="checkbox" value="" id="lowgravitycheckbox" onclick="disableForLG()">
                                 </label>
                               </span>
                             </p>
                             <p id="option" class="row">
                               <span>
-                                <label id="optionlabel" class="col-md-6">
+                                <label id="hglabel" class="col-md-6">
                                   HIGH GRAVITY MODE?
                                 </label>
                                 <label id="optioncheckbox" class="col-md-6">
-                                  <input type="checkbox" value="" id="higravitycheckbox">
+                                  <input type="checkbox" value="" id="highgravitycheckbox" onclick="disableForHG()">
                                 </label>
                               </span>
                             </p>

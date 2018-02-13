@@ -297,6 +297,9 @@ h1{
     margin-bottom: -5px;
 }
 
+.disabled {
+    text-decoration: line-through;
+}
 
 #cv {
     position: relative;
