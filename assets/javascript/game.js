@@ -224,12 +224,10 @@ $(document).ready(function () {
     if ($("#lowgravitycheckbox").is(":checked")) {
       setLGFlag(true);
       gameBot.setLowGravityOptions(window.gameInfo);
-      console.log(window.gameInfo.lowgravity);
     }
     if ($("#highgravitycheckbox").is(":checked")) {
       setHGFlag(true);
       gameBot.setHighGravityOptions(window.gameInfo);
-      console.log(window.gameInfo.highgravity);
     }
     if ($("#wallcheckbox").is(":checked")) {
       setWallFlag(true);

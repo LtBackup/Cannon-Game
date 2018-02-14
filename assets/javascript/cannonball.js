@@ -86,8 +86,7 @@ var cannonballBot = (function() {
       }
       if (gameInfo.lowgravity) {        
         engine.world.gravity.x = newGravity;
-        engine.world.gravity.y = newGravity;
-        console.log("1 here again: x: " + engine.world.gravity.x + " y: " + engine.world.gravity.y);
+        engine.world.gravity.y = newGravity;        
       }
       if (gameInfo.highgravity) {
         engine.world.gravity.y = newGravity/2;
@@ -97,8 +96,7 @@ var cannonballBot = (function() {
       if (gameInfo.wind) {
         engine.world.gravity.x = newGravity;
       }
-      if (gameInfo.lowgravity) {
-        console.log("2");
+      if (gameInfo.lowgravity) {        
         engine.world.gravity.x = -Math.abs(newGravity);
         engine.world.gravity.y = newGravity;
       }
@@ -129,8 +127,7 @@ var cannonballBot = (function() {
       }
       if (gameInfo.lowgravity) {
         engine.world.gravity.x = newGravity;
-        engine.world.gravity.y = newGravity;
-        console.log("3 here again: x: " + engine.world.gravity.x + " y: " + engine.world.gravity.y);
+        engine.world.gravity.y = newGravity;        
       }
       if (gameInfo.highgravity) {
         engine.world.gravity.y = newGravity/2;
@@ -141,8 +138,7 @@ var cannonballBot = (function() {
       if (gameInfo.wind) {
         engine.world.gravity.x = newGravity;
       }
-      if (gameInfo.lowgravity) {
-        console.log("4");
+      if (gameInfo.lowgravity) {        
         engine.world.gravity.x = -Math.abs(newGravity);
         engine.world.gravity.y = newGravity;
       }
