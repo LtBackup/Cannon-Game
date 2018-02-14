@@ -29,9 +29,12 @@ var gameBot = (function() {
           highgravity: false
         };
         hideStartMenu();
-        firebaseBot.getWindOptions(window.gameInfo);
-        firebaseBot.getLowGravity(window.gameInfo);
-        firebaseBot.getHighGravity(window.gameInfo);
+
+        firebaseBot.getGameOptions(window.gameInfo);
+        // firebaseBot.getWindOptions(window.gameInfo);
+        // firebaseBot.getLowGravity(window.gameInfo);
+        // firebaseBot.getHighGravity(window.gameInfo);
+
         placeCannons(window.gameInfo);
         hideOppControls(window.gameInfo);
         playerTwoJoinsGame(window.gameInfo);
@@ -270,8 +273,11 @@ var gameBot = (function() {
       firebaseBot.restartGame(gameInfo);
     } else {
       World.clear(engine.world);
-      firebaseBot.getWindOptions(window.gameInfo);
-      firebaseBot.getLowGravity(window.gameInfo);
+
+      firebaseBot.getGameOptions(gameInfo);
+      // firebaseBot.getWindOptions(window.gameInfo);
+      // firebaseBot.getLowGravity(window.gameInfo);
+
       placeCannons(gameInfo);
       playerTwoJoinsGame(gameInfo);
       firebaseBot.changePlayAgain(gameInfo);
