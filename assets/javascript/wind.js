@@ -46,7 +46,7 @@ function setLGBG() {
 }
 
 function setHGFlag(value) {
-    newGravity = 6;
+    newGravity = 3;
     window.gameInfo.highgravity = value;
     setHGBG();
 }

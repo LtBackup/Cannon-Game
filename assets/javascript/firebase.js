@@ -112,7 +112,7 @@ var firebaseBot = (function() {
   }
 
   function getLowGravity(gameInfo) {
-    var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne/lowgravity");
+    var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne");
     gameRef.once("value").then(function (snapshot) {
       if (snapshot.val().lowgravity) {
         setLGFlag(true);
@@ -121,7 +121,7 @@ var firebaseBot = (function() {
   }
 
   function getHighGravity(gameInfo) {
-    var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne/highgravity");
+    var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne");
     gameRef.once("value").then(function (snapshot) {
       if (snapshot.val().highgravity) {
         setHGFlag(true);
@@ -231,7 +231,7 @@ var firebaseBot = (function() {
 
   function updateLowGravityInfo(gameInfo) {
     if (gameInfo.lowgravity) {
-      database.ref('games/' + gameInfo.gameId + "/playerOne/lowgravity").update({
+      database.ref('games/' + gameInfo.gameId + "/playerOne").update({
         lowgravity: gameInfo.lowgravity 
       });
     }
@@ -239,7 +239,7 @@ var firebaseBot = (function() {
 
   function updateHighGravityInfo(gameInfo) {
     if (gameInfo.highgravity) {
-      database.ref('games/' + gameInfo.gameId + "/playerOne/highgravity").update({
+      database.ref('games/' + gameInfo.gameId + "/playerOne").update({
         highgravity: gameInfo.highgravity 
       });
     }

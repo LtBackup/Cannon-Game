@@ -85,23 +85,21 @@ var cannonballBot = (function() {
         engine.world.gravity.x = newGravity;
       }
       if (gameInfo.lowgravity) {        
-        engine.world.gravity.x = newGravity;
         engine.world.gravity.y = newGravity;        
       }
       if (gameInfo.highgravity) {
-        engine.world.gravity.y = newGravity/2;
+        engine.world.gravity.y = newGravity;
       }
       Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
     } else {
       if (gameInfo.wind) {
         engine.world.gravity.x = newGravity;
       }
-      if (gameInfo.lowgravity) {        
-        engine.world.gravity.x = -Math.abs(newGravity);
+      if (gameInfo.lowgravity) {           
         engine.world.gravity.y = newGravity;
       }
       if (gameInfo.highgravity) {        
-        engine.world.gravity.y = newGravity/2;
+        engine.world.gravity.y = newGravity;
       }
       Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
     }
@@ -126,11 +124,10 @@ var cannonballBot = (function() {
         engine.world.gravity.x = newGravity;
       }
       if (gameInfo.lowgravity) {
-        engine.world.gravity.x = newGravity;
         engine.world.gravity.y = newGravity;        
       }
       if (gameInfo.highgravity) {
-        engine.world.gravity.y = newGravity/2;
+        engine.world.gravity.y = newGravity;
       }
       Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
     } else {
@@ -139,11 +136,10 @@ var cannonballBot = (function() {
         engine.world.gravity.x = newGravity;
       }
       if (gameInfo.lowgravity) {        
-        engine.world.gravity.x = -Math.abs(newGravity);
         engine.world.gravity.y = newGravity;
       }
       if (gameInfo.highgravity) {
-        engine.world.gravity.y = newGravity/2;
+        engine.world.gravity.y = newGravity;
       }
       Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
     }

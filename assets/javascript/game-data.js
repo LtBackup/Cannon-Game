@@ -29,10 +29,6 @@ var gameBot = (function() {
           highgravity: false
         };
         hideStartMenu();
-        // $(".canvas").addClass("hidden");
-        // canvas.classList.remove("hidden");
-        // canvas.classList.add("canvas");
-        // $(".overlay").addClass("hidden");
         firebaseBot.getWindOptions(window.gameInfo);
         firebaseBot.getLowGravity(window.gameInfo);
         firebaseBot.getHighGravity(window.gameInfo);
