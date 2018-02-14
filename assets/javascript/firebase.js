@@ -32,6 +32,8 @@ var firebaseBot = (function() {
         },
         gameStart: false,
         wall: false,
+        lowgravity: false,
+        highgravity: false,
         playAgain: false,
       },
       playerTwo: {
@@ -105,6 +107,24 @@ var firebaseBot = (function() {
         direction = snapshot.val().direction;
         windSpeed = snapshot.val().speed;
         setGravityAndBg();
+      }
+    });
+  }
+
+  function getLowGravity(gameInfo) {
+    var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne/lowgravity");
+    gameRef.once("value").then(function (snapshot) {
+      if (snapshot.val().lowgravity) {
+        setLGFlag(true);
+      }
+    });
+  }
+
+  function getHighGravity(gameInfo) {
+    var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne/highgravity");
+    gameRef.once("value").then(function (snapshot) {
+      if (snapshot.val().highgravity) {
+        setHGFlag(true);
       }
     });
   }
@@ -209,6 +229,22 @@ var firebaseBot = (function() {
     }
   }  
 
+  function updateLowGravityInfo(gameInfo) {
+    if (gameInfo.lowgravity) {
+      database.ref('games/' + gameInfo.gameId + "/playerOne/lowgravity").update({
+        lowgravity: gameInfo.lowgravity 
+      });
+    }
+  }
+
+  function updateHighGravityInfo(gameInfo) {
+    if (gameInfo.highgravity) {
+      database.ref('games/' + gameInfo.gameId + "/playerOne/highgravity").update({
+        highgravity: gameInfo.highgravity 
+      });
+    }
+  }
+
   /**
    * updateWallInfo
    * updates the existence of a wall in the database
@@ -226,6 +262,8 @@ var firebaseBot = (function() {
   var publicAPI = {
     database,
     updateWindInfo,
+    updateLowGravityInfo,
+    updateHighGravityInfo,
     updatePositions,
     resetGameData,
     createNewGame,
@@ -233,9 +271,11 @@ var firebaseBot = (function() {
     updateAnglePower,
     updateWallInfo,
     getWindOptions,
+    getLowGravity,
+    getHighGravity,
     getWallOptions,
     restartGame,
-    changePlayAgain,
+    changePlayAgain
   };
 
   return publicAPI;

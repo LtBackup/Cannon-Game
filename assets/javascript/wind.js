@@ -33,6 +33,30 @@ function setWindFlag (value) {
   window.gameInfo.wind = value;
 }
 
+function setLGFlag(value) { 
+    newGravity = 0.04;
+    window.gameInfo.lowgravity = value;
+    setLGBG();
+}
+
+function setLGBG() {
+    canvasbg = "./assets/images/moonbg.png";
+    render.options.background = canvasbg;
+    firebaseBot.updateLowGravityInfo(window.gameInfo);
+}
+
+function setHGFlag(value) {
+    newGravity = 6;
+    window.gameInfo.highgravity = value;
+    setHGBG();
+}
+
+function setHGBG() {
+    canvasbg = "./assets/images/highgravity.jpg";
+    render.options.background = canvasbg;
+    firebaseBot.updateHighGravityInfo(window.gameInfo);
+}
+
 function getWind() {
   return gameInfo.wind;
 }

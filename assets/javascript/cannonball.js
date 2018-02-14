@@ -84,10 +84,26 @@ var cannonballBot = (function() {
       if (gameInfo.wind) {
         engine.world.gravity.x = newGravity;
       }
+      if (gameInfo.lowgravity) {        
+        engine.world.gravity.x = newGravity;
+        engine.world.gravity.y = newGravity;
+        console.log("1 here again: x: " + engine.world.gravity.x + " y: " + engine.world.gravity.y);
+      }
+      if (gameInfo.highgravity) {
+        engine.world.gravity.y = newGravity/2;
+      }
       Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
     } else {
       if (gameInfo.wind) {
         engine.world.gravity.x = newGravity;
+      }
+      if (gameInfo.lowgravity) {
+        console.log("2");
+        engine.world.gravity.x = -Math.abs(newGravity);
+        engine.world.gravity.y = newGravity;
+      }
+      if (gameInfo.highgravity) {        
+        engine.world.gravity.y = newGravity/2;
       }
       Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
     }
@@ -111,11 +127,27 @@ var cannonballBot = (function() {
       if (gameInfo.wind) {
         engine.world.gravity.x = newGravity;
       }
+      if (gameInfo.lowgravity) {
+        engine.world.gravity.x = newGravity;
+        engine.world.gravity.y = newGravity;
+        console.log("3 here again: x: " + engine.world.gravity.x + " y: " + engine.world.gravity.y);
+      }
+      if (gameInfo.highgravity) {
+        engine.world.gravity.y = newGravity/2;
+      }
       Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
     } else {
       cannonBallB.isStatic = false;
       if (gameInfo.wind) {
         engine.world.gravity.x = newGravity;
+      }
+      if (gameInfo.lowgravity) {
+        console.log("4");
+        engine.world.gravity.x = -Math.abs(newGravity);
+        engine.world.gravity.y = newGravity;
+      }
+      if (gameInfo.highgravity) {
+        engine.world.gravity.y = newGravity/2;
       }
       Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
     }

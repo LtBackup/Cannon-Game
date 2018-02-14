@@ -208,6 +208,7 @@ $(document).ready(function () {
    * Function will hide the canvas shadow, and add a new canvas for the game.
    * Function will then run startGame() and clickButton() functions. 
    * Function will also check if wind, or wall option has been checked and include them in the game.
+   * Function will also check if low gravity or high gravity option has been checked and include them in the game.
    */
   $("#start-game").on("click", function () {
     gameBot.hideStartMenu();
@@ -219,6 +220,16 @@ $(document).ready(function () {
     if ($("#windcheckbox").is(":checked")) {
       setWindFlag(true);
       gameBot.setWindOptions(window.gameInfo);
+    }
+    if ($("#lowgravitycheckbox").is(":checked")) {
+      setLGFlag(true);
+      gameBot.setLowGravityOptions(window.gameInfo);
+      console.log(window.gameInfo.lowgravity);
+    }
+    if ($("#highgravitycheckbox").is(":checked")) {
+      setHGFlag(true);
+      gameBot.setHighGravityOptions(window.gameInfo);
+      console.log(window.gameInfo.highgravity);
     }
     if ($("#wallcheckbox").is(":checked")) {
       setWallFlag(true);
