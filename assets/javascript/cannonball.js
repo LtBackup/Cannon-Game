@@ -163,4 +163,3 @@ var cannonballBot = (function() {
 
   return publicAPI;
 })();
-
