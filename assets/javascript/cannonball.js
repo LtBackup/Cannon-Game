@@ -84,10 +84,22 @@ var cannonballBot = (function() {
       if (gameInfo.wind) {
         engine.world.gravity.x = newGravity;
       }
+      if (gameInfo.lowgravity) {        
+        engine.world.gravity.y = newGravity;        
+      }
+      if (gameInfo.highgravity) {
+        engine.world.gravity.y = newGravity;
+      }
       Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
     } else {
       if (gameInfo.wind) {
         engine.world.gravity.x = newGravity;
+      }
+      if (gameInfo.lowgravity) {           
+        engine.world.gravity.y = newGravity;
+      }
+      if (gameInfo.highgravity) {        
+        engine.world.gravity.y = newGravity;
       }
       Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
     }
@@ -111,11 +123,23 @@ var cannonballBot = (function() {
       if (gameInfo.wind) {
         engine.world.gravity.x = newGravity;
       }
+      if (gameInfo.lowgravity) {
+        engine.world.gravity.y = newGravity;        
+      }
+      if (gameInfo.highgravity) {
+        engine.world.gravity.y = newGravity;
+      }
       Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
     } else {
       cannonBallB.isStatic = false;
       if (gameInfo.wind) {
         engine.world.gravity.x = newGravity;
+      }
+      if (gameInfo.lowgravity) {        
+        engine.world.gravity.y = newGravity;
+      }
+      if (gameInfo.highgravity) {
+        engine.world.gravity.y = newGravity;
       }
       Body.applyForce(cannonBallB, { x: cannonBallB.position.x, y: cannonBallB.position.y }, launchVector2);
     }
@@ -131,4 +155,3 @@ var cannonballBot = (function() {
 
   return publicAPI;
 })();
-

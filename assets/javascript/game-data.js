@@ -3,7 +3,9 @@ window.gameInfo = {
   gameId: 1,
   opponent: "playerTwo",
   wind: false,
-  wall: false
+  wall: false,
+  lowgravity: false,
+  highgravity: false
 };
 
 var gameBot = (function() {
@@ -22,14 +24,14 @@ var gameBot = (function() {
           gameId: newGameId,
           opponent: "playerOne",
           wind: false,
-          wall: false
+          wall: false,
+          lowgravity: false,
+          highgravity: false
         };
         hideStartMenu();
-        // $(".canvas").addClass("hidden");
-        // canvas.classList.remove("hidden");
-        // canvas.classList.add("canvas");
-        // $(".overlay").addClass("hidden");
         firebaseBot.getWindOptions(window.gameInfo);
+        firebaseBot.getLowGravity(window.gameInfo);
+        firebaseBot.getHighGravity(window.gameInfo);
         placeCannons(window.gameInfo);
         hideOppControls(window.gameInfo);
         playerTwoJoinsGame(window.gameInfo);
@@ -71,6 +73,8 @@ var gameBot = (function() {
       opponent: "playerTwo",
       wall: false,
       wind: false,
+      lowgravity: false,
+      highgravity: false
     };
     firebaseBot.createNewGame(newGameId);
     $(".info").text("Welcome Player 1. Your new game id is " + window.gameInfo.gameId);
@@ -212,6 +216,14 @@ var gameBot = (function() {
     getWindSpeed();
   }
 
+  function setLowGravityOptions(gameInfo) {
+    setLGFlag(true);
+  }
+
+  function setHighGravityOptions(gameInfo) {
+    setHGFlag(true);
+  }
+
   /**
    * waitForPlayerOne
    * sets listeners for value changes on playAgain to sync restart of game with
@@ -248,11 +260,18 @@ var gameBot = (function() {
       if (gameInfo.wind) {
         setWindOptions(gameInfo); 
       }
+      if (gameInfo.lowgravity) {
+        setLowGravityOptions(gameInfo); 
+      }
+      if (gameInfo.highgravity) {
+        setHighGravityOptions(gameInfo); 
+      }
       waitForPlayerTwo(gameInfo);
       firebaseBot.restartGame(gameInfo);
     } else {
       World.clear(engine.world);
       firebaseBot.getWindOptions(window.gameInfo);
+      firebaseBot.getLowGravity(window.gameInfo);
       placeCannons(gameInfo);
       playerTwoJoinsGame(gameInfo);
       firebaseBot.changePlayAgain(gameInfo);
@@ -266,6 +285,8 @@ var gameBot = (function() {
     setWindOptions,
     waitForPlayerOne,
     hideStartMenu,
+    setLowGravityOptions,
+    setHighGravityOptions
   }
 
   return publicAPI;
