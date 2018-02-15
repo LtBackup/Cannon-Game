@@ -176,7 +176,9 @@ h1{
     display: block;
 }
 
-.opened .startmenu {
+.opened .startmenu,
+.opened .endgamemenu
+ {
     -webkit-transform: translate(0, 0);
     -ms-transform: translate(0, 0);
     transform: translate(0, 0);
@@ -184,7 +186,15 @@ h1{
     left: 350px;
 }
 
-.startmenu {
+.below {
+    z-index: -1;
+}
+
+.above {
+    z-index: 12;
+}
+
+.startmenu, .endgamemenu {
     position:absolute;
     /* top: 50%; */
     left: 50%;
@@ -204,7 +214,7 @@ h1{
     transition: transform 0.3s ease-out;
 }
 
-#start-game, #highscore, .join-game-group, #settings {
+#start-game, #highscore, .join-game-group, #settings, #restart-game {
     width: 330px;
     text-align: center;
     font-family: 'Press Start 2P', cursive;
@@ -388,7 +398,7 @@ h3 {
 }
 
 .invisible {
-  visibility: hidden;
+  display: none;
 }
 /*  Music Player CSS below ------------------------------------*/
 .musicPlayer {

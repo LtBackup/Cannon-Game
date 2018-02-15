@@ -85,23 +85,38 @@ var alertBot = (function() {
   function placeReloadButton() {
     $("#player-one-controls").hide();
     $("#player-two-controls").hide();
-    var alertDiv = $("<div>");
-    alertDiv.addClass("col-md-4 col-md-offset-4 alert-box");
-    var alertP = $("<p>");
-    alertP.addClass("player-alerts");
-    var playAgainBtn = $("<button>");
-    playAgainBtn.attr("id", "play-again-btn");
-    playAgainBtn.addClass("fireButton");
-    playAgainBtn.text("PLAY AGAIN");
-    alertDiv.append(alertP);
-    alertDiv.append(playAgainBtn);
-    $("#end-game__alerts").append(alertDiv);
-    $("#play-again-btn").on("click", function() {
-      gameBot.resetGame(window.gameInfo);
-      $("#end-game__alerts").empty();
-      $("#player-one-controls").show();
-      $("#player-two-controls").show();
-    });
+
+    canvas.classList.add("below");
+    // $(".canvas").empty();
+    // $(".canvas").removeClass("hidden");
+    var overlayDiv = $("<div class='overlay' aria-hidden='false'>");
+    var endgameDiv = $("<div class='endgamemenu'>");
+    endgameDiv.addClass("above");
+    var row = $("<p>");
+    var restartGame = $("<button class='btn btn-default restart-game' id='restart-game' type='button'>RESTART GAME</button>");
+    overlayDiv.removeClass("hidden");
+    overlayDiv.addClass("opened");
+    row.append(restartGame);
+    endgameDiv.append(row);
+    overlayDiv.append(endgameDiv);
+
+    // var alertDiv = $("<div>");
+    // alertDiv.addClass("col-md-4 col-md-offset-4 alert-box");
+    // var alertP = $("<p>");
+    // alertP.addClass("player-alerts");
+    // var playAgainBtn = $("<button>");
+    // playAgainBtn.attr("id", "play-again-btn");
+    // playAgainBtn.addClass("fireButton");
+    // playAgainBtn.text("PLAY AGAIN");
+    // alertDiv.append(alertP);
+    // alertDiv.append(playAgainBtn);
+    $(".mainRow").append(overlayDiv);
+    // $("#play-again-btn").on("click", function() {
+    //   gameBot.resetGame(window.gameInfo);
+    //   $("#end-game__alerts").empty();
+    //   $("#player-one-controls").show();
+    //   $("#player-two-controls").show();
+    // });
     $(".gamemsgs").empty();
   }
 
