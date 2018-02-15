@@ -17,6 +17,7 @@ var cannonBallA,
   launchPlatformB,
   hitsprite,
   ghostball,
+
   // create an engine
   engine = Engine.create();
 var world = engine.world;
@@ -102,8 +103,6 @@ var render = Render.create({
   }
 });
 
-/* var playerOnePosition = 0; */
-/* var playerTwoPosition = 0; */
 var groundHeight = (render.options.height * .3) / 2;
 var groundPosition = render.options.height - groundHeight;
 var ground;
@@ -304,7 +303,6 @@ $(document).ready(function () {
       }
       //checks for impact with enemy cannons and ground
       if ((pair.bodyA.label === "cannonBallA" && pair.bodyB.label === "cannonB") || (pair.bodyB.label === "cannonBallA" && pair.bodyA.label === "cannonB")) {
-        //TODO trigger explosion
         cannonballBot.resetBallA();
         alertBot.playerOneWin(window.gameInfo);
         hitsprite = Bodies.circle(cannonB.position.x, cannonB.position.y, 16, {
@@ -321,7 +319,6 @@ $(document).ready(function () {
         audio.winSound.play();//This will play the winning sound when p1 wins.
       }
       if ((pair.bodyA.label === "cannonBallB" && pair.bodyB.label === "cannonA") || (pair.bodyB.label === "cannonBallB" && pair.bodyA.label === "cannonA")) {
-        //TODO trigger explosion
         cannonballBot.resetBallB();
         audio.winSound.play();//This will play the winning sound when p2 wins.
         hitsprite = Bodies.circle(cannonA.position.x, cannonA.position.y, 16, {
