@@ -25,6 +25,7 @@ var cannonballBot = (function() {
    * @returns {undefined}
    */
   function resetBallA() {
+    launchPlatformA.isSensor = false;
     Body.setVelocity(cannonBallA, { x: 0, y: 0 });
     Body.setAngularVelocity(cannonBallA, 0);
     engine.world.gravity.x = 0;
@@ -37,6 +38,7 @@ var cannonballBot = (function() {
    * @returns {undefined}
    */
   function resetBallB() {
+    launchPlatformB.isSensor = false;
     Body.setVelocity(cannonBallB, { x: 0, y: 0 });
     Body.setAngularVelocity(cannonBallB, 0);
     engine.world.gravity.x = 0;
@@ -81,6 +83,7 @@ var cannonballBot = (function() {
     var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
     var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
     if (gameInfo.player === "playerOne") {
+      launchPlatformA.isSensor = true;
       if (gameInfo.wind) {
         engine.world.gravity.x = newGravity;
       }
@@ -92,6 +95,7 @@ var cannonballBot = (function() {
       }
       Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
     } else {
+      launchPlatformB.isSensor = true;
       if (gameInfo.wind) {
         engine.world.gravity.x = newGravity;
       }
@@ -119,6 +123,7 @@ var cannonballBot = (function() {
     var launchVector = Matter.Vector.create(Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
     var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
     if (gameInfo.opponent === "playerOne") {
+      launchPlatformA.isSensor = true;
       cannonBallA.isStatic = false;
       if (gameInfo.wind) {
         engine.world.gravity.x = newGravity;
@@ -131,6 +136,7 @@ var cannonballBot = (function() {
       }
       Body.applyForce(cannonBallA, { x: cannonBallA.position.x, y: cannonBallA.position.y }, launchVector);
     } else {
+      launchPlatformB.isSensor = true;
       cannonBallB.isStatic = false;
       if (gameInfo.wind) {
         engine.world.gravity.x = newGravity;

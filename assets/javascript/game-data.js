@@ -54,7 +54,7 @@ var gameBot = (function() {
     });
     $(".fireButton").addClass("invisible");
     $(".gamemsgs").text("Player 1's Turn")
-    $(".info").text("Welcome Player 2. You have joined Game #" + window.gameInfo.gameId);
+    $(".info").text("Welcome Player 2. You have joined Game " + window.gameInfo.gameId);
   }
 
   /**
