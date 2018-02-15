@@ -87,36 +87,39 @@ var alertBot = (function() {
     $("#player-two-controls").hide();
 
     canvas.classList.add("below");
-    // $(".canvas").empty();
-    // $(".canvas").removeClass("hidden");
-    var overlayDiv = $("<div class='overlay' aria-hidden='false'>");
+    var overlayDiv = $("<div class='overlay2' aria-hidden='false'>");
     var endgameDiv = $("<div class='endgamemenu'>");
     endgameDiv.addClass("above");
     var row = $("<p>");
-    var restartGame = $("<button class='btn btn-default restart-game' id='restart-game' type='button'>RESTART GAME</button>");
+    var row2 = $("<p>");
+    var row3 = $("<p>");
+    row3.addClass("player-alerts");
+    var restartGameSess = $("<button class='btn btn-default play-again-btn' id='play-again-btn' type='button'>PLAY AGAIN</button>");
+    var reloadGame = $("<button class='btn btn-default reload-game' id='reload-game' type='button'>NEW SESSION</button>");
     overlayDiv.removeClass("hidden");
     overlayDiv.addClass("opened");
-    row.append(restartGame);
+    row.append(restartGameSess);
+    endgameDiv.append(row3);
     endgameDiv.append(row);
+    row2.append(reloadGame);
+    endgameDiv.append(row2);
     overlayDiv.append(endgameDiv);
+    
+    $("#end-game__alerts").append(overlayDiv);
+    $("#play-again-btn").on("click", function() {
+      gameBot.resetGame(window.gameInfo);
 
-    // var alertDiv = $("<div>");
-    // alertDiv.addClass("col-md-4 col-md-offset-4 alert-box");
-    // var alertP = $("<p>");
-    // alertP.addClass("player-alerts");
-    // var playAgainBtn = $("<button>");
-    // playAgainBtn.attr("id", "play-again-btn");
-    // playAgainBtn.addClass("fireButton");
-    // playAgainBtn.text("PLAY AGAIN");
-    // alertDiv.append(alertP);
-    // alertDiv.append(playAgainBtn);
-    $(".mainRow").append(overlayDiv);
-    // $("#play-again-btn").on("click", function() {
-    //   gameBot.resetGame(window.gameInfo);
-    //   $("#end-game__alerts").empty();
-    //   $("#player-one-controls").show();
-    //   $("#player-two-controls").show();
-    // });
+      canvas.classList.remove("below");
+      overlayDiv.addClass("hidden");
+      endgameDiv.removeClass("above");
+      $("#end-game__alerts").empty();
+      
+      $("#player-one-controls").show();
+      $("#player-two-controls").show();
+    });
+    $("#reload-game").on("click", function() {
+      window.location.reload();
+    });
     $(".gamemsgs").empty();
   }
 
