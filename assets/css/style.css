@@ -408,7 +408,7 @@ h3 {
 }
 
 .player-alerts {
-    width: 65%;
+    width: 80%;
     height: 50px;
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
@@ -418,6 +418,10 @@ h3 {
     text-shadow: 2px 2px 5px #000;
     margin-bottom: 10px;
     margin: 0 auto;
+}
+
+.player-alerts p {
+    margin: 0;
 }
 
 #invalid-id {

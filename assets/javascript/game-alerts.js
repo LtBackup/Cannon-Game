@@ -55,7 +55,7 @@ var alertBot = (function() {
     if (gameInfo.player === "playerOne") {
       $(".player-alerts").text("You WIN!")
     } else {
-      $(".player-alerts").text("You LOSE...")
+      $(".player-alerts").html("<p>You LOSE...<p><p>Waiting on Player 1 to restart the game</p>");
       gameBot.waitForPlayerOne(gameInfo);
     }
   }
