@@ -17,6 +17,7 @@ var cannonBallA,
   launchPlatformB,
   hitsprite,
   ghostball,
+
   // create an engine
   engine = Engine.create();
 var world = engine.world;
@@ -102,8 +103,6 @@ var render = Render.create({
   }
 });
 
-/* var playerOnePosition = 0; */
-/* var playerTwoPosition = 0; */
 var groundHeight = (render.options.height * .3) / 2;
 var groundPosition = render.options.height - groundHeight;
 var ground;
