@@ -92,39 +92,27 @@ var firebaseBot = (function() {
   }
 
   /**
-   * getWindOptions
-   * reads the game wind options from the database for the game to set wind
-   * conditions locally
+   * getGameOptions
+   * reads the playerOne object from the database for the game to set wind, low
+   * & high gravity for player 2
    * @param {object} gameInfo - The object that holds the state of the current
    * game
    * @returns {undefined}
    */
-  function getWindOptions(gameInfo) {
-    var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne/windInfo");
-    gameRef.once("value").then(function (snapshot) {
-      if (snapshot.val().wind) {
-        gameInfo.wind = true; 
-        direction = snapshot.val().direction;
-        windSpeed = snapshot.val().speed;
-        setGravityAndBg();
-      }
-    });
-  }
-
-  function getLowGravity(gameInfo) {
+  function getGameOptions(gameInfo) {
     var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne");
     gameRef.once("value").then(function (snapshot) {
       if (snapshot.val().lowgravity) {
         setLGFlag(true);
       }
-    });
-  }
-
-  function getHighGravity(gameInfo) {
-    var gameRef = firebaseBot.database.ref("games/" + gameInfo.gameId + "/playerOne");
-    gameRef.once("value").then(function (snapshot) {
       if (snapshot.val().highgravity) {
         setHGFlag(true);
+      }
+      if (snapshot.val().windInfo.wind) {
+        gameInfo.wind = true; 
+        direction = snapshot.val().windInfo.direction;
+        windSpeed = snapshot.val().windInfo.speed;
+        setGravityAndBg();
       }
     });
   }
@@ -270,9 +258,7 @@ var firebaseBot = (function() {
     incrementShotsFired,
     updateAnglePower,
     updateWallInfo,
-    getWindOptions,
-    getLowGravity,
-    getHighGravity,
+    getGameOptions,
     getWallOptions,
     restartGame,
     changePlayAgain

@@ -212,9 +212,6 @@ $(document).ready(function () {
    */
   $("#start-game").on("click", function () {
     gameBot.hideStartMenu();
-    // $(".canvas").addClass("hidden");
-    // canvas.classList.remove("hidden");
-    // canvas.classList.add("canvas");
     gameBot.startGame();
     clickButton();
     if ($("#windcheckbox").is(":checked")) {
@@ -223,11 +220,9 @@ $(document).ready(function () {
     }
     if ($("#lowgravitycheckbox").is(":checked")) {
       setLGFlag(true);
-      gameBot.setLowGravityOptions(window.gameInfo);
     }
     if ($("#highgravitycheckbox").is(":checked")) {
       setHGFlag(true);
-      gameBot.setHighGravityOptions(window.gameInfo);
     }
     if ($("#wallcheckbox").is(":checked")) {
       setWallFlag(true);
