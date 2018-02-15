@@ -95,16 +95,6 @@ var gameBot = (function() {
   }
 
   /**
-   * hideEndgameMenu
-   * hides the endgame menu and displays the battlefield
-   * @returns {undefined}
-   */
-  function hideEndgameMenu() {
-    
-  }
-
-
-  /**
    * waitForPlayerTwo
    * sets listener on value change to the gameStart property to update DOM when
    * player two joins the game
@@ -279,7 +269,6 @@ var gameBot = (function() {
     setWindOptions,
     waitForPlayerOne,
     hideStartMenu,
-    hideEndgameMenu
   }
 
   return publicAPI;
