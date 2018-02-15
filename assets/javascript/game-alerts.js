@@ -83,8 +83,9 @@ var alertBot = (function() {
    * @returns {undefined}
    */
   function placeReloadButton() {
-    $("#player-one-controls").hide();
-    $("#player-two-controls").hide();
+    // $("#player-one-controls").hide();
+    // $("#player-two-controls").hide();
+    $("#control-box").addClass("nodisplay");
 
     canvas.classList.add("below");
     var overlayDiv = $("<div class='overlay2' aria-hidden='false'>");
@@ -104,7 +105,7 @@ var alertBot = (function() {
     row2.append(reloadGame);
     endgameDiv.append(row2);
     overlayDiv.append(endgameDiv);
-    
+
     $("#end-game__alerts").append(overlayDiv);
     $("#play-again-btn").on("click", function() {
       gameBot.resetGame(window.gameInfo);
@@ -116,6 +117,7 @@ var alertBot = (function() {
       
       $("#player-one-controls").show();
       $("#player-two-controls").show();
+      $("#control-box").removeClass("nodisplay");
     });
     $("#reload-game").on("click", function() {
       window.location.reload();
