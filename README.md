@@ -4,8 +4,8 @@ Cannon Man is a fun and exciting 2 player shooting game inspired by the classic 
 
 ## Version History
 
-1.0: Released Feb 2, 2018
-1.1: Released Feb 15, 2018
+<p>1.0: Released Feb 2, 2018</p>
+<p>1.1: Released Feb 15, 2018</p>
 
 ### Screenshot 1
 
