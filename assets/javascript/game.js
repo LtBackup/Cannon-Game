@@ -22,7 +22,7 @@ var cannonBallA,
   engine = Engine.create();
 var world = engine.world;
 
-/** This function will disable the selection of low gravity and high gravity options. */
+/** Disables the selection of low gravity and high gravity options when wind is selected */
 var disableForWind = function () {
   $("#lglabel").toggleClass("disabled");
   if (!$("#lowgravitycheckbox").prop("disabled")) {
@@ -40,7 +40,7 @@ var disableForWind = function () {
     $("#highgravitycheckbox").attr("disabled", false);
   }
 }
-/** This function will disable the selection of wind and high gravity options. */
+/** Disables the selection of wind and high gravity options when low-gravity is selected */
 var disableForLG = function () {
   $("#windlabel").toggleClass("disabled");
   if (!$("#windcheckbox").prop("disabled")) {
@@ -59,7 +59,7 @@ var disableForLG = function () {
   }
 }
 
-/** This function will disable the selection of wind and low gravity options. */
+/** Disables the selection of wind and low gravity options when high gravity is selected */
 var disableForHG = function () {
   $("#windlabel").toggleClass("disabled");
   if (!$("#windcheckbox").prop("disabled")) {
@@ -78,6 +78,7 @@ var disableForHG = function () {
   }
 }
 
+// used to store the altered gravity values for wind, low gravity and high gravity modes
 var newGravity = 0;
 var direction = "";
 var canvasbg = "./assets/images/canvasbg.jpg";
@@ -147,7 +148,6 @@ $(document).ready(function () {
   bgMusic.loop = true;
   bgMusic.volume = bgSoundLevel;//Sets initial volue of the background music
 
-  // Added by Natraj
   // Click to mute
   $(".fa-volume-off").click(function () {
     soundLevel = 0;
@@ -256,6 +256,7 @@ $(document).ready(function () {
     }
   });
 
+  // Append the matter.js canvas to the .mainRow class
   $(".mainRow").append(canvas);
 
   // make the world bounds a little bigger than the render bounds
@@ -350,6 +351,8 @@ $(document).ready(function () {
 
         World.add(world, ghostball);
 
+        // the timeout has been defined so the explosion animation is visible on screen
+        // for a brief while rather than being instantaneously appearing and disappearing
         setTimeout(function () {
           ghostball.render.opacity = 0;
           ghostball.circleRadius = 16;
@@ -410,7 +413,6 @@ $(document).ready(function () {
       }
     }
   });
-
 
 
   /** 

@@ -223,7 +223,7 @@ var gameBot = (function() {
       if (snapshot.val()) {
         $("#play-again-btn").removeClass("nodisplay");
         $(".player-alerts").empty();
-        $(".player-alerts").html("<p>Player 1 has restarted the game.</p>" + 
+        $(".player-alerts").html("<p>Player 1 has voted for a rematch.</p>" + 
                                 "<p> Would you like to join them?</p>");
       }
     });
