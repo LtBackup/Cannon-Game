@@ -152,7 +152,8 @@ h1{
     width: 125px;
 }
 
-.overlay:before {
+.overlay:before,
+.overlay2:before {
     display: none;
 }
 
@@ -172,11 +173,29 @@ h1{
     opacity: 0.9;
 }
 
+.overlay2 {
+    position: absolute;
+    top: 0;
+    left:0;
+    right:0;
+    z-index: 10;
+    width: 1140px;
+    height: 97%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    margin-left: 30px;
+    border-radius: 10px;
+    background: linear-gradient(rgb(1, 114, 190) 15%, rgb(2, 117, 163) 30%, rgb(1, 10, 22) 80%);
+    opacity: 0.9;
+}
+
 .opened:before {
     display: block;
 }
 
-.opened .startmenu {
+.opened .startmenu,
+.opened .endgamemenu
+ {
     -webkit-transform: translate(0, 0);
     -ms-transform: translate(0, 0);
     transform: translate(0, 0);
@@ -184,7 +203,15 @@ h1{
     left: 350px;
 }
 
-.startmenu {
+.below {
+    z-index: -1;
+}
+
+.above {
+    z-index: 12;
+}
+
+.startmenu, .endgamemenu {
     position:absolute;
     /* top: 50%; */
     left: 50%;
@@ -204,7 +231,8 @@ h1{
     transition: transform 0.3s ease-out;
 }
 
-#start-game, #highscore, .join-game-group, #settings {
+#start-game, #highscore, .join-game-group, #settings, #play-again-btn,
+#reload-game {
     width: 330px;
     text-align: center;
     font-family: 'Press Start 2P', cursive;
@@ -260,7 +288,9 @@ h1{
 #start-game:hover:enabled,
 #join-game:hover:enabled,
 #highscore:hover:enabled,
-#settings:hover:enabled {
+#settings:hover:enabled,
+#play-again-btn:hover:enabled,
+#reload-game:hover:enabled {
     color: #fff;
     background-color: #b9ff5d;
     box-shadow: 5px 2px 10px rgb(70, 70, 70);
@@ -378,7 +408,29 @@ h3 {
 }
 
 .player-alerts {
-  text-align: center;
+    width: 80%;
+    height: 50px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 800;
+    text-shadow: 2px 2px 5px #000;
+    margin-bottom: 10px;
+    margin: 0 auto;
+}
+
+.player-alerts p {
+    margin: 0;
+}
+
+#invalid-id {
+    font-size: 13px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 800;
+    text-shadow: 2px 2px 5px #000;
+    margin-bottom: 5px;
 }
 
 .alert-box {
@@ -389,6 +441,10 @@ h3 {
 
 .invisible {
   visibility: hidden;
+}
+
+.nodisplay {
+    display: none;
 }
 /*  Music Player CSS below ------------------------------------*/
 .musicPlayer {
@@ -435,6 +491,10 @@ h3 {
     color: white;
     padding: 18px 0px 0px 48px;
     font-weight: bold;
+}
+
+.version a {
+    color: #fff;
 }
 
 

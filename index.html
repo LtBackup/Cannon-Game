@@ -34,7 +34,10 @@
         <article class="content">
           <div class="row">
             <div class="col-md-2 version">
-              <p>Version 1.0</p>
+              <p>Version 1.1</p> 
+              <a href="https://github.com/LtBackup/Cannon-Game" target="_blank">
+                <span class="fa fa-github" alt="Visit our GitHub repo" title="Visit our GitHub repo"></span>
+              </a>
             </div>
             <div class="col-md-8">
               <h1 class="title-header">CANNONMAN</h1>
@@ -51,13 +54,14 @@
           <div class="row">
             <div class="container-fluid col-md-12 gamebox">
               <div class="row mainRow">
+                <div id="end-game__alerts"></div>
                 <div class="canvas">
                   <div class="overlay" aria-hidden="false">
                     <div class="startmenu">
                       <p>
                         <button class="btn btn-default start-game" id="start-game" type="button">START NEW GAME</button>
                       </p>
-                      <div id="invalid-id" class="invisible">Please enter a valid ID</div>
+                      <div id="invalid-id" class="nodisplay">Please enter a valid ID</div>
                       <p class="input-group join-game-group">
                         <span class="input-group-addon game-id-field-span">
                           <input class="form-control game-id-field" id="game-id-field" type="number" placeholder="Enter Game Id" aria-label="GameId">
@@ -146,7 +150,6 @@
                   <h3></h3>
                   <button class="btn btn-default fireButton" id="fireButton" type="button">FIRE</button>
                 </div>
-                <div id="end-game__alerts" class="controls"></div>
               </div>
             </div>
           </div>

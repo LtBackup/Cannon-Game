@@ -84,12 +84,15 @@ var cannonballBot = (function() {
     var launchVector2 = Matter.Vector.create(-Math.cos(toRadians(angle)) * (power * dampener), -Math.sin(toRadians(angle)) * (power * dampener));
     if (gameInfo.player === "playerOne") {
       launchPlatformA.isSensor = true;
+      // Sets only the x gravity when wind is selected to simulate the effects of wind
       if (gameInfo.wind) {
         engine.world.gravity.x = newGravity;
       }
+      // Sets only the y gravity when low gravity is selected
       if (gameInfo.lowgravity) {        
         engine.world.gravity.y = newGravity;        
       }
+      // Sets only the y gravity when high gravity is selected
       if (gameInfo.highgravity) {
         engine.world.gravity.y = newGravity;
       }

@@ -35,7 +35,7 @@ var gameBot = (function() {
         playerTwoJoinsGame(window.gameInfo);
         addOpponentListeners(window.gameInfo);
       } else {
-        $("#invalid-id").removeClass("invisible");
+        $("#invalid-id").removeClass("nodisplay");
       };
     });
   }
@@ -93,6 +93,7 @@ var gameBot = (function() {
     canvas.classList.add("canvas");
     $(".overlay").addClass("hidden");
   }
+
   /**
    * waitForPlayerTwo
    * sets listener on value change to the gameStart property to update DOM when
@@ -216,13 +217,14 @@ var gameBot = (function() {
    * @returns {undefined}
    */
   function waitForPlayerOne(gameInfo) {
-    $("#play-again-btn").addClass("invisible");
+    $("#play-again-btn").addClass("nodisplay");
     var gameStartRef = firebaseBot.database.ref('games/' + gameInfo.gameId + '/playerOne/playAgain');
     gameStartRef.on("value", function(snapshot) {
       if (snapshot.val()) {
-        $("#play-again-btn").removeClass("invisible");
+        $("#play-again-btn").removeClass("nodisplay");
         $(".player-alerts").empty();
-        $(".gamemsgs").text("Player 1 has restarted the game. Would you like to join them?");
+        $(".player-alerts").html("<p>Player 1 has voted for a rematch.</p>" + 
+                                "<p> Would you like to join them?</p>");
       }
     });
   }

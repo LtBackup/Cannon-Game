@@ -55,7 +55,7 @@ var alertBot = (function() {
     if (gameInfo.player === "playerOne") {
       $(".player-alerts").text("You WIN!")
     } else {
-      $(".player-alerts").text("You LOSE...")
+      $(".player-alerts").html("<p>You LOSE...<p><p>Waiting on Player 1 to restart the game</p>");
       gameBot.waitForPlayerOne(gameInfo);
     }
   }
@@ -70,7 +70,7 @@ var alertBot = (function() {
     firebaseBot.resetGameData(gameInfo);
     placeReloadButton();
     if (gameInfo.player === "playerTwo") {
-      $(".player-alerts").text("You WIN!")
+      $(".player-alerts").html("<p>You WIN!</p><p>Checking if Player 1 wants a rematch</p>");
       gameBot.waitForPlayerOne(gameInfo);
     } else {
       $(".player-alerts").text("You LOSE...")
@@ -79,28 +79,48 @@ var alertBot = (function() {
 
   /**
    * placeReloadButton
-   * updates the DOM to display play-again button when someone wins
+   * updates the DOM to display the endgame modal when someone wins
    * @returns {undefined}
    */
   function placeReloadButton() {
-    $("#player-one-controls").hide();
-    $("#player-two-controls").hide();
-    var alertDiv = $("<div>");
-    alertDiv.addClass("col-md-4 col-md-offset-4 alert-box");
-    var alertP = $("<p>");
-    alertP.addClass("player-alerts");
-    var playAgainBtn = $("<button>");
-    playAgainBtn.attr("id", "play-again-btn");
-    playAgainBtn.addClass("fireButton");
-    playAgainBtn.text("PLAY AGAIN");
-    alertDiv.append(alertP);
-    alertDiv.append(playAgainBtn);
-    $("#end-game__alerts").append(alertDiv);
+    // $("#player-one-controls").hide();
+    // $("#player-two-controls").hide();
+    $("#control-box").addClass("nodisplay");
+
+    canvas.classList.add("below");
+    var overlayDiv = $("<div class='overlay2' aria-hidden='false'>");
+    var endgameDiv = $("<div class='endgamemenu'>");
+    endgameDiv.addClass("above");
+    var row = $("<p>");
+    var row2 = $("<p>");
+    var row3 = $("<p>");
+    row3.addClass("player-alerts");
+    var restartGameSess = $("<button class='btn btn-default play-again-btn' id='play-again-btn' type='button'>REMATCH</button>");
+    var reloadGame = $("<button class='btn btn-default reload-game' id='reload-game' type='button'>NEW SESSION</button>");
+    overlayDiv.removeClass("hidden");
+    overlayDiv.addClass("opened");
+    row.append(restartGameSess);
+    endgameDiv.append(row3);
+    endgameDiv.append(row);
+    row2.append(reloadGame);
+    endgameDiv.append(row2);
+    overlayDiv.append(endgameDiv);
+
+    $("#end-game__alerts").append(overlayDiv);
     $("#play-again-btn").on("click", function() {
       gameBot.resetGame(window.gameInfo);
+
+      canvas.classList.remove("below");
+      overlayDiv.addClass("hidden");
+      endgameDiv.removeClass("above");
       $("#end-game__alerts").empty();
+      
       $("#player-one-controls").show();
       $("#player-two-controls").show();
+      $("#control-box").removeClass("nodisplay");
+    });
+    $("#reload-game").on("click", function() {
+      window.location.reload();
     });
     $(".gamemsgs").empty();
   }
